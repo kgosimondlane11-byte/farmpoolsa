@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FarmPool — Invest in South African Farms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green:#1D7A5F;--green-dark:#0D4A38;--green-light:#2BAF85;--green-pale:#E6F5F0;
+  --earth:#C4884A;--earth-light:#F5E6D0;--earth-dark:#8B5E25;
+  --cream:#F7F2EA;--cream-dark:#EDE5D5;--cream-mid:#F2EBE0;
+  --ink:#1A1208;--muted:#6B5E4C;--muted-light:#9C8E7E;
+  --white:#FEFCF8;--border:rgba(26,18,8,0.1);
+  --shadow:0 4px 24px rgba(13,74,56,0.1);
+  --shadow-lg:0 12px 48px rgba(13,74,56,0.15);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;min-height:100vh}
+
+/* GRAIN */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.35}
+
+/* SIDEBAR NAV */
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:240px;background:var(--green-dark);display:flex;flex-direction:column;z-index:100;padding:0}
+.sidebar-logo{padding:1.75rem 1.5rem 1.25rem;border-bottom:1px solid rgba(255,255,255,0.08)}
+.logo-text{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--white);letter-spacing:-0.02em}
+.logo-text span{color:var(--earth)}
+.logo-sub{font-size:0.68rem;color:rgba(255,255,255,0.4);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px}
+
+.sidebar-nav{flex:1;padding:1.25rem 0.75rem;display:flex;flex-direction:column;gap:2px}
+.nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.7rem 0.85rem;border-radius:10px;cursor:pointer;transition:all 0.2s;color:rgba(255,255,255,0.6);font-size:0.875rem;font-weight:500;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:rgba(255,255,255,0.07);color:var(--white)}
+.nav-item.active{background:rgba(255,255,255,0.12);color:var(--white)}
+.nav-icon{font-size:1.1rem;width:22px;text-align:center}
+.nav-badge{margin-left:auto;background:var(--earth);color:var(--white);font-size:0.65rem;font-weight:600;padding:2px 7px;border-radius:100px}
+
+.sidebar-section-label{font-size:0.65rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);padding:1rem 1rem 0.4rem;margin-top:0.5rem}
+
+.sidebar-bottom{padding:1rem 0.75rem;border-top:1px solid rgba(255,255,255,0.08)}
+.user-chip{display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0.5rem}
+.user-avatar{width:34px;height:34px;border-radius:50%;background:var(--earth);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:var(--white);flex-shrink:0}
+.user-info .name{font-size:0.85rem;color:var(--white);font-weight:500}
+.user-info .role{font-size:0.72rem;color:rgba(255,255,255,0.4)}
+
+/* MAIN */
+.main{margin-left:240px;min-height:100vh}
+.page{display:none;animation:fadeIn 0.3s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* TOP BAR */
+.topbar{background:var(--white);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--ink)}
+.topbar-right{display:flex;align-items:center;gap:1rem}
+.search-bar{display:flex;align-items:center;gap:0.5rem;background:var(--cream);border:1px solid var(--border);border-radius:100px;padding:0.5rem 1rem;font-size:0.875rem;color:var(--muted);min-width:220px}
+.notif-btn{width:36px;height:36px;border-radius:50%;background:var(--cream);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;position:relative}
+.notif-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--earth);border:2px solid var(--white)}
+
+/* PAGE CONTENT */
+.page-content{padding:2rem}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.stat-card{background:var(--white);border-radius:16px;padding:1.5rem;border:1px solid var(--border);position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.stat-card.green::before{background:var(--green)}
+.stat-card.earth::before{background:var(--earth)}
+.stat-card.blue::before{background:#4A7CC4}
+.stat-card.purple::before{background:#8B5CF6}
+.stat-label{font-size:0.75rem;font-weight:500;color:var(--muted);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:0.5rem}
+.stat-val{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--ink);line-height:1}
+.stat-change{font-size:0.75rem;margin-top:0.4rem}
+.stat-change.up{color:var(--green)}
+.stat-change.down{color:#E05454}
+
+/* SECTION HEADERS */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--ink)}
+.sec-action{font-size:0.82rem;color:var(--green);font-weight:500;cursor:pointer;border:none;background:none}
+
+/* CATEGORY PILLS */
+.category-bar{display:flex;gap:0.5rem;margin-bottom:1.75rem;flex-wrap:wrap}
+.cat-pill{display:flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:100px;font-size:0.82rem;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--muted);transition:all 0.2s;white-space:nowrap}
+.cat-pill:hover{border-color:var(--green);color:var(--green)}
+.cat-pill.active{background:var(--green-dark);color:var(--white);border-color:var(--green-dark)}
+
+/* FILTER BAR */
+.filter-bar{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.filter-select{padding:0.5rem 1rem;border-radius:100px;border:1.5px solid var(--border);background:var(--white);font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--ink);cursor:pointer;outline:none}
+.results-count{font-size:0.82rem;color:var(--muted);margin-left:auto}
+
+/* FARM GRID */
+.farm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem}
+.farm-card{background:var(--white);border-radius:18px;border:1px solid var(--border);overflow:hidden;transition:all 0.25s;cursor:pointer}
+.farm-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.farm-card-img{height:160px;position:relative;display:flex;align-items:flex-end;padding:1rem}
+.farm-emoji-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:5rem;opacity:0.2}
+.farm-card-tags{display:flex;gap:0.4rem;position:relative;z-index:1;flex-wrap:wrap}
+.farm-tag{font-size:0.68rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:0.25rem 0.65rem;border-radius:100px;backdrop-filter:blur(8px)}
+.tag-organic{background:rgba(29,122,95,0.85);color:var(--white)}
+.tag-featured{background:rgba(196,136,74,0.9);color:var(--white)}
+.tag-new{background:rgba(74,124,196,0.85);color:var(--white)}
+.tag-closing{background:rgba(224,84,84,0.85);color:var(--white)}
+.farm-card-body{padding:1.25rem}
+.farm-card-cat{font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--earth);margin-bottom:0.3rem}
+.farm-card-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:0.2rem;line-height:1.3}
+.farm-card-loc{font-size:0.8rem;color:var(--muted);margin-bottom:1rem}
+.farm-progress{margin-bottom:1rem}
+.progress-bg{height:5px;background:var(--cream-dark);border-radius:3px;overflow:hidden;margin-bottom:0.4rem}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--green),var(--green-light));transition:width 1s ease}
+.progress-meta{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--muted)}
+.progress-meta strong{color:var(--ink)}
+.farm-card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;border-top:1px solid var(--border)}
+.farm-return{text-align:center}
+.farm-return .val{font-size:0.95rem;font-weight:600;color:var(--green-dark);display:block}
+.farm-return .lbl{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
+.farm-divider{width:1px;height:32px;background:var(--border)}
+.invest-now-btn{background:var(--green-dark);color:var(--white);border:none;border-radius:10px;padding:0.55rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s}
+.invest-now-btn:hover{background:var(--green);transform:scale(1.03)}
+
+/* PORTFOLIO PAGE */
+.portfolio-header{background:var(--green-dark);border-radius:20px;padding:2rem;margin-bottom:1.5rem;color:var(--white);display:flex;align-items:center;justify-content:space-between}
+.portfolio-total{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--white)}
+.portfolio-label{font-size:0.8rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.25rem}
+.portfolio-stats{display:flex;gap:2rem}
+.port-stat .val{font-size:1.2rem;font-weight:600;color:var(--white)}
+.port-stat .lbl{font-size:0.72rem;color:rgba(255,255,255,0.5)}
+
+.portfolio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.port-card{background:var(--white);border-radius:16px;padding:1.25rem;border:1px solid var(--border)}
+.port-card-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem}
+.port-emoji{width:44px;height:44px;border-radius:12px;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.port-name{font-weight:600;font-size:0.9rem;color:var(--ink)}
+.port-loc{font-size:0.75rem;color:var(--muted)}
+.port-status{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;padding:0.2rem 0.6rem;border-radius:100px;margin-left:auto}
+.status-growing{background:var(--green-pale);color:var(--green-dark)}
+.status-harvest{background:var(--earth-light);color:var(--earth-dark)}
+.status-funded{background:#EEF2FF;color:#4A5CF6}
+.port-amounts{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1rem}
+.port-amount-box{background:var(--cream);border-radius:10px;padding:0.6rem 0.75rem}
+.port-amount-box .val{font-size:1rem;font-weight:600;color:var(--ink);display:block}
+.port-amount-box .lbl{font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+.port-progress{margin-bottom:0.75rem}
+.port-actions{display:flex;gap:0.5rem}
+.port-btn{flex:1;padding:0.5rem;border-radius:8px;font-size:0.78rem;font-weight:500;cursor:pointer;border:1.5px solid;text-align:center;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.port-btn-primary{background:var(--green-dark);color:var(--white);border-color:var(--green-dark)}
+.port-btn-secondary{background:transparent;color:var(--green-dark);border-color:var(--green-dark)}
+.port-btn:hover{opacity:0.85}
+
+/* FEED PAGE */
+.feed-layout{display:grid;grid-template-columns:1fr 360px;gap:1.5rem}
+.feed-items{display:flex;flex-direction:column;gap:1rem}
+.feed-card{background:var(--white);border-radius:16px;border:1px solid var(--border);overflow:hidden}
+.feed-card-header{display:flex;align-items:center;gap:0.75rem;padding:1rem 1.25rem;border-bottom:1px solid var(--border)}
+.feed-farm-avatar{width:40px;height:40px;border-radius:50%;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.feed-farm-name{font-weight:600;font-size:0.875rem;color:var(--ink)}
+.feed-time{font-size:0.72rem;color:var(--muted)}
+.feed-update-type{margin-left:auto;font-size:0.68rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:0.25rem 0.65rem;border-radius:100px}
+.type-milestone{background:var(--green-pale);color:var(--green-dark)}
+.type-photo{background:#EEF2FF;color:#4A5CF6}
+.type-harvest{background:var(--earth-light);color:var(--earth-dark)}
+.type-weather{background:#FEF3C7;color:#92400E}
+.feed-card-body{padding:1.25rem}
+.feed-card-body p{font-size:0.875rem;line-height:1.65;color:var(--muted);margin-bottom:1rem}
+.feed-card-body strong{color:var(--ink)}
+.feed-image{width:100%;height:180px;border-radius:12px;object-fit:cover;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:3rem;margin-bottom:1rem}
+.feed-reactions{display:flex;gap:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border)}
+.react-btn{display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:var(--muted);cursor:pointer;border:none;background:none;padding:0.3rem 0.6rem;border-radius:8px;transition:all 0.15s;font-family:'DM Sans',sans-serif}
+.react-btn:hover{background:var(--cream);color:var(--green)}
+
+.feed-sidebar{display:flex;flex-direction:column;gap:1rem}
+.sidebar-widget{background:var(--white);border-radius:16px;padding:1.25rem;border:1px solid var(--border)}
+.widget-title{font-size:0.8rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+.alert-item{display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem 0;border-bottom:1px solid var(--border)}
+.alert-item:last-child{border-bottom:none;padding-bottom:0}
+.alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.dot-green{background:var(--green)}
+.dot-earth{background:var(--earth)}
+.dot-blue{background:#4A7CC4}
+.alert-text{font-size:0.8rem;color:var(--ink);line-height:1.5}
+.alert-text span{color:var(--muted);font-size:0.72rem;display:block;margin-top:2px}
+.weather-row{display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.82rem}
+.weather-row:last-child{border-bottom:none}
+.weather-day{color:var(--muted)}
+.weather-val{font-weight:500;color:var(--ink)}
+
+/* CHAT PAGE */
+.chat-layout{display:grid;grid-template-columns:280px 1fr;gap:0;background:var(--white);border-radius:20px;border:1px solid var(--border);overflow:hidden;height:calc(100vh - 140px)}
+.chat-sidebar{border-right:1px solid var(--border);display:flex;flex-direction:column}
+.chat-search{padding:1rem;border-bottom:1px solid var(--border)}
+.chat-search input{width:100%;padding:0.6rem 0.9rem;border-radius:100px;border:1.5px solid var(--border);background:var(--cream);font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none}
+.chat-list{flex:1;overflow-y:auto}
+.chat-item{display:flex;align-items:center;gap:0.75rem;padding:0.9rem 1rem;cursor:pointer;transition:background 0.15s;border-bottom:1px solid rgba(26,18,8,0.05)}
+.chat-item:hover{background:var(--cream)}
+.chat-item.active{background:var(--green-pale)}
+.chat-avatar{width:40px;height:40px;border-radius:50%;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;position:relative}
+.online-dot{position:absolute;bottom:1px;right:1px;width:9px;height:9px;border-radius:50%;background:var(--green);border:2px solid var(--white)}
+.chat-item-info{flex:1;min-width:0}
+.chat-item-name{font-size:0.85rem;font-weight:600;color:var(--ink)}
+.chat-item-preview{font-size:0.75rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-item-time{font-size:0.68rem;color:var(--muted);flex-shrink:0}
+.chat-unread{width:18px;height:18px;border-radius:50%;background:var(--green);color:var(--white);font-size:0.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
+
+.chat-main{display:flex;flex-direction:column}
+.chat-header{display:flex;align-items:center;gap:0.75rem;padding:1rem 1.25rem;border-bottom:1px solid var(--border)}
+.chat-header-avatar{width:38px;height:38px;border-radius:50%;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.chat-header-name{font-weight:600;font-size:0.9rem;color:var(--ink)}
+.chat-header-status{font-size:0.72rem;color:var(--green)}
+.chat-header-actions{margin-left:auto;display:flex;gap:0.5rem}
+.chat-action-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.9rem}
+
+.chat-messages{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+.msg{display:flex;gap:0.6rem;max-width:75%}
+.msg.sent{flex-direction:row-reverse;align-self:flex-end}
+.msg-avatar{width:32px;height:32px;border-radius:50%;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0;align-self:flex-end}
+.msg-bubble{padding:0.75rem 1rem;border-radius:16px;font-size:0.85rem;line-height:1.55}
+.msg.received .msg-bubble{background:var(--cream);color:var(--ink);border-bottom-left-radius:4px}
+.msg.sent .msg-bubble{background:var(--green-dark);color:var(--white);border-bottom-right-radius:4px}
+.msg-time{font-size:0.65rem;color:var(--muted);margin-top:3px;text-align:right}
+.msg.sent .msg-time{text-align:left}
+
+.chat-input-area{padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;gap:0.75rem;align-items:center}
+.chat-input{flex:1;padding:0.75rem 1rem;border-radius:12px;border:1.5px solid var(--border);background:var(--cream);font-family:'DM Sans',sans-serif;font-size:0.875rem;outline:none;transition:border-color 0.2s}
+.chat-input:focus{border-color:var(--green)}
+.chat-send-btn{width:40px;height:40px;border-radius:12px;background:var(--green-dark);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--white);font-size:1rem;transition:background 0.2s;flex-shrink:0}
+.chat-send-btn:hover{background:var(--green)}
+
+/* INVEST MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,0.5);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:24px;padding:2.5rem;width:480px;max-width:90vw;position:relative;animation:fadeIn 0.25s ease}
+.modal-close{position:absolute;top:1.25rem;right:1.25rem;width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.modal-eyebrow{font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);margin-bottom:0.4rem}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:0.25rem}
+.modal-sub{font-size:0.875rem;color:var(--muted);margin-bottom:1.75rem;line-height:1.5}
+.tier-select{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1.5rem}
+.tier-opt{border:2px solid var(--border);border-radius:14px;padding:1rem 0.75rem;text-align:center;cursor:pointer;transition:all 0.2s}
+.tier-opt:hover{border-color:var(--green)}
+.tier-opt.selected{border-color:var(--green-dark);background:var(--green-pale)}
+.tier-opt-icon{font-size:1.4rem;margin-bottom:0.25rem}
+.tier-opt-name{font-size:0.75rem;font-weight:600;color:var(--ink);margin-bottom:0.25rem}
+.tier-opt-price{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--green-dark)}
+.tier-opt-return{font-size:0.65rem;color:var(--muted);margin-top:0.1rem}
+.modal-input{width:100%;padding:0.85rem 1rem;border-radius:12px;border:1.5px solid var(--border);background:var(--cream);font-family:'DM Sans',sans-serif;font-size:0.9rem;margin-bottom:1rem;outline:none}
+.modal-input:focus{border-color:var(--green)}
+.modal-submit{width:100%;padding:1rem;background:var(--green-dark);color:var(--white);border:none;border-radius:14px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:all 0.2s}
+.modal-submit:hover{background:var(--green);transform:translateY(-2px)}
+.modal-disclaimer{font-size:0.72rem;color:var(--muted);text-align:center;margin-top:0.75rem;line-height:1.5}
+.modal-success{text-align:center;padding:1rem 0;display:none}
+.modal-success-icon{font-size:3rem;margin-bottom:1rem}
+.modal-success h3{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:0.5rem}
+.modal-success p{font-size:0.875rem;color:var(--muted);line-height:1.6}
+
+/* DASHBOARD HOME */
+.welcome-banner{background:linear-gradient(135deg,var(--green-dark) 0%,#1A6B52 100%);border-radius:20px;padding:2rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative}
+.welcome-banner::before{content:'🌾';position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-size:5rem;opacity:0.15}
+.welcome-text h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--white);margin-bottom:0.25rem}
+.welcome-text p{font-size:0.875rem;color:rgba(255,255,255,0.6)}
+.welcome-btn{background:var(--white);color:var(--green-dark);border:none;border-radius:100px;padding:0.7rem 1.5rem;font-family:'DM Sans',sans-serif;font-size:0.875rem;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.welcome-btn:hover{background:var(--cream)}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--cream-dark);border-radius:100px}
+
+/* FARMER REGISTRATION */
+.reg-layout{display:grid;grid-template-columns:300px 1fr;gap:0;background:var(--white);border-radius:20px;border:1px solid var(--border);overflow:hidden;min-height:600px}
+.reg-sidebar{background:var(--green-dark);padding:2.5rem 2rem;display:flex;flex-direction:column}
+.reg-sidebar-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:0.4rem}
+.reg-sidebar-sub{font-size:0.82rem;color:rgba(255,255,255,0.5);margin-bottom:2.5rem;line-height:1.5}
+.reg-steps-list{display:flex;flex-direction:column;gap:0}
+.reg-step-item{display:flex;align-items:flex-start;gap:0.85rem;padding:0.85rem 0;position:relative}
+.reg-step-item:not(:last-child)::after{content:'';position:absolute;left:17px;top:48px;bottom:0;width:1px;background:rgba(255,255,255,0.12)}
+.reg-step-num{width:34px;height:34px;border-radius:50%;border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.4);flex-shrink:0;background:transparent;transition:all 0.3s;z-index:1}
+.reg-step-num.active{background:var(--earth);border-color:var(--earth);color:var(--white)}
+.reg-step-num.done{background:var(--green-light);border-color:var(--green-light);color:var(--white)}
+.reg-step-info{padding-top:4px}
+.reg-step-label{font-size:0.72rem;font-weight:600;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em}
+.reg-step-name{font-size:0.875rem;font-weight:500;color:rgba(255,255,255,0.55);margin-top:1px}
+.reg-step-item.active .reg-step-label{color:var(--earth)}
+.reg-step-item.active .reg-step-name{color:var(--white)}
+.reg-step-item.done .reg-step-name{color:rgba(255,255,255,0.7)}
+.reg-sidebar-perks{margin-top:auto;padding-top:2rem}
+.reg-perk{display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(255,255,255,0.5);margin-bottom:0.6rem}
+.reg-perk-icon{font-size:1rem}
+
+.reg-main{padding:2.5rem;display:flex;flex-direction:column}
+.reg-step-content{display:none;flex:1}
+.reg-step-content.active{display:flex;flex-direction:column}
+.reg-step-header{margin-bottom:2rem}
+.reg-step-eyebrow{font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);margin-bottom:0.4rem}
+.reg-step-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--ink)}
+.reg-step-desc{font-size:0.875rem;color:var(--muted);margin-top:0.25rem;line-height:1.5}
+.reg-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.reg-form-full{grid-column:1/-1}
+.reg-field{display:flex;flex-direction:column;gap:0.4rem}
+.reg-label{font-size:0.78rem;font-weight:600;color:var(--ink)}
+.reg-input{padding:0.75rem 1rem;border-radius:10px;border:1.5px solid var(--border);background:var(--cream);font-family:'DM Sans',sans-serif;font-size:0.875rem;color:var(--ink);outline:none;transition:border-color 0.2s;width:100%}
+.reg-input:focus{border-color:var(--green)}
+.reg-select{padding:0.75rem 1rem;border-radius:10px;border:1.5px solid var(--border);background:var(--cream);font-family:'DM Sans',sans-serif;font-size:0.875rem;color:var(--ink);outline:none;width:100%;cursor:pointer}
+.reg-textarea{padding:0.75rem 1rem;border-radius:10px;border:1.5px solid var(--border);background:var(--cream);font-family:'DM Sans',sans-serif;font-size:0.875rem;color:var(--ink);outline:none;width:100%;resize:vertical;min-height:100px;transition:border-color 0.2s}
+.reg-textarea:focus{border-color:var(--green)}
+.reg-hint{font-size:0.72rem;color:var(--muted-light)}
+
+.crop-type-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.65rem;margin-bottom:1rem}
+.crop-opt{border:2px solid var(--border);border-radius:12px;padding:0.85rem 0.5rem;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--white)}
+.crop-opt:hover{border-color:var(--green)}
+.crop-opt.selected{border-color:var(--green-dark);background:var(--green-pale)}
+.crop-opt-icon{font-size:1.5rem;margin-bottom:0.25rem}
+.crop-opt-name{font-size:0.72rem;font-weight:500;color:var(--ink)}
+
+.funding-opts{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1rem}
+.funding-opt{border:2px solid var(--border);border-radius:12px;padding:1rem 1.25rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:flex-start;gap:0.85rem}
+.funding-opt:hover{border-color:var(--green)}
+.funding-opt.selected{border-color:var(--green-dark);background:var(--green-pale)}
+.funding-opt-icon{font-size:1.3rem;flex-shrink:0;margin-top:1px}
+.funding-opt-title{font-size:0.875rem;font-weight:600;color:var(--ink);margin-bottom:0.2rem}
+.funding-opt-desc{font-size:0.78rem;color:var(--muted);line-height:1.45}
+
+.reg-nav{display:flex;align-items:center;justify-content:space-between;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.reg-back-btn{background:none;border:1.5px solid var(--border);color:var(--muted);border-radius:100px;padding:0.7rem 1.5rem;font-family:'DM Sans',sans-serif;font-size:0.875rem;font-weight:500;cursor:pointer;transition:all 0.2s}
+.reg-back-btn:hover{border-color:var(--ink);color:var(--ink)}
+.reg-next-btn{background:var(--green-dark);color:var(--white);border:none;border-radius:100px;padding:0.7rem 2rem;font-family:'DM Sans',sans-serif;font-size:0.875rem;font-weight:600;cursor:pointer;transition:all 0.2s}
+.reg-next-btn:hover{background:var(--green);transform:translateY(-1px)}
+
+.reg-success{text-align:center;padding:3rem 2rem;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.reg-success-icon{font-size:4rem;margin-bottom:1.25rem;animation:bounceIn 0.5s ease}
+@keyframes bounceIn{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.reg-success h2{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--ink);margin-bottom:0.5rem}
+.reg-success p{font-size:0.875rem;color:var(--muted);line-height:1.65;max-width:400px;margin-bottom:1.5rem}
+.reg-success-steps{display:flex;flex-direction:column;gap:0.5rem;text-align:left;background:var(--cream);border-radius:14px;padding:1.25rem;width:100%;max-width:400px;margin-bottom:1.5rem}
+.reg-success-step{display:flex;align-items:center;gap:0.75rem;font-size:0.82rem;color:var(--ink)}
+.reg-success-step-num{width:24px;height:24px;border-radius:50%;background:var(--green-dark);color:var(--white);font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* MOBILE */
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%);transition:transform 0.3s}
+  .main{margin-left:0}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .feed-layout{grid-template-columns:1fr}
+  .feed-sidebar{display:none}
+  .chat-layout{grid-template-columns:1fr;height:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">Farm<span>Pool</span></div>
+    <div class="logo-sub">Investor Platform</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Main</div>
+    <button class="nav-item active" onclick="showPage('dashboard',this)">
+      <span class="nav-icon">🏡</span> Dashboard
+    </button>
+    <button class="nav-item" onclick="showPage('marketplace',this)">
+      <span class="nav-icon">🌿</span> Farm Marketplace
+    </button>
+    <button class="nav-item" onclick="showPage('portfolio',this)">
+      <span class="nav-icon">📊</span> My Portfolio
+    </button>
+    <div class="sidebar-section-label">Farmers</div>
+    <button class="nav-item" onclick="showPage('farmer-register',this)">
+      <span class="nav-icon">🚜</span> Register Your Farm
+    </button>
+    <div class="sidebar-section-label">Community</div>
+    <button class="nav-item" onclick="showPage('feed',this)">
+      <span class="nav-icon">📡</span> Farm Updates
+      <span class="nav-badge">3</span>
+    </button>
+    <button class="nav-item" onclick="showPage('chat',this)">
+      <span class="nav-icon">💬</span> Farmer Chat
+      <span class="nav-badge">2</span>
+    </button>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="user-chip">
+      <div class="user-avatar">TM</div>
+      <div class="user-info">
+        <div class="name">Thabo M.</div>
+        <div class="role">Grower Investor</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="topbar">
+      <div class="topbar-title">Good morning, Thabo 👋</div>
+      <div class="topbar-right">
+        <div class="search-bar">🔍 Search farms...</div>
+        <div class="notif-btn">🔔<div class="notif-dot"></div></div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="welcome-banner">
+        <div class="welcome-text">
+          <h2>Harvest season is coming</h2>
+          <p>Boland Valley Vegetables is 3 weeks from harvest. Your produce box is on the way!</p>
+        </div>
+        <button class="welcome-btn" onclick="showPage('feed',document.querySelector('[onclick*=feed]'))">View updates →</button>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card green">
+          <div class="stat-label">Total invested</div>
+          <div class="stat-val">R6,200</div>
+          <div class="stat-change up">↑ +R1,000 this month</div>
+        </div>
+        <div class="stat-card earth">
+          <div class="stat-label">Expected return</div>
+          <div class="stat-val">R7,068</div>
+          <div class="stat-change up">↑ 14.0% avg. yield</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-label">Active farms</div>
+          <div class="stat-val">3</div>
+          <div class="stat-change up">Across 3 provinces</div>
+        </div>
+        <div class="stat-card purple">
+          <div class="stat-label">Produce boxes</div>
+          <div class="stat-val">12</div>
+          <div class="stat-change up">↑ Next box in 8 days</div>
+        </div>
+      </div>
+
+      <div class="sec-header">
+        <div class="sec-title">Trending farms this week</div>
+        <button class="sec-action" onclick="showPage('marketplace',document.querySelector('[onclick*=marketplace]'))">Browse all →</button>
+      </div>
+      <div class="farm-grid">
+        ${farmCards([0,1,2])}
+      </div>
+    </div>
+  </div>
+
+  <!-- MARKETPLACE -->
+  <div class="page" id="page-marketplace">
+    <div class="topbar">
+      <div class="topbar-title">Farm Marketplace</div>
+      <div class="topbar-right">
+        <div class="search-bar">🔍 Search by crop, location...</div>
+        <div class="notif-btn">🔔<div class="notif-dot"></div></div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="category-bar" id="catBar">
+        <div class="cat-pill active" onclick="filterCat('all',this)">🌍 All farms</div>
+        <div class="cat-pill" onclick="filterCat('veg',this)">🥦 Vegetables</div>
+        <div class="cat-pill" onclick="filterCat('grain',this)">🌾 Grains & Wheat</div>
+        <div class="cat-pill" onclick="filterCat('fruit',this)">🍎 Fruit Orchards</div>
+        <div class="cat-pill" onclick="filterCat('livestock',this)">🐄 Livestock</div>
+        <div class="cat-pill" onclick="filterCat('eggs',this)">🥚 Free-range Eggs</div>
+        <div class="cat-pill" onclick="filterCat('aqua',this)">🐟 Aquaculture</div>
+        <div class="cat-pill" onclick="filterCat('cash',this)">🌻 Cash Crops</div>
+        <div class="cat-pill" onclick="filterCat('honey',this)">🍯 Honey & Bees</div>
+      </div>
+      <div class="filter-bar">
+        <select class="filter-select"><option>All provinces</option><option>Western Cape</option><option>Gauteng</option><option>KwaZulu-Natal</option><option>Eastern Cape</option><option>Northern Cape</option><option>Free State</option><option>Limpopo</option><option>Mpumalanga</option><option>North West</option></select>
+        <select class="filter-select"><option>All returns</option><option>Produce only</option><option>Profit share</option><option>Both</option></select>
+        <select class="filter-select"><option>Sort: Trending</option><option>Sort: Closing soon</option><option>Sort: Newest</option><option>Sort: Highest return</option></select>
+        <div class="results-count" id="resultsCount">Showing 8 farms</div>
+      </div>
+      <div class="farm-grid" id="farmGrid">
+        ${farmCards([0,1,2,3,4,5,6,7])}
+      </div>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <div class="page" id="page-portfolio">
+    <div class="topbar">
+      <div class="topbar-title">My Portfolio</div>
+      <div class="topbar-right">
+        <button onclick="showPage('marketplace',document.querySelector('[onclick*=marketplace]'))" style="background:var(--green-dark);color:var(--white);border:none;border-radius:100px;padding:0.55rem 1.25rem;font-family:'DM Sans',sans-serif;font-size:0.875rem;font-weight:500;cursor:pointer">+ Add farm</button>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="portfolio-header">
+        <div>
+          <div class="portfolio-label">Total portfolio value</div>
+          <div class="portfolio-total">R7,068</div>
+          <div style="font-size:0.82rem;color:rgba(255,255,255,0.5);margin-top:0.25rem">Invested: R6,200 · Projected gain: R868</div>
+        </div>
+        <div class="portfolio-stats">
+          <div class="port-stat"><div class="val">14.0%</div><div class="lbl">Avg. return</div></div>
+          <div class="port-stat"><div class="val">3</div><div class="lbl">Active farms</div></div>
+          <div class="port-stat"><div class="val">Jun 2026</div><div class="lbl">Next harvest</div></div>
+        </div>
+      </div>
+      <div class="sec-header"><div class="sec-title">Your farm investments</div></div>
+      <div class="portfolio-grid">
+        <div class="port-card">
+          <div class="port-card-header">
+            <div class="port-emoji">🥦</div>
+            <div><div class="port-name">Boland Valley Vegetables</div><div class="port-loc">Wellington, Western Cape</div></div>
+            <div class="port-status status-growing">🌱 Growing</div>
+          </div>
+          <div class="port-amounts">
+            <div class="port-amount-box"><span class="val">R1,000</span><span class="lbl">Invested</span></div>
+            <div class="port-amount-box"><span class="val">R1,080</span><span class="lbl">Expected</span></div>
+          </div>
+          <div class="port-progress"><div class="progress-bg"><div class="progress-fill" style="width:72%"></div></div><div class="progress-meta"><span>72% to harvest</span><span>Jun 2026</span></div></div>
+          <div class="port-actions">
+            <button class="port-btn port-btn-secondary" onclick="showPage('feed',document.querySelector('[onclick*=feed]'))">📡 Updates</button>
+            <button class="port-btn port-btn-secondary" onclick="showPage('chat',document.querySelector('[onclick*=chat]'))">💬 Chat</button>
+          </div>
+        </div>
+        <div class="port-card">
+          <div class="port-card-header">
+            <div class="port-emoji">🥚</div>
+            <div><div class="port-name">Harrismith Free-Range Eggs</div><div class="port-loc">Harrismith, Free State</div></div>
+            <div class="port-status status-harvest">🌾 Harvesting</div>
+          </div>
+          <div class="port-amounts">
+            <div class="port-amount-box"><span class="val">R2,000</span><span class="lbl">Invested</span></div>
+            <div class="port-amount-box"><span class="val">R2,360</span><span class="lbl">Expected</span></div>
+          </div>
+          <div class="port-progress"><div class="progress-bg"><div class="progress-fill" style="width:95%"></div></div><div class="progress-meta"><span>95% to payout</span><span>May 2026</span></div></div>
+          <div class="port-actions">
+            <button class="port-btn port-btn-secondary" onclick="showPage('feed',document.querySelector('[onclick*=feed]'))">📡 Updates</button>
+            <button class="port-btn port-btn-primary">📦 Track delivery</button>
+          </div>
+        </div>
+        <div class="port-card">
+          <div class="port-card-header">
+            <div class="port-emoji">🌻</div>
+            <div><div class="port-name">Limpopo Sunflower Fields</div><div class="port-loc">Mokopane, Limpopo</div></div>
+            <div class="port-status status-funded">✅ Funded</div>
+          </div>
+          <div class="port-amounts">
+            <div class="port-amount-box"><span class="val">R3,200</span><span class="lbl">Invested</span></div>
+            <div class="port-amount-box"><span class="val">R3,628</span><span class="lbl">Expected</span></div>
+          </div>
+          <div class="port-progress"><div class="progress-bg"><div class="progress-fill" style="width:18%"></div></div><div class="progress-meta"><span>Planting phase</span><span>Oct 2026</span></div></div>
+          <div class="port-actions">
+            <button class="port-btn port-btn-secondary" onclick="showPage('feed',document.querySelector('[onclick*=feed]'))">📡 Updates</button>
+            <button class="port-btn port-btn-secondary" onclick="showPage('chat',document.querySelector('[onclick*=chat]'))">💬 Chat</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEED -->
+  <div class="page" id="page-feed">
+    <div class="topbar">
+      <div class="topbar-title">Farm Updates</div>
+      <div class="topbar-right">
+        <select class="filter-select" style="border-radius:100px">
+          <option>All my farms</option><option>Boland Valley</option><option>Harrismith Eggs</option><option>Limpopo Sunflower</option>
+        </select>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="feed-layout">
+        <div class="feed-items">
+
+          <div class="feed-card">
+            <div class="feed-card-header">
+              <div class="feed-farm-avatar">🥚</div>
+              <div><div class="feed-farm-name">Harrismith Free-Range Eggs</div><div class="feed-time">2 hours ago</div></div>
+              <div class="feed-update-type type-harvest">🌾 Harvest</div>
+            </div>
+            <div class="feed-card-body">
+              <p>The first batch of <strong>4,200 eggs</strong> has been collected this week. Our hens are laying at peak capacity. Payout processing will begin <strong>within 14 days</strong>. Produce box deliveries start Monday for all Grower and Partner tier investors.</p>
+              <div class="feed-image">🥚</div>
+              <div class="feed-reactions">
+                <button class="react-btn" onclick="this.innerHTML='❤️ 24'">❤️ 23</button>
+                <button class="react-btn">💬 Reply</button>
+                <button class="react-btn" onclick="showPage('chat',document.querySelector('[onclick*=chat]'))">📩 Message farmer</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="feed-card">
+            <div class="feed-card-header">
+              <div class="feed-farm-avatar">🥦</div>
+              <div><div class="feed-farm-name">Boland Valley Vegetables</div><div class="feed-time">1 day ago</div></div>
+              <div class="feed-update-type type-milestone">✅ Milestone</div>
+            </div>
+            <div class="feed-card-body">
+              <p>Irrigation system upgraded! We installed a <strong>new drip irrigation network</strong> across the eastern field — this reduces water usage by 40% and protects the crop against the incoming dry spell forecast for mid-June.</p>
+              <div class="feed-reactions">
+                <button class="react-btn" onclick="this.innerHTML='❤️ 41'">❤️ 40</button>
+                <button class="react-btn">💬 Reply</button>
+                <button class="react-btn" onclick="showPage('chat',document.querySelector('[onclick*=chat]'))">📩 Message farmer</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="feed-card">
+            <div class="feed-card-header">
+              <div class="feed-farm-avatar">🌻</div>
+              <div><div class="feed-farm-name">Limpopo Sunflower Fields</div><div class="feed-time">3 days ago</div></div>
+              <div class="feed-update-type type-photo">📸 Photo update</div>
+            </div>
+            <div class="feed-card-body">
+              <p>Planting is underway! We've sown <strong>18 hectares</strong> of sunflower seeds this week. Germination expected within 10–14 days. The rainy season timing is perfect — we're on track for a strong Q4 harvest.</p>
+              <div class="feed-image">🌻</div>
+              <div class="feed-reactions">
+                <button class="react-btn" onclick="this.innerHTML='❤️ 57'">❤️ 56</button>
+                <button class="react-btn">💬 Reply</button>
+                <button class="react-btn" onclick="showPage('chat',document.querySelector('[onclick*=chat]'))">📩 Message farmer</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="feed-sidebar">
+          <div class="sidebar-widget">
+            <div class="widget-title">🔔 Alerts</div>
+            <div class="alert-item"><div class="alert-dot dot-earth"></div><div class="alert-text">Harrismith payout processing soon<span>Expected within 14 days</span></div></div>
+            <div class="alert-item"><div class="alert-dot dot-green"></div><div class="alert-text">Produce box delivery confirmed<span>Boland Valley · Mon 19 May</span></div></div>
+            <div class="alert-item"><div class="alert-dot dot-blue"></div><div class="alert-text">New farm available: KZN Macadamia<span>Closes in 5 days · 12% return</span></div></div>
+          </div>
+          <div class="sidebar-widget">
+            <div class="widget-title">☀️ Farm weather — Wellington</div>
+            <div class="weather-row"><span class="weather-day">Today</span><span>🌤️</span><span class="weather-val">22°C</span></div>
+            <div class="weather-row"><span class="weather-day">Tomorrow</span><span>🌧️</span><span class="weather-val">17°C</span></div>
+            <div class="weather-row"><span class="weather-day">Saturday</span><span>⛅</span><span class="weather-val">19°C</span></div>
+            <div class="weather-row"><span class="weather-day">Sunday</span><span>☀️</span><span class="weather-val">24°C</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="page" id="page-chat">
+    <div class="topbar">
+      <div class="topbar-title">Farmer Chat</div>
+    </div>
+    <div class="page-content">
+      <div class="chat-layout">
+        <div class="chat-sidebar">
+          <div class="chat-search"><input placeholder="🔍 Search farmers..."></div>
+          <div class="chat-list">
+            <div class="chat-item active">
+              <div class="chat-avatar">🥦<div class="online-dot"></div></div>
+              <div class="chat-item-info">
+                <div class="chat-item-name">Pietie van der Berg</div>
+                <div class="chat-item-preview">Yes, irrigation upgrade done!</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="chat-item-time">2h</div><div class="chat-unread">2</div></div>
+            </div>
+            <div class="chat-item">
+              <div class="chat-avatar">🥚</div>
+              <div class="chat-item-info">
+                <div class="chat-item-name">Nomsa Dlamini</div>
+                <div class="chat-item-preview">Payout in ~14 days, thanks for your patience</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="chat-item-time">1d</div><div class="chat-unread">1</div></div>
+            </div>
+            <div class="chat-item">
+              <div class="chat-avatar">🌻</div>
+              <div class="chat-item-info">
+                <div class="chat-item-name">Sipho Nkosi</div>
+                <div class="chat-item-preview">Planting is going well! 18ha done</div>
+              </div>
+              <div class="chat-item-time">3d</div>
+            </div>
+            <div class="chat-item">
+              <div class="chat-avatar">🍎</div>
+              <div class="chat-item-info">
+                <div class="chat-item-name">Annie Botha</div>
+                <div class="chat-item-preview">Frost risk has passed, apple crop safe</div>
+              </div>
+              <div class="chat-item-time">5d</div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-main">
+          <div class="chat-header">
+            <div class="chat-header-avatar">🥦</div>
+            <div>
+              <div class="chat-header-name">Pietie van der Berg</div>
+              <div class="chat-header-status">🟢 Online · Boland Valley Vegetables</div>
+            </div>
+            <div class="chat-header-actions">
+              <button class="chat-action-btn">📞</button>
+              <button class="chat-action-btn">ℹ️</button>
+            </div>
+          </div>
+          <div class="chat-messages" id="chatMessages">
+            <div class="msg received">
+              <div class="msg-avatar">🥦</div>
+              <div><div class="msg-bubble">Goeie more! Just wanted to give you an update — the seedlings are looking really strong this week. 🌱</div><div class="msg-time">09:12</div></div>
+            </div>
+            <div class="msg sent">
+              <div class="msg-avatar">👤</div>
+              <div><div class="msg-bubble">That's great news Pietie! How is the irrigation holding up after the upgrade?</div><div class="msg-time">09:34</div></div>
+            </div>
+            <div class="msg received">
+              <div class="msg-avatar">🥦</div>
+              <div><div class="msg-bubble">Yes, irrigation upgrade is done and working perfectly! Drip system is saving us a lot of water. The eastern field is looking 40% better already.</div><div class="msg-time">09:41</div></div>
+            </div>
+            <div class="msg sent">
+              <div class="msg-avatar">👤</div>
+              <div><div class="msg-bubble">Amazing. When do you expect the first harvest to be ready?</div><div class="msg-time">09:45</div></div>
+            </div>
+            <div class="msg received">
+              <div class="msg-avatar">🥦</div>
+              <div><div class="msg-bubble">We're on track for mid-June. Produce boxes should go out around the 15th–18th. I'll post an official update on the feed this week. 🥦📦</div><div class="msg-time">10:02</div></div>
+            </div>
+          </div>
+          <div class="chat-input-area">
+            <input class="chat-input" id="chatInput" placeholder="Type a message to Pietie..." onkeydown="if(event.key==='Enter')sendMsg()">
+            <button class="chat-send-btn" onclick="sendMsg()">➤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FARMER REGISTER -->
+  <div class="page" id="page-farmer-register">
+    <div class="topbar">
+      <div class="topbar-title">Register Your Farm</div>
+      <div class="topbar-right">
+        <div style="font-size:0.82rem;color:var(--muted)">Already registered? <span style="color:var(--green);cursor:pointer;font-weight:500">Sign in</span></div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="reg-layout">
+
+        <!-- REG SIDEBAR -->
+        <div class="reg-sidebar">
+          <div class="reg-sidebar-title">List your farm on FarmPool</div>
+          <div class="reg-sidebar-sub">Connect with investors across South Africa and get the capital you need to grow.</div>
+          <div class="reg-steps-list" id="regStepsList">
+            <div class="reg-step-item active" id="rstep-0">
+              <div class="reg-step-num active" id="rnum-0">1</div>
+              <div class="reg-step-info"><div class="reg-step-label">Step 1</div><div class="reg-step-name">Personal details</div></div>
+            </div>
+            <div class="reg-step-item" id="rstep-1">
+              <div class="reg-step-num" id="rnum-1">2</div>
+              <div class="reg-step-info"><div class="reg-step-label">Step 2</div><div class="reg-step-name">Farm information</div></div>
+            </div>
+            <div class="reg-step-item" id="rstep-2">
+              <div class="reg-step-num" id="rnum-2">3</div>
+              <div class="reg-step-info"><div class="reg-step-label">Step 3</div><div class="reg-step-name">Crop & produce</div></div>
+            </div>
+            <div class="reg-step-item" id="rstep-3">
+              <div class="reg-step-num" id="rnum-3">4</div>
+              <div class="reg-step-info"><div class="reg-step-label">Step 4</div><div class="reg-step-name">Funding needs</div></div>
+            </div>
+            <div class="reg-step-item" id="rstep-4">
+              <div class="reg-step-num" id="rnum-4">5</div>
+              <div class="reg-step-info"><div class="reg-step-label">Step 5</div><div class="reg-step-name">Review & submit</div></div>
+            </div>
+          </div>
+          <div class="reg-sidebar-perks">
+            <div class="reg-perk"><span class="reg-perk-icon">✅</span> Free to list your farm</div>
+            <div class="reg-perk"><span class="reg-perk-icon">🔒</span> Funds held in escrow</div>
+            <div class="reg-perk"><span class="reg-perk-icon">📊</span> Investor dashboard included</div>
+            <div class="reg-perk"><span class="reg-perk-icon">🚚</span> Logistics support available</div>
+          </div>
+        </div>
+
+        <!-- REG FORM MAIN -->
+        <div class="reg-main">
+
+          <!-- STEP 1: Personal Details -->
+          <div class="reg-step-content active" id="regContent-0">
+            <div class="reg-step-header">
+              <div class="reg-step-eyebrow">Step 1 of 5</div>
+              <div class="reg-step-title">Tell us about yourself</div>
+              <div class="reg-step-desc">We need to verify your identity before listing your farm on FarmPool.</div>
+            </div>
+            <div class="reg-form-grid">
+              <div class="reg-field">
+                <label class="reg-label">First name</label>
+                <input class="reg-input" type="text" placeholder="e.g. Sipho">
+              </div>
+              <div class="reg-field">
+                <label class="reg-label">Last name</label>
+                <input class="reg-input" type="text" placeholder="e.g. Nkosi">
+              </div>
+              <div class="reg-field">
+                <label class="reg-label">Email address</label>
+                <input class="reg-input" type="email" placeholder="you@example.com">
+              </div>
+              <div class="reg-field">
+                <label class="reg-label">Phone number</label>
+                <input class="reg-input" type="tel" placeholder="+27 82 000 0000">
+              </div>
+              <div class="reg-field">
+                <label class="reg-label">ID number / Passport</label>
+                <input class="reg-input" type="text" placeholder="SA ID or passport number">
+                <span class="reg-hint">Used for identity verification only. Not shared publicly.</span>
+              </div>
+              <div class="reg-field">
+                <label class="reg-label">Province</label>
+                <select class="reg-select">
+                  <option value="">Select province</option>
+                  <option>Western Cape</option><option>Gauteng</option><option>KwaZulu-Natal</option>
+                  <option>Eastern Cape</option><option>Northern Cape</option><option>Free State</option>
+                  <option>Limpopo</option><option>Mpumalanga</option><option>North West</option>
+                </select>
+              </div>
+              <div class="reg-field reg-form-full">
+                <label class="reg-label">Years of farming experience</label>
+                <select class="reg-select">
+                  <option value="">Select experience level</option>
+                  <option>Less than 1 year (new farmer)</option>
+                  <option>1–3 years</option><option>3–5 years</option>
+                  <option>5–10 years</option><option>10+ years</option>
+                </select>
+              </div>
+            </div>
+            <div class="reg-nav">
+              <div></div>
+              <button class="reg-next-btn" onclick="regNext()">Continue →</button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Farm Information -->
+          <div class="reg-step-content" id="regContent-1">
+            <div class="reg-step-header">
+              <div class="reg-step-eyebrow">Step 2 of 5</div>
+              <div class="reg-step-title">About your farm</div>
+              <div class="reg-step-desc">Help investors understand your farm's story, location, and setup.</div>
+            </div>
+            <div class="reg-form-grid">
+              <div class="reg-field reg-form-full">
+                <label class="reg-label">Farm name</label>
+                <input class="reg-input" type="text" placeholder="e.g. Sunshine Valley Farm">
+              </div>
+              <div class="reg-field">
+                <label class="reg-label">Town / Nearest city</label>
+                <input class="reg-input" type="text" placeholder="e.g. Wellington">
+              </div>
+              <div class="reg-field">
+                <label class="reg-label">GPS coordinates (optional)</label>
+                <input class="reg-input" type="text" placeholder="-33.6423, 18.9634">
+                <span class="reg-hint">Helps investors see your farm's location on a map.</span>
+              </div>
+              <div class="reg-field">
+                <label class="reg-label">Farm size (hectares)</label>
+                <input class="reg-input" type="number" placeholder="e.g. 15">
+              </div>
+              <div class="reg-field">
+                <label class="reg-label">Land ownership</label>
+                <select class="reg-select">
+                  <option value="">Select</option>
+                  <option>I own the land</option>
+                  <option>Long-term lease</option>
+                  <option>Communal land</option>
+                  <option>Government allocation</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="reg-field reg-form-full">
+                <label class="reg-label">Tell your farm's story</label>
+                <textarea class="reg-textarea" placeholder="Describe your farm, your background, what you grow, and why investors should support you..."></textarea>
+                <span class="reg-hint">This appears on your public farm listing. Be honest and personal — it builds trust.</span>
+              </div>
+              <div class="reg-field reg-form-full">
+                <label class="reg-label">Do you have any certifications?</label>
+                <select class="reg-select">
+                  <option value="">Select</option>
+                  <option>Organic certified (SABS / GlobalG.A.P)</option>
+                  <option>Fair trade certified</option>
+                  <option>No certifications yet</option>
+                  <option>In process of certification</option>
+                </select>
+              </div>
+            </div>
+            <div class="reg-nav">
+              <button class="reg-back-btn" onclick="regBack()">← Back</button>
+              <button class="reg-next-btn" onclick="regNext()">Continue →</button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Crop & Produce -->
+          <div class="reg-step-content" id="regContent-2">
+            <div class="reg-step-header">
+              <div class="reg-step-eyebrow">Step 3 of 5</div>
+              <div class="reg-step-title">What do you grow?</div>
+              <div class="reg-step-desc">Select your farming category and tell us what investors will receive in return.</div>
+            </div>
+            <label class="reg-label" style="margin-bottom:0.6rem;display:block">Select your farming category</label>
+            <div class="crop-type-grid">
+              <div class="crop-opt selected" onclick="toggleCrop(this)"><div class="crop-opt-icon">🥦</div><div class="crop-opt-name">Vegetables</div></div>
+              <div class="crop-opt" onclick="toggleCrop(this)"><div class="crop-opt-icon">🌾</div><div class="crop-opt-name">Grains & Wheat</div></div>
+              <div class="crop-opt" onclick="toggleCrop(this)"><div class="crop-opt-icon">🍎</div><div class="crop-opt-name">Fruit Orchards</div></div>
+              <div class="crop-opt" onclick="toggleCrop(this)"><div class="crop-opt-icon">🐄</div><div class="crop-opt-name">Livestock</div></div>
+              <div class="crop-opt" onclick="toggleCrop(this)"><div class="crop-opt-icon">🥚</div><div class="crop-opt-name">Free-range Eggs</div></div>
+              <div class="crop-opt" onclick="toggleCrop(this)"><div class="crop-opt-icon">🐟</div><div class="crop-opt-name">Aquaculture</div></div>
+              <div class="crop-opt" onclick="toggleCrop(this)"><div class="crop-opt-icon">🌻</div><div class="crop-opt-name">Cash Crops</div></div>
+              <div class="crop-opt" onclick="toggleCrop(this)"><div class="crop-opt-icon">🍯</div><div class="crop-opt-name">Honey & Bees</div></div>
+            </div>
+            <div class="reg-form-grid" style="margin-top:1rem">
+              <div class="reg-field">
+                <label class="reg-label">What produce will investors receive?</label>
+                <input class="reg-input" type="text" placeholder="e.g. 5kg weekly vegetable box">
+              </div>
+              <div class="reg-field">
+                <label class="reg-label">Expected harvest date</label>
+                <input class="reg-input" type="month">
+              </div>
+              <div class="reg-field">
+                <label class="reg-label">Planting / start date</label>
+                <input class="reg-input" type="month">
+              </div>
+              <div class="reg-field">
+                <label class="reg-label">Estimated yield (kg or units)</label>
+                <input class="reg-input" type="text" placeholder="e.g. 2,000 kg per season">
+              </div>
+              <div class="reg-field reg-form-full">
+                <label class="reg-label">How will produce be delivered to investors?</label>
+                <select class="reg-select">
+                  <option value="">Select delivery method</option>
+                  <option>I will arrange delivery to investors</option>
+                  <option>Investors collect from the farm</option>
+                  <option>FarmPool logistics support needed</option>
+                  <option>Collection points in nearest city</option>
+                </select>
+              </div>
+            </div>
+            <div class="reg-nav">
+              <button class="reg-back-btn" onclick="regBack()">← Back</button>
+              <button class="reg-next-btn" onclick="regNext()">Continue →</button>
+            </div>
+          </div>
+
+          <!-- STEP 4: Funding Needs -->
+          <div class="reg-step-content" id="regContent-3">
+            <div class="reg-step-header">
+              <div class="reg-step-eyebrow">Step 4 of 5</div>
+              <div class="reg-step-title">How much do you need?</div>
+              <div class="reg-step-desc">Tell investors your funding goal and what the money will be used for.</div>
+            </div>
+            <div class="reg-form-grid">
+              <div class="reg-field">
+                <label class="reg-label">Funding goal (Rands)</label>
+                <input class="reg-input" type="number" placeholder="e.g. 200000">
+                <span class="reg-hint">Minimum goal: R50,000. Maximum: R2,000,000 per listing.</span>
+              </div>
+              <div class="reg-field">
+                <label class="reg-label">Profit share offered to investors</label>
+                <select class="reg-select">
+                  <option value="">Select %</option>
+                  <option>5% of net profit</option><option>8% of net profit</option>
+                  <option>10% of net profit</option><option>12% of net profit</option>
+                  <option>15% of net profit</option><option>Produce only (no profit share)</option>
+                </select>
+              </div>
+              <div class="reg-field reg-form-full">
+                <label class="reg-label">What will the funds be used for?</label>
+                <textarea class="reg-textarea" placeholder="e.g. R80,000 for seeds and fertiliser, R60,000 for irrigation upgrade, R40,000 for seasonal labour, R20,000 for logistics..."></textarea>
+                <span class="reg-hint">Be specific — investors trust farms that show a clear plan for their money.</span>
+              </div>
+            </div>
+            <label class="reg-label" style="margin-bottom:0.75rem;display:block">What type of investor support do you prefer?</label>
+            <div class="funding-opts">
+              <div class="funding-opt selected" onclick="selectFundingOpt(this)">
+                <div class="funding-opt-icon">🌱</div>
+                <div><div class="funding-opt-title">Produce + profit share</div><div class="funding-opt-desc">Investors get a weekly/monthly produce box AND a share of your harvest profits. Most popular option.</div></div>
+              </div>
+              <div class="funding-opt" onclick="selectFundingOpt(this)">
+                <div class="funding-opt-icon">📦</div>
+                <div><div class="funding-opt-title">Produce only</div><div class="funding-opt-desc">Investors receive fresh produce deliveries in exchange for their funding. Simpler, lower regulatory risk.</div></div>
+              </div>
+              <div class="funding-opt" onclick="selectFundingOpt(this)">
+                <div class="funding-opt-icon">💰</div>
+                <div><div class="funding-opt-title">Profit share only</div><div class="funding-opt-desc">Investors receive a financial return only. Subject to FSCA compliance review before listing.</div></div>
+              </div>
+            </div>
+            <div class="reg-nav">
+              <button class="reg-back-btn" onclick="regBack()">← Back</button>
+              <button class="reg-next-btn" onclick="regNext()">Continue →</button>
+            </div>
+          </div>
+
+          <!-- STEP 5: Review & Submit -->
+          <div class="reg-step-content" id="regContent-4">
+            <div class="reg-step-header">
+              <div class="reg-step-eyebrow">Step 5 of 5</div>
+              <div class="reg-step-title">Review & submit</div>
+              <div class="reg-step-desc">Check your application before submitting. Our team reviews all farms within 3–5 business days.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem">
+              <div style="background:var(--cream);border-radius:14px;padding:1.25rem">
+                <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.75rem">Personal details</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;font-size:0.82rem;color:var(--ink)">
+                  <span style="color:var(--muted)">Name</span><span>Sipho Nkosi</span>
+                  <span style="color:var(--muted)">Email</span><span>sipho@farm.co.za</span>
+                  <span style="color:var(--muted)">Province</span><span>Limpopo</span>
+                  <span style="color:var(--muted)">Experience</span><span>5–10 years</span>
+                </div>
+              </div>
+              <div style="background:var(--cream);border-radius:14px;padding:1.25rem">
+                <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.75rem">Farm & crop</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;font-size:0.82rem;color:var(--ink)">
+                  <span style="color:var(--muted)">Farm name</span><span>Nkosi Sunflower Fields</span>
+                  <span style="color:var(--muted)">Location</span><span>Mokopane, Limpopo</span>
+                  <span style="color:var(--muted)">Size</span><span>25 hectares</span>
+                  <span style="color:var(--muted)">Crop</span><span>🌻 Cash Crops (Sunflower)</span>
+                  <span style="color:var(--muted)">Harvest</span><span>October 2026</span>
+                </div>
+              </div>
+              <div style="background:var(--cream);border-radius:14px;padding:1.25rem">
+                <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.75rem">Funding</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;font-size:0.82rem;color:var(--ink)">
+                  <span style="color:var(--muted)">Goal</span><span>R500,000</span>
+                  <span style="color:var(--muted)">Profit share</span><span>13% of net profit</span>
+                  <span style="color:var(--muted)">Return type</span><span>Produce + profit share</span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.65rem;margin-bottom:1.5rem">
+              <label style="display:flex;align-items:flex-start;gap:0.7rem;cursor:pointer;font-size:0.82rem;color:var(--ink)">
+                <input type="checkbox" style="margin-top:2px;accent-color:var(--green-dark)">
+                I confirm that all information provided is accurate and truthful.
+              </label>
+              <label style="display:flex;align-items:flex-start;gap:0.7rem;cursor:pointer;font-size:0.82rem;color:var(--ink)">
+                <input type="checkbox" style="margin-top:2px;accent-color:var(--green-dark)">
+                I agree to FarmPool's <span style="color:var(--green);text-decoration:underline">Terms & Conditions</span> and farmer obligations.
+              </label>
+              <label style="display:flex;align-items:flex-start;gap:0.7rem;cursor:pointer;font-size:0.82rem;color:var(--ink)">
+                <input type="checkbox" style="margin-top:2px;accent-color:var(--green-dark)">
+                I understand my farm listing is subject to approval and verification.
+              </label>
+            </div>
+            <div class="reg-nav">
+              <button class="reg-back-btn" onclick="regBack()">← Back</button>
+              <button class="reg-next-btn" onclick="submitFarmerReg()" style="background:var(--earth);padding:0.7rem 2.5rem">🚜 Submit application</button>
+            </div>
+          </div>
+
+          <!-- SUCCESS -->
+          <div class="reg-step-content" id="regContent-success">
+            <div class="reg-success">
+              <div class="reg-success-icon">🌱</div>
+              <h2>Application submitted!</h2>
+              <p>Thank you for applying to list your farm on FarmPool. Our team will review your application and contact you within <strong>3–5 business days</strong>.</p>
+              <div class="reg-success-steps">
+                <div class="reg-success-step"><div class="reg-success-step-num">1</div>Application review by FarmPool team</div>
+                <div class="reg-success-step"><div class="reg-success-step-num">2</div>Farm verification call with a FarmPool agent</div>
+                <div class="reg-success-step"><div class="reg-success-step-num">3</div>Listing goes live on the marketplace</div>
+                <div class="reg-success-step"><div class="reg-success-step-num">4</div>Investors start funding your farm</div>
+              </div>
+              <button class="reg-next-btn" onclick="showPage('marketplace',document.querySelector('[onclick*=marketplace]'))">Browse the marketplace →</button>
+            </div>
+          </div>
+
+        </div><!-- end reg-main -->
+      </div><!-- end reg-layout -->
+    </div>
+  </div>
+
+</main>
+
+<!-- INVEST MODAL -->
+<div class="modal-overlay" id="investModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalForm">
+      <div class="modal-eyebrow" id="modalFarmCat">🥦 Vegetables · Western Cape</div>
+      <h2 class="modal-title" id="modalFarmName">Invest in this farm</h2>
+      <p class="modal-sub" id="modalFarmSub">Choose your investment tier and lock in your spot before this farm closes.</p>
+      <div class="tier-select">
+        <div class="tier-opt selected" onclick="selectTier(this,'R200')">
+          <div class="tier-opt-icon">🌱</div>
+          <div class="tier-opt-name">Supporter</div>
+          <div class="tier-opt-price">R200</div>
+          <div class="tier-opt-return">Produce box</div>
+        </div>
+        <div class="tier-opt" onclick="selectTier(this,'R1,000')">
+          <div class="tier-opt-icon">🌾</div>
+          <div class="tier-opt-name">Grower</div>
+          <div class="tier-opt-price">R1,000</div>
+          <div class="tier-opt-return">Box + 8% profit</div>
+        </div>
+        <div class="tier-opt" onclick="selectTier(this,'R5,000')">
+          <div class="tier-opt-icon">🚜</div>
+          <div class="tier-opt-name">Partner</div>
+          <div class="tier-opt-price">R5,000</div>
+          <div class="tier-opt-return">Box + 15% profit</div>
+        </div>
+      </div>
+      <input class="modal-input" placeholder="Full name" type="text">
+      <input class="modal-input" placeholder="Email address" type="email">
+      <input class="modal-input" placeholder="Phone number (for delivery coordination)" type="tel">
+      <button class="modal-submit" onclick="submitInvest()">Confirm investment →</button>
+      <p class="modal-disclaimer">Funds held in escrow until milestone conditions are met. Subject to FarmPool T&Cs and SA financial regulations.</p>
+    </div>
+    <div class="modal-success" id="modalSuccess">
+      <div class="modal-success-icon">🌱</div>
+      <h3>You're in!</h3>
+      <p>Your investment is confirmed. We'll send your details to the farmer and notify you when planting begins. Welcome to the FarmPool family.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// FARM DATA
+const farms = [
+  {id:0,cat:'veg',emoji:'🥦',name:'Boland Valley Vegetables',loc:'Wellington, Western Cape',tags:['Organic','Featured'],progress:89,raised:'R178,000',goal:'R200,000',days:6,produce:'Weekly box',profit:'8%',bg:'#e8f5e9'},
+  {id:1,cat:'grain',emoji:'🌾',name:'Karoo Heritage Wheat',loc:'Richmond, Northern Cape',tags:['New'],progress:42,raised:'R84,000',goal:'R200,000',days:21,produce:'Flour bag',profit:'12%',bg:'#fff8e1'},
+  {id:2,cat:'eggs',emoji:'🥚',name:'Harrismith Free-Range Eggs',loc:'Harrismith, Free State',tags:['Closing'],progress:95,raised:'R190,000',goal:'R200,000',days:3,produce:'Egg box',profit:'10%',bg:'#fce4ec'},
+  {id:3,cat:'fruit',emoji:'🍎',name:'Elgin Apple Orchards',loc:'Elgin, Western Cape',tags:['Organic'],progress:55,raised:'R275,000',goal:'R500,000',days:14,produce:'Fruit hamper',profit:'9%',bg:'#f3e5f5'},
+  {id:4,cat:'livestock',emoji:'🐄',name:'Drakensberg Grass-fed Beef',loc:'Bergville, KZN',tags:['Featured'],progress:31,raised:'R155,000',goal:'R500,000',days:28,produce:'Meat box',profit:'14%',bg:'#e3f2fd'},
+  {id:5,cat:'cash',emoji:'🌻',name:'Limpopo Sunflower Fields',loc:'Mokopane, Limpopo',tags:['New'],progress:18,raised:'R90,000',goal:'R500,000',days:35,produce:'Sunflower oil',profit:'13%',bg:'#fffde7'},
+  {id:6,cat:'aqua',emoji:'🐟',name:'Vredenburg Abalone Farm',loc:'Vredenburg, Western Cape',tags:['Featured'],progress:64,raised:'R320,000',goal:'R500,000',days:10,produce:'Abalone parcel',profit:'18%',bg:'#e0f7fa'},
+  {id:7,cat:'honey',emoji:'🍯',name:'Highveld Honey & Bees',loc:'Bronkhorstspruit, Gauteng',tags:['Organic','New'],progress:77,raised:'R77,000',goal:'R100,000',days:8,produce:'Honey box',profit:'11%',bg:'#fff3e0'},
+];
+
+function farmCards(indices){
+  return indices.map(i=>{
+    const f=farms[i];
+    const tagHtml=f.tags.map(t=>`<span class="farm-tag ${t==='Organic'?'tag-organic':t==='Featured'?'tag-featured':t==='New'?'tag-new':'tag-closing'}">${t}</span>`).join('');
+    return `<div class="farm-card" onclick="openModal(${f.id})">
+      <div class="farm-card-img" style="background:${f.bg}">
+        <div class="farm-emoji-bg">${f.emoji}</div>
+        <div class="farm-card-tags">${tagHtml}</div>
+      </div>
+      <div class="farm-card-body">
+        <div class="farm-card-cat">${f.emoji} ${f.cat.charAt(0).toUpperCase()+f.cat.slice(1)}</div>
+        <div class="farm-card-name">${f.name}</div>
+        <div class="farm-card-loc">📍 ${f.loc}</div>
+        <div class="farm-progress">
+          <div class="progress-bg"><div class="progress-fill" style="width:${f.progress}%"></div></div>
+          <div class="progress-meta"><span><strong>${f.raised}</strong> raised</span><span>${f.days}d left</span></div>
+        </div>
+        <div class="farm-card-footer">
+          <div class="farm-return"><span class="val">${f.produce}</span><span class="lbl">Produce</span></div>
+          <div class="farm-divider"></div>
+          <div class="farm-return"><span class="val">${f.profit}</span><span class="lbl">Profit share</span></div>
+          <div class="farm-divider"></div>
+          <button class="invest-now-btn" onclick="event.stopPropagation();openModal(${f.id})">Invest →</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// NAVIGATION
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+
+// CATEGORY FILTER
+function filterCat(cat,el){
+  document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  const filtered=cat==='all'?farms:farms.filter(f=>f.cat===cat);
+  const grid=document.getElementById('farmGrid');
+  grid.innerHTML=farmCards(filtered.map(f=>f.id));
+  document.getElementById('resultsCount').textContent=`Showing ${filtered.length} farm${filtered.length!==1?'s':''}`;
+}
+
+// MODAL
+function openModal(id){
+  const f=farms[id];
+  document.getElementById('modalFarmCat').textContent=`${f.emoji} ${f.cat.charAt(0).toUpperCase()+f.cat.slice(1)} · ${f.loc}`;
+  document.getElementById('modalFarmName').textContent=`Invest in ${f.name}`;
+  document.getElementById('modalFarmSub').textContent=`${f.days} days left to invest. Goal: ${f.goal}. Choose your return type below.`;
+  document.getElementById('modalForm').style.display='block';
+  document.getElementById('modalSuccess').style.display='none';
+  document.querySelectorAll('.tier-opt').forEach((o,i)=>o.classList.toggle('selected',i===0));
+  document.getElementById('investModal').classList.add('open');
+}
+
+function closeModal(){document.getElementById('investModal').classList.remove('open')}
+document.getElementById('investModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+
+function selectTier(el,price){
+  document.querySelectorAll('.tier-opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function submitInvest(){
+  document.getElementById('modalForm').style.display='none';
+  document.getElementById('modalSuccess').style.display='block';
+  setTimeout(()=>closeModal(),3000);
+}
+
+// CHAT
+function sendMsg(){
+  const input=document.getElementById('chatInput');
+  const msg=input.value.trim();
+  if(!msg)return;
+  const container=document.getElementById('chatMessages');
+  const now=new Date();
+  const time=now.getHours()+':'+(now.getMinutes()<10?'0':'')+now.getMinutes();
+  container.innerHTML+=`<div class="msg sent"><div class="msg-avatar">👤</div><div><div class="msg-bubble">${msg}</div><div class="msg-time">${time}</div></div></div>`;
+  input.value='';
+  container.scrollTop=container.scrollHeight;
+  setTimeout(()=>{
+    const replies=["Thanks for reaching out! I'll get back to you shortly.","Great question — let me check on that for you.","The farm is doing really well, thanks for asking! 🌱","I'll post a full update on the feed this week."];
+    container.innerHTML+=`<div class="msg received"><div class="msg-avatar">🥦</div><div><div class="msg-bubble">${replies[Math.floor(Math.random()*replies.length)]}</div><div class="msg-time">${time}</div></div></div>`;
+    container.scrollTop=container.scrollHeight;
+  },1200);
+}
+
+// FARMER REGISTRATION
+let regStep = 0;
+const totalRegSteps = 5;
+
+function regNext(){
+  if(regStep < totalRegSteps - 1){
+    setRegStep(regStep + 1);
+  }
+}
+function regBack(){
+  if(regStep > 0) setRegStep(regStep - 1);
+}
+
+function setRegStep(step){
+  // hide current content
+  document.querySelectorAll('.reg-step-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('regContent-'+step).classList.add('active');
+
+  // update sidebar steps
+  for(let i=0;i<totalRegSteps;i++){
+    const item=document.getElementById('rstep-'+i);
+    const num=document.getElementById('rnum-'+i);
+    item.classList.remove('active','done');
+    num.classList.remove('active','done');
+    if(i<step){item.classList.add('done');num.classList.add('done');num.textContent='✓';}
+    else if(i===step){item.classList.add('active');num.classList.add('active');num.textContent=i+1;}
+    else{num.textContent=i+1;}
+  }
+  regStep=step;
+}
+
+function submitFarmerReg(){
+  document.querySelectorAll('.reg-step-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('regContent-success').classList.add('active');
+  // mark all sidebar steps done
+  for(let i=0;i<totalRegSteps;i++){
+    const item=document.getElementById('rstep-'+i);
+    const num=document.getElementById('rnum-'+i);
+    item.classList.remove('active');item.classList.add('done');
+    num.classList.remove('active');num.classList.add('done');num.textContent='✓';
+  }
+}
+
+function toggleCrop(el){
+  el.classList.toggle('selected');
+}
+
+function selectFundingOpt(el){
+  document.querySelectorAll('.funding-opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}});
+},{threshold:0.05});
+document.querySelectorAll('.farm-card,.port-card,.feed-card,.stat-card').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity 0.5s ease,transform 0.5s ease';
+  io.observe(el);
+});
+</script>
+</body>
+</html>
