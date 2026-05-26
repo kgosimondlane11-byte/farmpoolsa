@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FarmPool - Agricultural Investment Platform</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --brand:#1A6B4A;--brand-dark:#0F4730;--brand-light:#2A9A6A;--brand-pale:#E6F4EE;
+      --gold:#C9922A;--gold-light:#F5E8D0;--gold-dark:#8B6418;
+      --surface:#F9F7F4;--surface-2:#F0EDE8;--surface-3:#E5E0D8;
+      --ink:#1C1A17;--ink-2:#4A4640;--ink-3:#7A756E;
+      --white:#FFFFFF;--border:#DDD9D3;--border-2:rgba(28,26,23,0.07);
+      --red:#C0392B;--red-pale:#FDEEEC;--blue:#2563EB;--blue-pale:#EFF6FF;
+      --radius:12px;--radius-lg:18px;--radius-xl:24px;
+      --shadow:0 2px 12px rgba(28,26,23,0.08);--shadow-lg:0 8px 40px rgba(28,26,23,0.13);
+      --font-display:'Syne',sans-serif;--font-body:'Instrument Sans',sans-serif;--sw:252px;
+    }
+    html{-webkit-font-smoothing:antialiased}
+    body{font-family:var(--font-body);background:var(--surface);color:var(--ink);overflow-x:hidden;line-height:1.5}
+    input,select,textarea,button{font-family:var(--font-body)}button{cursor:pointer}
+    ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:99px}
+    .hidden{display:none!important}.w-full{width:100%}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:var(--radius);font-size:14px;font-weight:600;border:none;transition:all .2s;white-space:nowrap;line-height:1}
+    .btn:disabled{opacity:.5;cursor:not-allowed}.btn-primary{background:var(--brand);color:#fff}.btn-primary:hover:not(:disabled){background:var(--brand-light);transform:translateY(-1px);box-shadow:0 4px 16px rgba(26,107,74,.3)}
+    .btn-secondary{background:var(--surface-2);color:var(--ink);border:1px solid var(--border)}.btn-secondary:hover:not(:disabled){background:var(--surface-3)}
+    .btn-ghost{background:transparent;color:var(--ink-2);padding:8px 12px}.btn-ghost:hover{background:var(--surface-2)}
+    .btn-gold{background:var(--gold);color:#fff}.btn-danger{background:var(--red);color:#fff}.btn-lg{padding:13px 28px;font-size:15px;border-radius:var(--radius-lg)}.btn-sm{padding:6px 13px;font-size:12px}
+    .field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}.label{font-size:13px;font-weight:600;color:var(--ink-2)}.hint{font-size:11px;color:var(--ink-3)}
+    .input,.select,.textarea{width:100%;padding:10px 13px;border-radius:var(--radius);border:1.5px solid var(--border);background:var(--white);font-size:14px;color:var(--ink);outline:none;transition:border-color .2s}
+    .input:focus,.select:focus,.textarea:focus{border-color:var(--brand)}.select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237A756E' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+    .textarea{resize:vertical;min-height:90px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .checkbox-label{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--ink-2);cursor:pointer;line-height:1.5;margin-bottom:10px}.checkbox-label input{margin-top:2px;accent-color:var(--brand);flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:600;letter-spacing:.03em;text-transform:uppercase}.badge-green{background:var(--brand-pale);color:var(--brand-dark)}.badge-gold{background:var(--gold-light);color:var(--gold-dark)}.badge-red{background:var(--red-pale);color:var(--red)}.badge-blue{background:var(--blue-pale);color:var(--blue)}.badge-gray{background:var(--surface-2);color:var(--ink-3)}
+    .card{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden}.card-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}.card-title{font-family:var(--font-display);font-size:15px;font-weight:700}.card-body{padding:18px}
+    .alert{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-radius:var(--radius);font-size:13px;line-height:1.5;margin-bottom:14px}.alert-error{background:var(--red-pale);color:var(--red);border:1px solid rgba(192,57,43,.2)}.alert-success{background:var(--brand-pale);color:var(--brand-dark);border:1px solid rgba(26,107,74,.2)}.alert-warn{background:var(--gold-light);color:var(--gold-dark);border:1px solid rgba(201,146,42,.2)}
+    .stat-card{background:var(--white);border-radius:var(--radius-lg);padding:18px;border:1px solid var(--border);position:relative;overflow:hidden}.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}.sc-green::before{background:linear-gradient(90deg,var(--brand),var(--brand-light))}.sc-gold::before{background:linear-gradient(90deg,var(--gold),#E8B86D)}.sc-blue::before{background:linear-gradient(90deg,#2563EB,#60A5FA)}.sc-purple::before{background:linear-gradient(90deg,#7C3AED,#A78BFA)}
+    .stat-label{font-size:11px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px}.stat-value{font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--ink);line-height:1}.stat-sub{font-size:12px;color:var(--ink-3);margin-top:5px}.stat-up{color:var(--brand)}.stat-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:32px;opacity:.07}
+    .progress-bar{height:5px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin:6px 0}.progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand-light));transition:width .6s ease}.progress-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-3)}
+    .table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse}thead tr{border-bottom:1px solid var(--border)}th{font-size:11px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;padding:9px 12px;text-align:left;white-space:nowrap}td{font-size:13px;color:var(--ink);padding:11px 12px;border-bottom:1px solid var(--border-2);vertical-align:middle}tbody tr:hover{background:var(--surface)}tbody tr:last-child td{border-bottom:none}
+    #authScreen{position:fixed;inset:0;background:linear-gradient(135deg,#0A2E1C 0%,#0F4730 50%,#071C10 100%);display:flex;align-items:center;justify-content:center;z-index:500;padding:1rem;overflow-y:auto}.auth-wrap{width:100%;max-width:420px;margin:auto}.auth-logo{font-family:var(--font-display);font-size:38px;font-weight:800;color:#fff;text-align:center;margin-bottom:4px}.auth-logo span{color:#7EE8B8}.auth-tag{font-size:13px;color:rgba(255,255,255,.45);text-align:center;margin-bottom:28px}.auth-card{background:var(--white);border-radius:var(--radius-xl);padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.3)}.auth-tabs{display:flex;gap:3px;background:var(--surface-2);border-radius:10px;padding:3px;margin-bottom:22px}.auth-tab{flex:1;padding:8px;border-radius:8px;font-size:13px;font-weight:600;border:none;background:none;color:var(--ink-3);transition:all .2s;text-align:center}.auth-tab.active{background:var(--white);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08)}.auth-link{color:var(--brand);font-weight:600;cursor:pointer;font-size:13px}.auth-link:hover{text-decoration:underline}.auth-footer{text-align:center;margin-top:16px;font-size:11px;color:rgba(255,255,255,.3);line-height:1.6}
+    #appShell{display:none}#sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sw);background:#161310;display:flex;flex-direction:column;z-index:100}.sb-logo-wrap{padding:18px 18px 14px;border-bottom:1px solid rgba(255,255,255,.05)}.sb-logo{font-family:var(--font-display);font-size:20px;font-weight:800;color:#fff}.sb-logo span{color:#7EE8B8}.sb-sub{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}.sb-nav{flex:1;padding:12px 10px;display:flex;flex-direction:column;gap:1px;overflow-y:auto}.sb-section{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.18);padding:10px 10px 3px;margin-top:4px}.sb-item{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;transition:all .15s;color:rgba(255,255,255,.5);font-size:13px;font-weight:500;border:none;background:none;width:100%;text-align:left;position:relative}.sb-item:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.85)}.sb-item.active{background:rgba(255,255,255,.09);color:#fff}.sb-item.active::before{content:'';position:absolute;left:0;top:22%;bottom:22%;width:3px;background:#7EE8B8;border-radius:0 3px 3px 0}.sb-badge{margin-left:auto;background:var(--brand);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:99px}.sb-footer{padding:10px;border-top:1px solid rgba(255,255,255,.05)}.user-tile{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:10px}.user-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-light));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;font-family:var(--font-display)}.user-name{font-size:13px;color:#fff;font-weight:600}.user-role{font-size:10px;color:rgba(255,255,255,.3);text-transform:capitalize}.logout-btn{width:100%;margin-top:4px;padding:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;color:rgba(255,255,255,.35);font-size:12px;font-weight:500;transition:all .15s}.logout-btn:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.65)}
+    #mainWrap{margin-left:var(--sw);min-height:100vh;background:var(--surface)}.topbar{background:var(--white);border-bottom:1px solid var(--border);padding:13px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;gap:14px}.topbar-title{font-family:var(--font-display);font-size:19px;font-weight:700}.topbar-right{display:flex;align-items:center;gap:10px}.search-box{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:7px 14px;min-width:190px}.search-box input{border:none;background:none;outline:none;font-size:13px;color:var(--ink);width:100%}.notif-btn{position:relative;width:36px;height:36px;border-radius:10px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;transition:background .15s}.notif-btn:hover{background:var(--surface-2)}.notif-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--gold);border:2px solid var(--white);display:none}.pc{padding:22px}
+    .page{display:none;animation:fadeUp .3s ease}.page.active{display:block}@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes bounceIn{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}.spinner{width:26px;height:26px;border:3px solid var(--surface-3);border-top-color:var(--brand);border-radius:50%;animation:spin .7s linear infinite}.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px;gap:10px;color:var(--ink-3);font-size:13px}.empty{text-align:center;padding:56px 20px;color:var(--ink-3)}.empty-icon{font-size:44px;margin-bottom:10px}.empty-title{font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:5px}.empty-text{font-size:13px;line-height:1.6;max-width:280px;margin:0 auto 18px}
+    .farm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}.farm-card{background:var(--white);border-radius:var(--radius-xl);overflow:hidden;border:1px solid var(--border);transition:all .22s;display:flex;flex-direction:column}.farm-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:rgba(26,107,74,.2)}.fc-media{height:150px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:10px}.fc-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:68px;opacity:.18}.fc-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,.18))}.fc-tags{position:absolute;top:10px;left:10px;display:flex;gap:5px;flex-wrap:wrap}.fc-score{position:absolute;top:10px;right:10px}.fc-body{padding:14px;flex:1;display:flex;flex-direction:column;gap:10px}.fc-cat{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);display:flex;align-items:center;justify-content:space-between}.fc-name{font-family:var(--font-display);font-size:16px;font-weight:700;line-height:1.2}.fc-loc{font-size:12px;color:var(--ink-3)}.fc-val-row{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--ink-3);padding:7px 0;border-top:1px solid var(--border)}.fc-price{font-size:13px;font-weight:700;color:var(--brand)}.fc-footer{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-top:1px solid var(--border)}.fc-ret{text-align:center}.fc-ret-val{font-size:13px;font-weight:700;color:var(--brand);display:block;font-family:var(--font-display)}.fc-ret-lbl{font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}.fc-div{width:1px;height:26px;background:var(--border)}.score-ring{width:40px;height:40px;border-radius:50%;border:2.5px solid;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;font-family:var(--font-display);background:var(--white)}.sr-excellent{border-color:#059669;color:#059669}.sr-good{border-color:var(--brand);color:var(--brand)}.sr-average{border-color:var(--gold);color:var(--gold)}.sr-fair{border-color:#D97706;color:#D97706}.sr-poor{border-color:var(--red);color:var(--red)}
+    .filter-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:18px}.pill{padding:6px 14px;border-radius:99px;font-size:13px;font-weight:500;border:1.5px solid var(--border);background:var(--white);color:var(--ink-3);transition:all .15s;white-space:nowrap}.pill:hover{border-color:var(--brand);color:var(--brand)}.pill.active{background:var(--brand);color:#fff;border-color:var(--brand)}.results-lbl{font-size:13px;color:var(--ink-3);margin-left:auto}
+    .port-hero{background:linear-gradient(135deg,#161310,#2D2A26);border-radius:var(--radius-xl);padding:26px;margin-bottom:18px;position:relative;overflow:hidden}.port-hero::after{content:'';position:absolute;right:-30px;top:-30px;width:160px;height:160px;border-radius:50%;border:35px solid rgba(255,255,255,.02)}.port-total-lbl{font-size:11px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}.port-total{font-family:var(--font-display);font-size:42px;font-weight:800;color:#fff;line-height:1}.port-sub{font-size:12px;color:rgba(255,255,255,.35);margin-top:6px}.port-stats{display:flex;gap:28px;margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,.05);flex-wrap:wrap}.ps-val{font-family:var(--font-display);font-size:18px;font-weight:700;color:#fff}.ps-lbl{font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+    .modal-overlay{position:fixed;inset:0;background:rgba(22,19,16,.65);backdrop-filter:blur(5px);z-index:200;display:flex;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}.modal{background:var(--white);border-radius:var(--radius-xl);width:500px;max-width:95vw;margin:auto;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.25);animation:fadeUp .25s ease}.modal-hdr{background:linear-gradient(135deg,var(--brand-dark),var(--brand));padding:18px 22px;border-radius:var(--radius-xl) var(--radius-xl) 0 0}.modal-close{position:absolute;top:12px;right:12px;width:29px;height:29px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:none;display:flex;align-items:center;justify-content:center;font-size:13px;color:rgba(255,255,255,.6);transition:all .15s}.modal-close:hover{background:rgba(255,255,255,.1);color:#fff}.modal-body{padding:20px 22px}.lock-notice{display:flex;gap:9px;background:var(--gold-light);border:1px solid rgba(201,146,42,.25);border-radius:var(--radius);padding:11px 13px;font-size:12px;color:var(--gold-dark);line-height:1.55;margin-bottom:14px}.val-box{background:var(--surface);border-radius:var(--radius);padding:14px;margin-bottom:14px}.val-box-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin-bottom:10px}.val-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;font-size:11px}.val-name{color:var(--ink-3);width:100px;flex-shrink:0}.val-bar{flex:1;height:4px;background:var(--surface-3);border-radius:99px;overflow:hidden}.val-fill{height:100%;border-radius:99px}.val-num{font-size:10px;font-weight:700;color:var(--ink-2);width:24px;text-align:right;flex-shrink:0}.amt-row{display:flex;gap:8px;align-items:center;margin-bottom:4px}.amt-input{flex:1;padding:11px 14px;border-radius:var(--radius);border:1.5px solid var(--border);font-size:17px;font-weight:700;font-family:var(--font-display);color:var(--ink);outline:none;transition:border-color .2s}.amt-input:focus{border-color:var(--brand)}.shares-chip{background:var(--brand-pale);color:var(--brand);border-radius:var(--radius);padding:11px 12px;font-size:12px;font-weight:700;white-space:nowrap}.proj-box{background:#161310;border-radius:var(--radius-lg);padding:14px;margin-bottom:14px}.proj-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);margin-bottom:10px}.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.proj-item{background:rgba(255,255,255,.04);border-radius:8px;padding:9px 11px}.proj-val{font-family:var(--font-display);font-size:15px;font-weight:700;color:#fff;display:block}.proj-lbl{font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}.timeline{display:flex;padding:10px 14px;background:var(--surface);border-radius:var(--radius);margin-bottom:14px}.tl-step{flex:1;text-align:center;position:relative}.tl-step:not(:last-child)::after{content:'';position:absolute;top:10px;left:50%;right:-50%;height:1.5px;background:var(--border);z-index:0}.tl-dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;margin:0 auto 3px;position:relative;z-index:1;color:var(--ink-3)}.tl-dot.done{background:var(--brand);border-color:var(--brand);color:#fff}.tl-dot.cur{background:var(--gold);border-color:var(--gold);color:#fff}.tl-lbl{font-size:10px;font-weight:600;color:var(--ink-2)}.tl-date{font-size:9px;color:var(--ink-3)}.modal-err{font-size:13px;color:var(--red);background:var(--red-pale);border:1px solid rgba(192,57,43,.2);border-radius:var(--radius);padding:9px 12px;margin-bottom:12px;display:none}.modal-footer-note{font-size:11px;color:var(--ink-3);text-align:center;margin-top:8px;line-height:1.5}
+    .feed-layout{display:grid;grid-template-columns:1fr 300px;gap:18px}.feed-card{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden;margin-bottom:10px}.fc-hdr{display:flex;align-items:center;gap:9px;padding:12px 14px;border-bottom:1px solid var(--border)}.fc-av{width:36px;height:36px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}.fc-farm{font-size:13px;font-weight:600}.fc-time{font-size:11px;color:var(--ink-3)}.fc-type{margin-left:auto}.fc-bdy{padding:13px 14px}.fc-bdy p{font-size:13px;line-height:1.65;color:var(--ink-2);margin-bottom:9px}.fc-reactions{display:flex;gap:6px;border-top:1px solid var(--border);padding-top:9px}.react-btn{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:500;color:var(--ink-3);border:none;background:none;padding:5px 9px;border-radius:7px;transition:all .15s}.react-btn:hover{background:var(--surface);color:var(--brand)}.post-card{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border);padding:14px;margin-bottom:14px}.feed-widget{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden;margin-bottom:10px}.fw-hdr{padding:11px 14px;border-bottom:1px solid var(--border);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3)}.fw-body{padding:12px 14px}.fw-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}.fw-row:last-child{border-bottom:none}
+    .farmer-hero,.val-hero{background:linear-gradient(135deg,var(--brand-dark),#1E5C3A);border-radius:var(--radius-xl);padding:26px;margin-bottom:18px;position:relative;overflow:hidden;color:#fff}.farmer-hero::before{content:'🌾';position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:72px;opacity:.07}.admin-hero{background:linear-gradient(135deg,#161310,#2D2A26);border-radius:var(--radius-xl);padding:26px;margin-bottom:18px;color:#fff}.adm-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:18px}.adm-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-lg);padding:14px}.adm-val{font-family:var(--font-display);font-size:22px;font-weight:700;color:#fff}.adm-lbl{font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}.act-btn{display:inline-flex;align-items:center;gap:3px;padding:4px 9px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid;transition:all .15s}.act-approve{color:var(--brand);border-color:var(--brand);background:var(--brand-pale)}.act-reject{color:var(--red);border-color:var(--red);background:var(--red-pale)}.act-view{color:var(--blue);border-color:var(--blue);background:var(--blue-pale)}
+    .reg-layout{display:grid;grid-template-columns:210px 1fr;background:var(--white);border-radius:var(--radius-xl);border:1px solid var(--border);overflow:hidden;min-height:560px}.reg-sb{background:#161310;padding:24px 18px;display:flex;flex-direction:column}.reg-sb-title{font-family:var(--font-display);font-size:17px;font-weight:700;color:#fff;margin-bottom:5px}.reg-sb-sub{font-size:12px;color:rgba(255,255,255,.35);margin-bottom:24px;line-height:1.5}.reg-steps{display:flex;flex-direction:column;gap:0}.reg-step{display:flex;align-items:flex-start;gap:10px;padding:8px 0;position:relative}.reg-step:not(:last-child)::after{content:'';position:absolute;left:12px;top:37px;bottom:0;width:1px;background:rgba(255,255,255,.07)}.reg-num{width:25px;height:25px;border-radius:50%;border:1.5px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:rgba(255,255,255,.25);flex-shrink:0;transition:all .3s;z-index:1;font-family:var(--font-display)}.reg-num.active{background:var(--gold);border-color:var(--gold);color:#fff}.reg-num.done{background:#059669;border-color:#059669;color:#fff}.reg-sname{font-size:12px;font-weight:500;color:rgba(255,255,255,.35);padding-top:4px;line-height:1.3}.reg-step.active .reg-sname{color:#fff;font-weight:600}.reg-step.done .reg-sname{color:rgba(255,255,255,.5)}.reg-perks{margin-top:auto;padding-top:18px;display:flex;flex-direction:column;gap:5px}.reg-perk{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.3)}.reg-main{padding:24px;display:flex;flex-direction:column}.reg-content{display:none;flex:1;flex-direction:column;animation:fadeIn .2s ease}.reg-content.active{display:flex}.reg-eyebrow{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}.reg-title{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:3px}.reg-desc{font-size:13px;color:var(--ink-3);margin-bottom:18px;line-height:1.5}.crop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px}.crop-opt{border:1.5px solid var(--border);border-radius:var(--radius);padding:11px 5px;text-align:center;transition:all .15s}.crop-opt:hover{border-color:var(--brand)}.crop-opt.selected{border-color:var(--brand);background:var(--brand-pale)}.crop-opt-icon{font-size:20px;margin-bottom:3px}.crop-opt-name{font-size:10px;font-weight:600;color:var(--ink-2)}.fund-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}.fund-opt{border:1.5px solid var(--border);border-radius:var(--radius);padding:11px 13px;transition:all .15s;display:flex;gap:10px;align-items:flex-start}.fund-opt:hover{border-color:var(--brand)}.fund-opt.selected{border-color:var(--brand);background:var(--brand-pale)}.fund-opt-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px}.fund-opt-desc{font-size:11px;color:var(--ink-3);line-height:1.4}.reg-nav{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:14px;border-top:1px solid var(--border)}.reg-err{font-size:12px;color:var(--red);background:var(--red-pale);border:1px solid rgba(192,57,43,.2);border-radius:8px;padding:8px 11px;margin-bottom:10px;display:none}.reg-success{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;flex:1;padding:28px 18px}.reg-success-icon{font-size:52px;margin-bottom:14px;animation:bounceIn .5s ease}.reg-success h2{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--ink);margin-bottom:7px}.reg-success p{font-size:13px;color:var(--ink-3);line-height:1.6;max-width:340px;margin-bottom:18px}.success-steps{background:var(--surface);border-radius:var(--radius-lg);padding:14px;width:100%;max-width:340px;margin-bottom:18px;display:flex;flex-direction:column;gap:7px;text-align:left}.ss-step{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--ink-2)}.ss-num{width:20px;height:20px;border-radius:50%;background:var(--brand);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-display)}
+    .chat-layout{display:grid;grid-template-columns:250px 1fr;background:var(--white);border-radius:var(--radius-xl);border:1px solid var(--border);overflow:hidden;height:calc(100vh - 130px)}.chat-sb{border-right:1px solid var(--border);display:flex;flex-direction:column}.chat-search{padding:10px;border-bottom:1px solid var(--border)}.chat-search input{width:100%;padding:7px 11px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);font-size:12px;outline:none}.chat-list{flex:1;overflow-y:auto}.chat-item{display:flex;align-items:center;gap:9px;padding:10px 12px;transition:background .15s;border-bottom:1px solid var(--border-2)}.chat-item:hover{background:var(--surface)}.chat-item.active{background:var(--brand-pale)}.chat-av{width:36px;height:36px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;position:relative}.online{position:absolute;bottom:0;right:0;width:8px;height:8px;border-radius:50%;background:#22C55E;border:2px solid #fff}.chat-info{flex:1;min-width:0}.chat-iname{font-size:12px;font-weight:600;color:var(--ink)}.chat-ipreview{font-size:11px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chat-main{display:flex;flex-direction:column}.chat-hdr{display:flex;align-items:center;gap:9px;padding:11px 14px;border-bottom:1px solid var(--border)}.chat-hdr-name{font-size:13px;font-weight:700}.chat-hdr-status{font-size:11px;color:#22C55E}.chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px}.msg{display:flex;gap:6px;max-width:70%}.msg.sent{flex-direction:row-reverse;align-self:flex-end}.msg-av{width:26px;height:26px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;align-self:flex-end}.msg-bubble{padding:9px 12px;border-radius:14px;font-size:12px;line-height:1.5}.msg.received .msg-bubble{background:var(--surface);color:var(--ink);border-bottom-left-radius:4px}.msg.sent .msg-bubble{background:var(--brand);color:#fff;border-bottom-right-radius:4px}.msg-time{font-size:9px;color:var(--ink-3);margin-top:3px}.msg.sent .msg-time{text-align:right}.chat-input-area{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:7px}.chat-input{flex:1;padding:9px 12px;border-radius:var(--radius-lg);border:1.5px solid var(--border);background:var(--surface);font-size:13px;outline:none}.chat-input:focus{border-color:var(--brand)}
+    .val-weights{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:9px;margin-bottom:18px}.vw-card{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border);padding:13px}.vw-icon{font-size:18px;margin-bottom:5px}.vw-name{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:2px}.vw-desc{font-size:11px;color:var(--ink-3);line-height:1.4;margin-bottom:5px}.vw-pct{font-size:11px;font-weight:700;color:var(--brand)}.val-farm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;margin-bottom:18px}.val-farm-card{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border);padding:14px;transition:all .2s}.val-farm-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+    .trust-strip{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:8px}.trust-pill{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:99px;background:var(--surface);border:1px solid var(--border);font-size:10px;font-weight:700;color:var(--ink-2)}.tier-pill{color:#fff;border:none}.tier-bronze{background:#9A6A3A}.tier-silver{background:#64748B}.tier-gold{background:linear-gradient(90deg,var(--gold),#E8B86D)}
+    .trust-video{background:#161310;color:#fff;border-radius:var(--radius-lg);padding:16px;display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:center;margin-bottom:14px}.video-play{height:88px;border-radius:14px;background:linear-gradient(135deg,var(--brand),var(--gold));display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}.video-copy-title{font-family:var(--font-display);font-size:16px;font-weight:800;margin-bottom:4px}.video-copy{font-size:12px;color:rgba(255,255,255,.66);line-height:1.55}
+    .trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.trust-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px}.trust-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin-bottom:8px}.trust-line{display:flex;justify-content:space-between;gap:12px;font-size:12px;padding:6px 0;border-bottom:1px solid var(--border)}.trust-line:last-child{border-bottom:none}.trust-line span{color:var(--ink-3)}.trust-line strong{text-align:right;color:var(--ink)}
+    .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}.gallery-tile{aspect-ratio:1.2;border-radius:10px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:28px;position:relative;overflow:hidden}.gallery-tile small{position:absolute;left:7px;right:7px;bottom:6px;padding:3px 6px;border-radius:99px;background:rgba(22,19,16,.72);color:#fff;font-size:9px;text-align:center}
+    .map-box{height:145px;border-radius:var(--radius);background:linear-gradient(135deg,#DCEEE4,#F5E8D0);border:1px solid var(--border);position:relative;overflow:hidden;margin-bottom:14px}.map-frame{position:absolute;inset:0;width:100%;height:100%;border:0;filter:saturate(.85);opacity:.72}.map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(26,107,74,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(26,107,74,.12) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}.map-pin{position:absolute;left:48%;top:38%;transform:translate(-50%,-50%);font-size:30px;pointer-events:none}.map-boundary{position:absolute;left:23%;top:25%;width:48%;height:46%;border:2px dashed var(--brand);border-radius:38% 52% 45% 48%;background:rgba(26,107,74,.08);pointer-events:none}.map-meta{position:absolute;left:10px;right:10px;bottom:10px;background:rgba(255,255,255,.86);border-radius:10px;padding:8px;font-size:11px;color:var(--ink-2);pointer-events:none}
+    .budget-row{margin-bottom:8px}.budget-head{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}.budget-head span{color:var(--ink-3)}.budget-bar{height:7px;background:var(--surface-3);border-radius:99px;overflow:hidden}.budget-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-light))}
+    .milestone-list{display:grid;gap:7px}.milestone{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;padding:8px;border-radius:10px;background:var(--surface);border:1px solid var(--border);font-size:12px}.milestone-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--brand);color:#fff;font-size:10px}.milestone.pending .milestone-dot{background:var(--surface-3);color:var(--ink-3)}.risk-low{color:#059669}.risk-medium{color:var(--gold)}.risk-high{color:var(--red)}
+    .qa-item{padding:9px 0;border-bottom:1px solid var(--border);font-size:12px}.qa-item:last-child{border-bottom:none}.qa-q{font-weight:700;color:var(--ink)}.qa-a{color:var(--ink-3);margin-top:3px;line-height:1.45}
+    #toastWrap{position:fixed;bottom:22px;right:22px;z-index:999;display:flex;flex-direction:column;gap:7px}.toast{background:#161310;color:#fff;border-radius:var(--radius-lg);padding:11px 18px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;max-width:340px;animation:fadeUp .3s ease;box-shadow:0 8px 32px rgba(0,0,0,.25)}.toast-success{background:var(--brand)}.toast-error{background:var(--red)}.toast-warning{background:var(--gold)}
+    .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:900px){#sidebar{position:static;width:auto;transform:none;min-height:auto}.sb-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));max-height:240px}.sb-footer{display:none}#mainWrap{margin-left:0}.feed-layout,.chat-layout,.reg-layout,.grid-2{grid-template-columns:1fr}.reg-sb{display:none}.form-row{grid-template-columns:1fr}.topbar{position:static}.chat-layout{height:70vh}}
+    @media(max-width:700px){.grid-4,.grid-3{grid-template-columns:1fr}.pc{padding:14px}.topbar{padding:11px 14px;align-items:flex-start;flex-direction:column}.topbar-right,.search-box{width:100%}.farm-grid{grid-template-columns:1fr}.crop-grid{grid-template-columns:1fr 1fr}.auth-card{padding:20px}.port-total{font-size:32px}}
+    @media(max-width:600px){.trust-video,.trust-grid{grid-template-columns:1fr}.gallery-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.gallery-tile{min-width:72%;scroll-snap-align:start}.val-name{width:84px}}
+  </style>
+</head>
+<body>
+  <div id="authScreen">
+    <div class="auth-wrap">
+      <div class="auth-logo">Farm<span>Pool</span></div>
+      <div class="auth-tag">South Africa's agricultural investment platform</div>
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Sign in</button>
+          <button class="auth-tab" id="tabSignup" onclick="switchTab('signup')">Create account</button>
+        </div>
+        <div id="authAlert"></div>
+        <div id="loginForm">
+          <div class="field"><label class="label" for="lEmail">Email address</label><input id="lEmail" class="input" type="email" placeholder="you@example.com" autocomplete="email" onkeydown="if(event.key==='Enter')handleLogin()"></div>
+          <div class="field"><label class="label" for="lPass">Password</label><input id="lPass" class="input" type="password" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')handleLogin()"></div>
+          <button class="btn btn-primary w-full btn-lg" id="loginBtn" onclick="handleLogin()">Sign in</button>
+          <p style="text-align:center;margin-top:14px;font-size:13px;color:var(--ink-3)">New to FarmPool? <span class="auth-link" onclick="switchTab('signup')">Create an account</span></p>
+        </div>
+        <div id="signupForm" class="hidden">
+          <div class="form-row">
+            <div class="field"><label class="label" for="sName">Full name</label><input id="sName" class="input" type="text" placeholder="Thabo Mokoena"></div>
+            <div class="field"><label class="label" for="sPhone">Phone (optional)</label><input id="sPhone" class="input" type="tel" placeholder="+27 82 000 0000"></div>
+          </div>
+          <div class="field"><label class="label" for="sEmail">Email address</label><input id="sEmail" class="input" type="email" placeholder="you@example.com" autocomplete="email"></div>
+          <div class="field"><label class="label" for="sPass">Password (min 6 chars)</label><input id="sPass" class="input" type="password" placeholder="Create a password" autocomplete="new-password"></div>
+          <div class="field" style="margin-bottom:16px"><label class="label" for="sRole">Joining as</label>
+            <select id="sRole" class="select">
+              <option value="investor">Investor - I want to fund farms</option>
+              <option value="farmer">Farmer - I want to list my farm</option>
+              <option value="admin">Admin - demo access</option>
+            </select>
+          </div>
+          <button class="btn btn-primary w-full btn-lg" id="signupBtn" onclick="handleSignup()">Create account</button>
+          <p style="text-align:center;margin-top:14px;font-size:13px;color:var(--ink-3)">Have an account? <span class="auth-link" onclick="switchTab('login')">Sign in</span></p>
+        </div>
+      </div>
+      <div class="auth-footer">By joining you agree to FarmPool's Terms of Service & Privacy Policy.<br>Investment returns are not guaranteed. Agricultural investing carries risk.</div>
+    </div>
+  </div>
+
+  <div id="appShell">
+    <aside id="sidebar">
+      <div class="sb-logo-wrap">
+        <div class="sb-logo">Farm<span>Pool</span></div>
+        <div class="sb-sub" id="sbSub">Investor Platform</div>
+      </div>
+      <nav class="sb-nav" id="sbNav"></nav>
+      <div class="sb-footer">
+        <div class="user-tile">
+          <div class="user-av" id="sbAv">?</div>
+          <div><div class="user-name" id="sbName">...</div><div class="user-role" id="sbRole">-</div></div>
+        </div>
+        <button class="logout-btn" onclick="handleLogout()">Sign out</button>
+      </div>
+    </aside>
+
+    <div id="mainWrap">
+      <header class="topbar">
+        <div class="topbar-title" id="topbarTitle">Dashboard</div>
+        <div class="topbar-right">
+          <div class="search-box">🔍 <input id="searchInp" placeholder="Search farms..." oninput="onSearch()"></div>
+          <div class="notif-btn" onclick="showPage('notifications')" title="Notifications">🔔<div class="notif-dot" id="notifDot"></div></div>
+        </div>
+      </header>
+
+      <main>
+        <div class="page pc" id="page-dashboard">
+          <div style="background:linear-gradient(135deg,var(--brand-dark),#1A5C3C);border-radius:var(--radius-xl);padding:22px 26px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden;gap:16px">
+            <div style="position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:72px;opacity:0.06">🌾</div>
+            <div><div id="welcomeMsg" style="font-family:var(--font-display);font-size:20px;font-weight:800;color:#fff;margin-bottom:5px">Welcome to FarmPool</div><div id="welcomeSub" style="font-size:13px;color:rgba(255,255,255,0.55)">Browse live South African farms and start your agricultural portfolio.</div></div>
+            <button class="btn btn-sm" style="background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.18);flex-shrink:0" onclick="showPage('marketplace')">Browse farms -></button>
+          </div>
+          <div class="grid-4" style="margin-bottom:18px">
+            <div class="stat-card sc-green"><div class="stat-label">Total Invested</div><div class="stat-value" id="ds-inv">R0</div><div class="stat-sub" id="ds-inv-s">Start investing today</div><div class="stat-icon">💰</div></div>
+            <div class="stat-card sc-gold"><div class="stat-label">Expected Return</div><div class="stat-value" id="ds-ret">R0</div><div class="stat-sub stat-up" id="ds-ret-s">At maturity</div><div class="stat-icon">📈</div></div>
+            <div class="stat-card sc-blue"><div class="stat-label">Active Farms</div><div class="stat-value" id="ds-farms">0</div><div class="stat-sub" id="ds-farms-s">Farms funded</div><div class="stat-icon">🌱</div></div>
+            <div class="stat-card sc-purple"><div class="stat-label">Total Shares</div><div class="stat-value" id="ds-shares">0</div><div class="stat-sub" id="ds-shares-s">Shares owned</div><div class="stat-icon">📋</div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px">
+            <div style="font-family:var(--font-display);font-size:17px;font-weight:700">Trending farms</div>
+            <button class="btn btn-ghost btn-sm" onclick="showPage('marketplace')">View all -></button>
+          </div>
+          <div id="dashFarmGrid"></div>
+        </div>
+
+        <div class="page pc" id="page-marketplace">
+          <div class="filter-bar" id="catPills">
+            <div class="pill active" onclick="filterCat('all',this)">🌍 All</div>
+            <div class="pill" onclick="filterCat('Vegetables',this)">🥦 Vegetables</div>
+            <div class="pill" onclick="filterCat('Grains & Wheat',this)">🌾 Grains</div>
+            <div class="pill" onclick="filterCat('Fruit Orchards',this)">🍎 Fruit</div>
+            <div class="pill" onclick="filterCat('Livestock',this)">🐄 Livestock</div>
+            <div class="pill" onclick="filterCat('Free-range Eggs',this)">🥚 Eggs</div>
+            <div class="pill" onclick="filterCat('Aquaculture',this)">🐟 Aquaculture</div>
+            <div class="pill" onclick="filterCat('Cash Crops',this)">🌻 Cash Crops</div>
+            <div class="pill" onclick="filterCat('Honey & Bees',this)">🍯 Honey</div>
+          </div>
+          <div class="filter-bar">
+            <select class="select" id="provFilter" onchange="renderMarket()" style="width:auto;padding:6px 13px">
+              <option value="">All provinces</option><option>Western Cape</option><option>Gauteng</option><option>KwaZulu-Natal</option><option>Eastern Cape</option><option>Northern Cape</option><option>Free State</option><option>Limpopo</option><option>Mpumalanga</option><option>North West</option>
+            </select>
+            <select class="select" id="sortFilter" onchange="renderMarket()" style="width:auto;padding:6px 13px">
+              <option value="newest">Newest</option><option value="score">Highest score</option><option value="goal">Largest goal</option><option value="progress">Most funded</option>
+            </select>
+            <div class="results-lbl" id="resultsLbl">-</div>
+          </div>
+          <div id="marketGrid"></div>
+        </div>
+
+        <div class="page pc" id="page-portfolio">
+          <div class="port-hero">
+            <div class="port-total-lbl">Total portfolio value</div><div class="port-total" id="portTotal">R0</div><div class="port-sub" id="portSub">No investments yet</div>
+            <div class="port-stats">
+              <div><div class="ps-val" id="portGain">R0</div><div class="ps-lbl">Expected gain</div></div>
+              <div><div class="ps-val" id="portCount">0</div><div class="ps-lbl">Active farms</div></div>
+              <div><div class="ps-val" id="portShares">0</div><div class="ps-lbl">Total shares</div></div>
+              <div><div class="ps-val" id="portMaturity">-</div><div class="ps-lbl">Next maturity</div></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px"><div style="font-family:var(--font-display);font-size:17px;font-weight:700">Your investments</div><button class="btn btn-primary btn-sm" onclick="showPage('marketplace')">+ Invest more</button></div>
+          <div id="portfolioGrid"></div>
+        </div>
+
+        <div class="page pc" id="page-feed">
+          <div class="feed-layout">
+            <div>
+              <div id="postBox" class="hidden">
+                <div class="post-card">
+                  <div style="font-size:13px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:7px">📢 Post an update to your investors</div>
+                  <textarea class="textarea" id="updateText" placeholder="Share harvest progress, milestones, or farm news..." style="margin-bottom:9px;min-height:75px"></textarea>
+                  <div style="display:flex;gap:7px;align-items:center">
+                    <select class="select" id="updateType" style="flex:1">
+                      <option value="update">📝 General update</option><option value="milestone">✅ Milestone</option><option value="harvest">🌾 Harvest</option><option value="photo">📸 Photo update</option><option value="weather">⛅ Weather</option><option value="alert">🚨 Alert</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm" id="postBtn" onclick="postUpdate()">Post</button>
+                  </div>
+                </div>
+              </div>
+              <div id="feedItems"></div>
+            </div>
+            <div>
+              <div class="feed-widget"><div class="fw-hdr">🔔 Alerts</div><div class="fw-body" id="alertsWidget"></div></div>
+              <div class="feed-widget"><div class="fw-hdr">📊 Platform stats</div><div class="fw-body"><div class="fw-row"><span>Farms listed</span><span id="ps-farms" style="font-weight:600">-</span></div><div class="fw-row"><span>Investments made</span><span id="ps-invs" style="font-weight:600">-</span></div><div class="fw-row"><span>Total raised</span><span id="ps-raised" style="font-weight:600">-</span></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="page pc" id="page-farmer-dashboard"><div id="farmerDash"></div></div>
+
+        <div class="page pc" id="page-register-farm">
+          <div class="reg-layout">
+            <div class="reg-sb">
+              <div class="reg-sb-title">List Your Farm</div><div class="reg-sb-sub">Connect with investors across South Africa.</div>
+              <div class="reg-steps" id="regStepList"></div>
+              <div class="reg-perks"><div class="reg-perk">✅ Free to list</div><div class="reg-perk">🔒 Escrow protected</div><div class="reg-perk">📊 Investor analytics</div><div class="reg-perk">🚚 Logistics support</div></div>
+            </div>
+            <div class="reg-main" id="regMain"></div>
+          </div>
+        </div>
+
+        <div class="page pc" id="page-valuations">
+          <div class="val-hero">
+            <div style="font-family:var(--font-display);font-size:22px;font-weight:800;margin-bottom:5px">Farm Valuation System</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.75);max-width:560px;line-height:1.6">Every farm is scored across 6 weighted factors. The score determines share price, profit share range, and maximum funding. All investments carry a 2-year minimum holding period.</div>
+          </div>
+          <div style="font-family:var(--font-display);font-size:16px;font-weight:700;margin-bottom:11px">How scores work</div>
+          <div class="val-weights" id="valWeights"></div>
+          <div style="font-family:var(--font-display);font-size:16px;font-weight:700;margin-bottom:13px">Farm scores</div>
+          <div class="val-farm-grid" id="valGrid"></div>
+          <div class="alert alert-warn" style="margin-top:18px"><span>🔒</span><div><strong>2-year minimum holding.</strong> FarmPool is not a stock exchange. Investments cannot be traded or withdrawn early. Profit share paid annually at harvest. Capital returned at maturity.</div></div>
+        </div>
+
+        <div class="page" id="page-chat" style="padding:22px">
+          <div class="chat-layout">
+            <div class="chat-sb"><div class="chat-search"><input placeholder="Search farmers..."></div><div class="chat-list" id="chatList"></div></div>
+            <div class="chat-main">
+              <div class="chat-hdr"><div class="chat-av" id="chatHdrAv">🌿</div><div><div class="chat-hdr-name" id="chatHdrName">Select a conversation</div><div class="chat-hdr-status" id="chatHdrStatus">-</div></div></div>
+              <div class="chat-msgs" id="chatMsgs"><div class="empty"><div class="empty-icon">💬</div><div class="empty-title">No conversation selected</div><div class="empty-text">Select a farmer to start chatting.</div></div></div>
+              <div class="chat-input-area"><input class="chat-input" id="chatInp" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMsg()"><button class="btn btn-primary" style="width:38px;height:38px;padding:0;border-radius:10px" onclick="sendMsg()">➤</button></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="page pc" id="page-notifications"><div id="notifList"></div></div>
+        <div class="page pc" id="page-transactions">
+          <div class="card"><div class="card-header"><div class="card-title">Transaction History</div></div>
+            <div class="card-body table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Amount</th><th>Status</th></tr></thead><tbody id="txTable"></tbody></table></div>
+          </div>
+        </div>
+        <div class="page pc" id="page-admin">
+          <div class="admin-hero"><div style="font-family:var(--font-display);font-size:22px;font-weight:800;margin-bottom:3px">Admin Panel</div><div style="font-size:12px;color:rgba(255,255,255,.45)">Platform management and oversight</div></div>
+          <div class="adm-stats" id="adminStats"></div>
+          <div class="grid-2">
+            <div class="card"><div class="card-header"><div class="card-title">Pending Farm Approvals</div><span class="badge badge-gold" id="pendingBadge">0</span></div><div class="card-body" id="adminFarms"></div></div>
+            <div class="card"><div class="card-header"><div class="card-title">Recent Investments</div></div><div class="card-body" id="adminInvests"></div></div>
+          </div>
+          <div class="card" style="margin-top:16px"><div class="card-header"><div class="card-title">All Users</div></div>
+            <div class="card-body table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="adminUsers"></tbody></table></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="modal-overlay hidden" id="investOverlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div id="modalContent"></div>
+      <div class="hidden" id="modalSuccess">
+        <div style="padding:36px;text-align:center">
+          <div style="font-size:52px;margin-bottom:14px">🌱</div>
+          <div style="font-family:var(--font-display);font-size:22px;font-weight:800;margin-bottom:7px">Investment confirmed!</div>
+          <p style="font-size:13px;color:var(--ink-3);line-height:1.6;margin-bottom:22px;max-width:300px;margin-left:auto;margin-right:auto">Your capital is locked and shares reserved. Annual profit share paid at each harvest. Capital returned at maturity.</p>
+          <div style="display:flex;gap:9px;justify-content:center"><button class="btn btn-primary" onclick="closeModal();showPage('portfolio')">View portfolio</button><button class="btn btn-secondary" onclick="closeModal()">Close</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="toastWrap"></div>
+
+  <script>
+    const storeKey = 'farmpool-demo-state-v1';
+    const currency = new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR', maximumFractionDigits: 0 });
+    const plainCurrency = value => currency.format(value || 0).replace('ZAR', 'R').replace(/\s/g, '');
+    const today = new Date('2026-05-25T12:00:00+02:00');
+    const colors = ['#E6F4EE', '#F5E8D0', '#EFF6FF', '#FDEEEC', '#F0EDE8'];
+
+    const baseFarms = [
+      {id:1,name:'Karoo Regenerative Olives',category:'Cash Crops',province:'Northern Cape',location:'Prince Albert, Northern Cape',goal:850000,raised:582000,sharePrice:850,returnRate:15,score:91,icon:'🫒',status:'approved',listed:'2026-05-02',maturity:'2028-05-25',farmer:'Naledi van Wyk',factors:{soil:88,water:86,operations:94,market:92,climate:84,financials:95}},
+      {id:2,name:'Umhlanga Free-range Eggs',category:'Free-range Eggs',province:'KwaZulu-Natal',location:'Verulam, KwaZulu-Natal',goal:420000,raised:336000,sharePrice:420,returnRate:13,score:84,icon:'🥚',status:'approved',listed:'2026-05-08',maturity:'2028-05-25',farmer:'Sibusiso Dlamini',factors:{soil:72,water:81,operations:88,market:90,climate:80,financials:82}},
+      {id:3,name:'Ceres Apple Expansion',category:'Fruit Orchards',province:'Western Cape',location:'Ceres, Western Cape',goal:1200000,raised:760000,sharePrice:1200,returnRate:16,score:89,icon:'🍎',status:'approved',listed:'2026-04-19',maturity:'2028-05-25',farmer:'Anika Botha',factors:{soil:91,water:84,operations:89,market:94,climate:82,financials:86}},
+      {id:4,name:'Vaal Hydroponic Greens',category:'Vegetables',province:'Gauteng',location:'Vereeniging, Gauteng',goal:650000,raised:502000,sharePrice:650,returnRate:14,score:86,icon:'🥬',status:'approved',listed:'2026-05-12',maturity:'2028-05-25',farmer:'Kagiso Molefe',factors:{soil:76,water:92,operations:87,market:91,climate:85,financials:83}},
+      {id:5,name:'Lowveld Macadamia Co-op',category:'Cash Crops',province:'Mpumalanga',location:'Nelspruit, Mpumalanga',goal:1500000,raised:930000,sharePrice:1500,returnRate:18,score:93,icon:'🌰',status:'approved',listed:'2026-04-28',maturity:'2028-05-25',farmer:'Mandla Nkosi',factors:{soil:94,water:88,operations:92,market:96,climate:90,financials:91}},
+      {id:6,name:'Limpopo Citrus Block',category:'Fruit Orchards',province:'Limpopo',location:'Tzaneen, Limpopo',goal:980000,raised:441000,sharePrice:980,returnRate:15,score:82,icon:'🍊',status:'approved',listed:'2026-05-15',maturity:'2028-05-25',farmer:'Grace Makhubele',factors:{soil:85,water:79,operations:80,market:90,climate:76,financials:81}},
+      {id:7,name:'Free State Wheat Rotation',category:'Grains & Wheat',province:'Free State',location:'Bethlehem, Free State',goal:720000,raised:288000,sharePrice:720,returnRate:12,score:77,icon:'🌾',status:'approved',listed:'2026-05-18',maturity:'2028-05-25',farmer:'Pieter Mokoena',factors:{soil:82,water:67,operations:79,market:78,climate:72,financials:80}},
+      {id:8,name:'Eastern Cape Honey Collective',category:'Honey & Bees',province:'Eastern Cape',location:'Makhanda, Eastern Cape',goal:260000,raised:187000,sharePrice:260,returnRate:11,score:79,icon:'🍯',status:'approved',listed:'2026-05-20',maturity:'2028-05-25',farmer:'Aviwe Ndlovu',factors:{soil:70,water:77,operations:83,market:82,climate:81,financials:78}},
+      {id:9,name:'West Coast Tilapia Tanks',category:'Aquaculture',province:'Western Cape',location:'Saldanha Bay, Western Cape',goal:560000,raised:154000,sharePrice:560,returnRate:14,score:74,icon:'🐟',status:'approved',listed:'2026-05-23',maturity:'2028-05-25',farmer:'Jaco September',factors:{soil:65,water:86,operations:74,market:76,climate:73,financials:70}},
+      {id:10,name:'North West Bonsmara Herd',category:'Livestock',province:'North West',location:'Rustenburg, North West',goal:890000,raised:249000,sharePrice:890,returnRate:13,score:80,icon:'🐄',status:'pending',listed:'2026-05-24',maturity:'2028-05-25',farmer:'Lerato Khumalo',factors:{soil:78,water:74,operations:85,market:81,climate:79,financials:82}}
+    ];
+
+    const factorWeights = [
+      {key:'soil', icon:'🌱', name:'Soil & Land', desc:'Quality, yield history, and productive capacity.', pct:20},
+      {key:'water', icon:'💧', name:'Water Security', desc:'Irrigation, access rights, and drought resilience.', pct:18},
+      {key:'operations', icon:'🚜', name:'Operations', desc:'Equipment, management record, and execution plan.', pct:20},
+      {key:'market', icon:'📦', name:'Market Access', desc:'Offtake agreements, logistics, and demand signals.', pct:17},
+      {key:'climate', icon:'☀️', name:'Climate Risk', desc:'Weather exposure and mitigation readiness.', pct:12},
+      {key:'financials', icon:'📊', name:'Financials', desc:'Budget quality, margins, and repayment confidence.', pct:13}
+    ];
+
+    const budgetLabels = ['Seeds', 'Labour', 'Irrigation', 'Fertilizer', 'Transport', 'Contingency'];
+    const milestoneLabels = ['Planting confirmed', 'Irrigation installed', 'Crop growth stage', 'Harvest stage'];
+
+    let state = loadState();
+    let currentUser = state.session ? state.users.find(user => user.id === state.session) : null;
+    let currentPage = 'dashboard';
+    let activeCategory = 'all';
+    let selectedConversation = null;
+    let regStep = 0;
+    let regData = { crop: 'Vegetables', funding: 'Working capital' };
+
+    function defaultState() {
+      return {
+        users: [
+          {id:'u1', name:'Demo Investor', email:'investor@farmpool.test', password:'password', phone:'+27 82 100 1000', role:'investor', joined:'2026-05-01'},
+          {id:'u2', name:'Demo Farmer', email:'farmer@farmpool.test', password:'password', phone:'+27 82 200 2000', role:'farmer', joined:'2026-05-03'},
+          {id:'u3', name:'Demo Admin', email:'admin@farmpool.test', password:'password', phone:'+27 82 300 3000', role:'admin', joined:'2026-05-05'}
+        ],
+        farms: baseFarms,
+        investments: [
+          {id:'i1', userId:'u1', farmId:3, amount:24000, shares:20, created:'2026-05-10', status:'confirmed'},
+          {id:'i2', userId:'u1', farmId:5, amount:15000, shares:10, created:'2026-05-17', status:'confirmed'}
+        ],
+        updates: [
+          {id:'p1', farmId:5, type:'milestone', text:'New drying racks were installed this week. The macadamia block is tracking ahead of the expected flowering window.', created:'2026-05-24T09:20:00'},
+          {id:'p2', farmId:3, type:'harvest', text:'Final pruning pass completed in Ceres. Soil moisture is stable after the weekend rain.', created:'2026-05-23T13:10:00'},
+          {id:'p3', farmId:4, type:'weather', text:'Hydroponic tunnel temperatures have been adjusted for the cold front. No production interruption expected.', created:'2026-05-22T16:40:00'}
+        ],
+        notifications: [
+          {id:'n1', userId:'u1', title:'Portfolio update', body:'Ceres Apple Expansion posted a new harvest update.', read:false, created:'2026-05-24'},
+          {id:'n2', userId:'u1', title:'New farm listed', body:'West Coast Tilapia Tanks is now open for investment.', read:false, created:'2026-05-23'}
+        ],
+        messages: {
+          3: [
+            {from:'farmer', text:'Thanks for backing the expansion. First harvest update lands this week.', time:'09:16'},
+            {from:'me', text:'Great, looking forward to seeing the orchard progress.', time:'09:22'}
+          ],
+          5: [
+            {from:'farmer', text:'The co-op has confirmed the latest equipment delivery.', time:'11:02'}
+          ]
+        },
+        session: null
+      };
+    }
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storeKey));
+        if (saved && saved.users && saved.farms) return saved;
+      } catch (error) {}
+      const fresh = defaultState();
+      localStorage.setItem(storeKey, JSON.stringify(fresh));
+      return fresh;
+    }
+
+    function saveState() {
+      localStorage.setItem(storeKey, JSON.stringify(state));
+    }
+
+    function $(id) {
+      return document.getElementById(id);
+    }
+
+    function escapeHtml(value = '') {
+      return String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+    }
+
+    function showAlert(message, type = 'error') {
+      $('authAlert').innerHTML = `<div class="alert alert-${type === 'success' ? 'success' : 'error'}"><span>${type === 'success' ? '✅' : '⚠️'}</span><div>${escapeHtml(message)}</div></div>`;
+    }
+
+    function switchTab(tab) {
+      $('tabLogin').classList.toggle('active', tab === 'login');
+      $('tabSignup').classList.toggle('active', tab === 'signup');
+      $('loginForm').classList.toggle('hidden', tab !== 'login');
+      $('signupForm').classList.toggle('hidden', tab !== 'signup');
+      $('authAlert').innerHTML = '';
+    }
+
+    function handleSignup() {
+      const name = $('sName').value.trim();
+      const email = $('sEmail').value.trim().toLowerCase();
+      const password = $('sPass').value;
+      const role = $('sRole').value;
+      if (!name || !email || !password) return showAlert('Please complete your name, email, and password.');
+      if (password.length < 6) return showAlert('Password must be at least 6 characters.');
+      if (state.users.some(user => user.email === email)) return showAlert('An account already exists for that email.');
+      const user = { id: makeId(), name, email, password, role, phone: $('sPhone').value.trim(), joined: isoDate(today) };
+      state.users.push(user);
+      state.session = user.id;
+      saveState();
+      currentUser = user;
+      bootApp();
+      toast('Account created. Welcome to FarmPool.', 'success');
+    }
+
+    function handleLogin() {
+      const email = $('lEmail').value.trim().toLowerCase();
+      const password = $('lPass').value;
+      const user = state.users.find(item => item.email === email && item.password === password);
+      if (!user) return showAlert('Could not sign in. Try investor@farmpool.test / password, farmer@farmpool.test / password, or admin@farmpool.test / password.');
+      state.session = user.id;
+      saveState();
+      currentUser = user;
+      bootApp();
+      toast(`Welcome back, ${user.name.split(' ')[0]}.`, 'success');
+    }
+
+    function handleLogout() {
+      state.session = null;
+      saveState();
+      currentUser = null;
+      $('authScreen').style.display = 'flex';
+      $('appShell').style.display = 'none';
+      $('authAlert').innerHTML = '';
+      $('lPass').value = '';
+    }
+
+    function bootApp() {
+      $('authScreen').style.display = 'none';
+      $('appShell').style.display = 'block';
+      $('sbName').textContent = currentUser.name;
+      $('sbRole').textContent = currentUser.role;
+      $('sbAv').textContent = initials(currentUser.name);
+      $('sbSub').textContent = `${titleCase(currentUser.role)} Platform`;
+      $('welcomeMsg').textContent = `Welcome, ${currentUser.name.split(' ')[0]}`;
+      $('postBox').classList.toggle('hidden', currentUser.role !== 'farmer');
+      buildNav();
+      renderAll();
+      const firstPage = currentUser.role === 'farmer' ? 'farmer-dashboard' : currentUser.role === 'admin' ? 'admin' : 'dashboard';
+      showPage(firstPage);
+    }
+
+    function buildNav() {
+      const common = [
+        ['dashboard', '🏠', 'Dashboard'],
+        ['marketplace', '🌍', 'Marketplace'],
+        ['portfolio', '📊', 'Portfolio'],
+        ['feed', '📰', 'Farm Updates'],
+        ['chat', '💬', 'Messages'],
+        ['valuations', '⚖️', 'Valuations'],
+        ['transactions', '🧾', 'Transactions']
+      ];
+      const farmer = [
+        ['farmer-dashboard', '🚜', 'Farm Dashboard'],
+        ['register-farm', '➕', 'Register Farm'],
+        ['feed', '📰', 'Updates'],
+        ['chat', '💬', 'Messages'],
+        ['valuations', '⚖️', 'Valuations']
+      ];
+      const admin = [
+        ['admin', '🛠️', 'Admin Panel'],
+        ['marketplace', '🌍', 'Marketplace'],
+        ['valuations', '⚖️', 'Valuations'],
+        ['feed', '📰', 'Updates'],
+        ['notifications', '🔔', 'Notifications']
+      ];
+      const nav = currentUser.role === 'farmer' ? farmer : currentUser.role === 'admin' ? admin : common;
+      $('sbNav').innerHTML = `<div class="sb-section">${titleCase(currentUser.role)}</div>` + nav.map(([page, icon, label]) => `<button class="sb-item" data-page="${page}" onclick="showPage('${page}')"><span>${icon}</span><span>${label}</span>${page === 'notifications' ? '<span class="sb-badge">2</span>' : ''}</button>`).join('');
+    }
+
+    function showPage(page) {
+      currentPage = page;
+      document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+      const target = $(`page-${page}`);
+      if (target) target.classList.add('active');
+      document.querySelectorAll('.sb-item').forEach(el => el.classList.toggle('active', el.dataset.page === page));
+      const titleMap = {
+        dashboard:'Dashboard', marketplace:'Farm Marketplace', portfolio:'Portfolio', feed:'Farm Updates', chat:'Messages',
+        notifications:'Notifications', transactions:'Transactions', admin:'Admin Panel', valuations:'Valuations',
+        'farmer-dashboard':'Farm Dashboard', 'register-farm':'Register Farm'
+      };
+      $('topbarTitle').textContent = titleMap[page] || 'Dashboard';
+      renderAll();
+    }
+
+    function renderAll() {
+      renderDashboard();
+      renderMarket();
+      renderPortfolio();
+      renderFeed();
+      renderFarmerDashboard();
+      renderRegisterFarm();
+      renderValuations();
+      renderChat();
+      renderNotifications();
+      renderTransactions();
+      renderAdmin();
+      renderNotificationDot();
+    }
+
+    function approvedFarms() {
+      return state.farms.filter(farm => farm.status === 'approved');
+    }
+
+    function farmTrust(farm) {
+      const tier = farm.score >= 90 ? 'Gold' : farm.score >= 82 ? 'Silver' : 'Bronze';
+      const risk = farm.score >= 86 ? 'Low Risk' : farm.score >= 76 ? 'Medium Risk' : 'High Risk';
+      const years = farm.trackRecord?.years || Math.max(3, Math.round(farm.score / 10));
+      const production = farm.trackRecord?.annualProduction || `${Math.round(farm.goal / 18000)} tonnes estimated annual production`;
+      return {
+        tier,
+        risk,
+        riskClass: risk.startsWith('Low') ? 'risk-low' : risk.startsWith('Medium') ? 'risk-medium' : 'risk-high',
+        idVerified: farm.verification?.idVerified ?? true,
+        landVerified: farm.verification?.landVerified ?? farm.score >= 76,
+        farmVisited: farm.verification?.farmVisited ?? farm.score >= 82,
+        successfulHarvests: farm.verification?.successfulHarvests ?? Math.max(1, Math.floor(years / 2)),
+        introVideo: farm.introVideo || `${farm.farmer} introduces the farm, experience, crops, and how investor funds will be used.`,
+        coordinates: farm.coordinates || `${(-24 - farm.id * 0.42).toFixed(4)}, ${(18 + farm.id * 1.38).toFixed(4)}`,
+        nearestTown: farm.location.split(',')[0],
+        years,
+        previousCrops: farm.trackRecord?.previousCrops || `${farm.category}, cover crops, seasonal rotations`,
+        historicalYields: farm.trackRecord?.historicalYields || `${Math.max(2, Math.round(farm.score / 18))} successful yield records`,
+        seasons: farm.trackRecord?.seasons || Math.max(2, Math.floor(years * 0.8)),
+        annualProduction: production,
+        references: farm.references || ['Agricultural co-op reference', 'Supplier account standing', 'Extension officer review'],
+        gallery: farm.gallery || farmGallery(farm),
+        budget: farm.budget || farmBudget(farm),
+        milestones: farm.milestones || farmMilestones(farm),
+        qa: farm.qa || farmQuestions(farm),
+        liveUpdates: farm.liveUpdates || ['Monthly photo update', 'Crop growth timeline', farm.category === 'Livestock' ? 'Livestock health checks' : 'Optional drone footage'],
+        payout: farm.payout || { projected: `${farm.returnRate}% annual target`, actual: farm.status === 'completed' ? `${farm.returnRate - 1}% actual` : 'Pending harvest', dates: `Expected ${formatDate(farm.maturity)}`, completion: `${Math.min(99, Math.round(progress(farm)))}%`, satisfaction: farm.score >= 84 ? '96% positive' : 'New listing' },
+        visitReport: farm.visitReport || { agent: 'FarmPool field team', notes: 'Farm records reviewed, GPS position confirmed, asset condition acceptable for listing.', status: farm.score >= 76 ? 'Approved for listing' : 'Needs review', photos: '3 visit photos on file' }
+      };
+    }
+
+    function farmGallery(farm) {
+      const livestock = farm.category === 'Livestock' ? 'Livestock' : 'Previous harvest';
+      return [
+        ['🚜', 'Farmland'], [farm.icon, farm.category], ['💧', 'Irrigation'], ['⚙️', 'Machinery'], ['🌾', livestock], ['📦', 'Harvest records']
+      ];
+    }
+
+    function farmBudget(farm) {
+      const parts = [0.18, 0.24, 0.16, 0.17, 0.15, 0.10];
+      return budgetLabels.map((label, index) => ({ label, amount: Math.round(farm.goal * parts[index]), pct: Math.round(parts[index] * 100) }));
+    }
+
+    function farmMilestones(farm) {
+      const released = Math.min(3, Math.floor(progress(farm) / 28));
+      return milestoneLabels.map((label, index) => ({ label, release: [25, 25, 25, 25][index], status: index <= released ? 'Verified' : 'Pending verification' }));
+    }
+
+    function farmQuestions(farm) {
+      return [
+        { q: 'How are investor funds protected?', a: `Funds are released only after milestone checks. ${farmSecurityText(farm)}.` },
+        { q: 'When should investors expect updates?', a: 'Farmers reply to public questions within 48 hours and post progress updates during key production stages.' }
+      ];
+    }
+
+    function getInvestments(userId = currentUser?.id) {
+      return state.investments.filter(investment => investment.userId === userId);
+    }
+
+    function renderDashboard() {
+      if (!currentUser) return;
+      const investments = getInvestments();
+      const total = sum(investments.map(item => item.amount));
+      const expected = sum(investments.map(item => Math.round(item.amount * (farmById(item.farmId).returnRate / 100) * 2)));
+      const shares = sum(investments.map(item => item.shares));
+      const active = new Set(investments.map(item => item.farmId)).size;
+      $('ds-inv').textContent = plainCurrency(total);
+      $('ds-ret').textContent = plainCurrency(expected);
+      $('ds-farms').textContent = active;
+      $('ds-shares').textContent = shares;
+      $('ds-inv-s').textContent = total ? 'Capital deployed' : 'Start investing today';
+      $('ds-ret-s').textContent = expected ? 'Projected over 2 years' : 'At maturity';
+      $('dashFarmGrid').innerHTML = `<div class="farm-grid">${approvedFarms().sort((a,b) => b.score - a.score).slice(0,3).map(farmCard).join('')}</div>`;
+    }
+
+    function renderMarket() {
+      if (!$('marketGrid')) return;
+      const province = $('provFilter')?.value || '';
+      const sort = $('sortFilter')?.value || 'newest';
+      const query = ($('searchInp')?.value || '').trim().toLowerCase();
+      let farms = approvedFarms().filter(farm => activeCategory === 'all' || farm.category === activeCategory);
+      if (province) farms = farms.filter(farm => farm.province === province);
+      if (query) farms = farms.filter(farm => `${farm.name} ${farm.category} ${farm.location} ${farm.farmer}`.toLowerCase().includes(query));
+      const sorters = {
+        newest: (a,b) => new Date(b.listed) - new Date(a.listed),
+        score: (a,b) => b.score - a.score,
+        goal: (a,b) => b.goal - a.goal,
+        progress: (a,b) => progress(b) - progress(a)
+      };
+      farms.sort(sorters[sort]);
+      $('resultsLbl').textContent = `${farms.length} farm${farms.length === 1 ? '' : 's'} found`;
+      $('marketGrid').innerHTML = farms.length ? `<div class="farm-grid">${farms.map(farmCard).join('')}</div>` : emptyState('No farms found', 'Try another category, province, or search term.', '🌾');
+    }
+
+    function farmCard(farm) {
+      const trust = farmTrust(farm);
+      return `
+        <article class="farm-card">
+          <div class="fc-media" style="background:${colors[farm.id % colors.length]}">
+            <div class="fc-bg">${farm.icon}</div><div class="fc-overlay"></div>
+            <div class="fc-tags"><span class="badge badge-green">${escapeHtml(farm.category)}</span></div>
+            <div class="fc-score">${scoreRing(farm.score)}</div>
+          </div>
+          <div class="fc-body">
+            <div class="fc-cat"><span>${escapeHtml(farm.province)}</span><span>${Math.round(progress(farm))}% funded</span></div>
+            <div><div class="fc-name">${escapeHtml(farm.name)}</div><div class="fc-loc">${escapeHtml(farm.location)}</div></div>
+            <div><div class="progress-bar"><div class="progress-fill" style="width:${progress(farm)}%"></div></div><div class="progress-meta"><span>${plainCurrency(farm.raised)}</span><span>${plainCurrency(farm.goal)}</span></div></div>
+            <div class="fc-val-row"><span>Share price</span><span class="fc-price">${plainCurrency(farm.sharePrice)}</span></div>
+            <div class="fc-val-row"><span>Goods profit</span><span>${farmProfitText(farm)}</span></div>
+            <div class="fc-val-row"><span>Harvest time</span><span>${farmHarvestText(farm)}</span></div>
+            <div class="trust-strip">
+              <span class="trust-pill tier-pill tier-${trust.tier.toLowerCase()}">${trust.tier}</span>
+              <span class="trust-pill">ID Verified ✅</span>
+              <span class="trust-pill">Land Verified ✅</span>
+              <span class="trust-pill ${trust.riskClass}">${trust.risk}</span>
+            </div>
+          </div>
+          <div class="fc-footer">
+            <div class="fc-ret"><span class="fc-ret-val">${farm.returnRate}%</span><span class="fc-ret-lbl">Annual target</span></div><div class="fc-div"></div>
+            <div class="fc-ret"><span class="fc-ret-val">2 years</span><span class="fc-ret-lbl">Minimum hold</span></div>
+            <button class="btn btn-primary btn-sm" onclick="openInvest(${farm.id})">Invest</button>
+          </div>
+        </article>`;
+    }
+
+    function scoreRing(score) {
+      const cls = score >= 90 ? 'sr-excellent' : score >= 82 ? 'sr-good' : score >= 75 ? 'sr-average' : score >= 68 ? 'sr-fair' : 'sr-poor';
+      return `<div class="score-ring ${cls}">${score}</div>`;
+    }
+
+    function filterCat(category, el) {
+      activeCategory = category;
+      document.querySelectorAll('#catPills .pill').forEach(pill => pill.classList.remove('active'));
+      el.classList.add('active');
+      renderMarket();
+    }
+
+    function onSearch() {
+      if (currentPage !== 'marketplace') showPage('marketplace');
+      renderMarket();
+    }
+
+    function openInvest(farmId) {
+      if (!currentUser) return;
+      if (currentUser.role !== 'investor') {
+        toast('Only investor accounts can place demo investments.', 'warning');
+        return;
+      }
+      const farm = farmById(farmId);
+      const trust = farmTrust(farm);
+      $('modalSuccess').classList.add('hidden');
+      $('modalContent').classList.remove('hidden');
+      $('modalContent').innerHTML = `
+        <div class="modal-hdr">
+          <button class="modal-close" onclick="closeModal()">×</button>
+          <div style="font-family:var(--font-display);font-size:20px;font-weight:800;color:#fff">${escapeHtml(farm.name)}</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.65)">${escapeHtml(farm.location)} · ${farm.returnRate}% annual target</div>
+          <div class="trust-strip"><span class="trust-pill tier-pill tier-${trust.tier.toLowerCase()}">${trust.tier} Reputation</span><span class="trust-pill">ID Verified ✅</span><span class="trust-pill">Land Verified ✅</span><span class="trust-pill ${trust.riskClass}">${trust.risk}</span></div>
+        </div>
+        <div class="modal-body">
+          ${farmerTrustSection(farm)}
+          <div class="lock-notice"><span>🔒</span><div><strong>2-year minimum hold.</strong> Your capital is locked until ${formatDate(farm.maturity)}. Returns are projected and not guaranteed.</div></div>
+          <div class="val-box">
+            <div class="val-box-title">Asset terms from farmer</div>
+            <div class="val-row"><span class="val-name">Goods</span><strong>${escapeHtml(farm.goodsProvided || farm.category)}</strong></div>
+            <div class="val-row"><span class="val-name">Profit</span><strong>${escapeHtml(farmProfitText(farm))}</strong></div>
+            <div class="val-row"><span class="val-name">Security</span><strong>${escapeHtml(farmSecurityText(farm))}</strong></div>
+            <div class="val-row"><span class="val-name">Harvest</span><strong>${escapeHtml(farmHarvestText(farm))}</strong></div>
+          </div>
+          <div class="val-box">
+            <div class="val-box-title">Valuation breakdown</div>
+            ${factorWeights.map(item => factorRow(item.name, farm.factors[item.key])).join('')}
+          </div>
+          <div class="modal-err" id="modalErr"></div>
+          <label class="label" for="investAmount">Investment amount</label>
+          <div class="amt-row"><input class="amt-input" id="investAmount" type="number" min="${farm.sharePrice}" step="${farm.sharePrice}" value="${farm.sharePrice * 5}" oninput="updateInvestmentPreview(${farm.id})"><div class="shares-chip" id="sharePreview">5 shares</div></div>
+          <div class="hint" style="margin-bottom:12px">Minimum investment is one share at ${plainCurrency(farm.sharePrice)}.</div>
+          <div class="proj-box"><div class="proj-title">Projected outcome</div><div class="proj-grid">
+            <div class="proj-item"><span class="proj-val" id="projReturn">-</span><span class="proj-lbl">Expected gain</span></div>
+            <div class="proj-item"><span class="proj-val" id="projTotal">-</span><span class="proj-lbl">Maturity value</span></div>
+          </div></div>
+          <div class="timeline">
+            <div class="tl-step"><div class="tl-dot done">1</div><div class="tl-lbl">Today</div><div class="tl-date">Invest</div></div>
+            <div class="tl-step"><div class="tl-dot cur">2</div><div class="tl-lbl">Annual</div><div class="tl-date">Profit share</div></div>
+            <div class="tl-step"><div class="tl-dot">3</div><div class="tl-lbl">2028</div><div class="tl-date">Maturity</div></div>
+          </div>
+          <button class="btn btn-primary w-full btn-lg" onclick="confirmInvestment(${farm.id})">Confirm investment</button>
+          <div class="modal-footer-note">Demo transaction only. No real money is processed.</div>
+        </div>`;
+      $('investOverlay').classList.remove('hidden');
+      updateInvestmentPreview(farm.id);
+    }
+
+    function updateInvestmentPreview(farmId) {
+      const farm = farmById(farmId);
+      const input = $('investAmount');
+      if (!input) return;
+      const amount = Number(input.value || 0);
+      const shares = Math.floor(amount / farm.sharePrice);
+      const expected = Math.round(amount * (farm.returnRate / 100) * 2);
+      $('sharePreview').textContent = `${shares} share${shares === 1 ? '' : 's'}`;
+      $('projReturn').textContent = plainCurrency(expected);
+      $('projTotal').textContent = plainCurrency(amount + expected);
+    }
+
+    function confirmInvestment(farmId) {
+      const farm = farmById(farmId);
+      const amount = Number($('investAmount').value || 0);
+      const shares = Math.floor(amount / farm.sharePrice);
+      if (shares < 1) return showModalErr(`Minimum investment is ${plainCurrency(farm.sharePrice)}.`);
+      const normalized = shares * farm.sharePrice;
+      state.investments.push({ id: makeId(), userId: currentUser.id, farmId, amount: normalized, shares, created: isoDate(today), status: 'confirmed' });
+      farm.raised = Math.min(farm.goal, farm.raised + normalized);
+      state.notifications.push({ id: makeId(), userId: currentUser.id, title:'Investment confirmed', body:`${shares} shares reserved in ${farm.name}.`, read:false, created:isoDate(today) });
+      saveState();
+      $('modalContent').classList.add('hidden');
+      $('modalSuccess').classList.remove('hidden');
+      renderAll();
+    }
+
+    function showModalErr(message) {
+      $('modalErr').style.display = 'block';
+      $('modalErr').textContent = message;
+    }
+
+    function closeModal() {
+      $('investOverlay').classList.add('hidden');
+    }
+
+    function renderPortfolio() {
+      const investments = getInvestments();
+      const total = sum(investments.map(item => item.amount));
+      const gain = sum(investments.map(item => Math.round(item.amount * (farmById(item.farmId).returnRate / 100) * 2)));
+      const shares = sum(investments.map(item => item.shares));
+      const farms = [...new Set(investments.map(item => item.farmId))].map(farmById);
+      $('portTotal').textContent = plainCurrency(total + gain);
+      $('portSub').textContent = total ? `${plainCurrency(total)} principal across ${farms.length} farm${farms.length === 1 ? '' : 's'}` : 'No investments yet';
+      $('portGain').textContent = plainCurrency(gain);
+      $('portCount').textContent = farms.length;
+      $('portShares').textContent = shares;
+      $('portMaturity').textContent = farms.length ? formatDate(farms.map(farm => farm.maturity).sort()[0]) : '-';
+      $('portfolioGrid').innerHTML = investments.length ? `<div class="farm-grid">${investments.map(item => portfolioCard(item)).join('')}</div>` : emptyState('No investments yet', 'Browse the marketplace to build your agricultural portfolio.', '🌱', '<button class="btn btn-primary" onclick="showPage(\'marketplace\')">Browse farms</button>');
+    }
+
+    function portfolioCard(investment) {
+      const farm = farmById(investment.farmId);
+      const expected = Math.round(investment.amount * (farm.returnRate / 100) * 2);
+      return `
+        <article class="farm-card">
+          <div class="fc-media" style="background:${colors[farm.id % colors.length]}"><div class="fc-bg">${farm.icon}</div><div class="fc-tags"><span class="badge badge-blue">${investment.status}</span></div><div class="fc-score">${scoreRing(farm.score)}</div></div>
+          <div class="fc-body">
+            <div class="fc-name">${escapeHtml(farm.name)}</div><div class="fc-loc">${escapeHtml(farm.location)}</div>
+            <div class="fc-val-row"><span>Invested</span><span class="fc-price">${plainCurrency(investment.amount)}</span></div>
+            <div class="fc-val-row"><span>Shares</span><span>${investment.shares}</span></div>
+            <div class="fc-val-row"><span>Projected gain</span><span>${plainCurrency(expected)}</span></div>
+            <div class="fc-val-row"><span>Security</span><span>${escapeHtml(farmSecurityText(farm))}</span></div>
+            <div class="fc-val-row"><span>Harvest</span><span>${escapeHtml(farmHarvestText(farm))}</span></div>
+            <div class="fc-val-row"><span>Maturity</span><span>${formatDate(farm.maturity)}</span></div>
+          </div>
+        </article>`;
+    }
+
+    function renderFeed() {
+      $('feedItems').innerHTML = state.updates.slice().sort((a,b) => new Date(b.created) - new Date(a.created)).map(update => {
+        const farm = farmById(update.farmId);
+        return `<article class="feed-card">
+          <div class="fc-hdr"><div class="fc-av">${farm.icon}</div><div><div class="fc-farm">${escapeHtml(farm.name)}</div><div class="fc-time">${relativeTime(update.created)} · ${escapeHtml(farm.farmer)}</div></div><span class="badge badge-green fc-type">${escapeHtml(update.type)}</span></div>
+          <div class="fc-bdy"><p>${escapeHtml(update.text)}</p><div class="fc-reactions"><button class="react-btn" onclick="toast('Reaction saved', 'success')">👍 Support</button><button class="react-btn" onclick="openChat(${farm.id})">💬 Message</button></div></div>
+        </article>`;
+      }).join('');
+      $('alertsWidget').innerHTML = `<div class="fw-row"><span>Pending farms</span><strong>${state.farms.filter(f => f.status === 'pending').length}</strong></div><div class="fw-row"><span>Near target</span><strong>${approvedFarms().filter(f => progress(f) > 75).length}</strong></div>`;
+      $('ps-farms').textContent = state.farms.length;
+      $('ps-invs').textContent = state.investments.length;
+      $('ps-raised').textContent = plainCurrency(sum(state.farms.map(f => f.raised)));
+    }
+
+    function postUpdate() {
+      const text = $('updateText').value.trim();
+      if (!text) return toast('Write an update first.', 'warning');
+      const farm = farmerOwnedFarm() || state.farms[0];
+      state.updates.unshift({ id: makeId(), farmId: farm.id, type: $('updateType').value, text, created: new Date().toISOString() });
+      $('updateText').value = '';
+      saveState();
+      renderFeed();
+      toast('Update posted to the investor feed.', 'success');
+    }
+
+    function renderFarmerDashboard() {
+      const farm = farmerOwnedFarm();
+      if (!farm) {
+        $('farmerDash').innerHTML = emptyState('No farm listed yet', 'Register your first farm to start receiving investor interest.', '🚜', '<button class="btn btn-primary" onclick="showPage(\'register-farm\')">Register farm</button>');
+        return;
+      }
+      const farmInvestments = state.investments.filter(item => item.farmId === farm.id);
+      $('farmerDash').innerHTML = `
+        <div class="farmer-hero"><div style="font-family:var(--font-display);font-size:22px;font-weight:800;margin-bottom:4px">${escapeHtml(farm.name)}</div><div style="font-size:13px;color:rgba(255,255,255,.65)">${escapeHtml(farm.location)} · ${escapeHtml(farm.category)}</div></div>
+        <div class="grid-4" style="margin-bottom:18px">
+          <div class="stat-card sc-green"><div class="stat-label">Raised</div><div class="stat-value">${plainCurrency(farm.raised)}</div><div class="stat-sub">${Math.round(progress(farm))}% of target</div></div>
+          <div class="stat-card sc-gold"><div class="stat-label">Target</div><div class="stat-value">${plainCurrency(farm.goal)}</div><div class="stat-sub">Funding goal</div></div>
+          <div class="stat-card sc-blue"><div class="stat-label">Investors</div><div class="stat-value">${farmInvestments.length}</div><div class="stat-sub">Confirmed backers</div></div>
+          <div class="stat-card sc-purple"><div class="stat-label">Score</div><div class="stat-value">${farm.score}</div><div class="stat-sub">${titleCase(farm.status)}</div></div>
+        </div>
+        <div class="grid-2">
+          <div class="card"><div class="card-header"><div class="card-title">Funding progress</div><span class="badge badge-green">${titleCase(farm.status)}</span></div><div class="card-body"><div class="progress-bar"><div class="progress-fill" style="width:${progress(farm)}%"></div></div><div class="progress-meta"><span>${plainCurrency(farm.raised)} raised</span><span>${plainCurrency(farm.goal)} target</span></div></div></div>
+          <div class="card"><div class="card-header"><div class="card-title">Asset terms</div></div><div class="card-body"><div class="fw-row"><span>Goods</span><strong>${escapeHtml(farm.goodsProvided || farm.category)}</strong></div><div class="fw-row"><span>Profit from goods</span><strong>${farmProfitText(farm)}</strong></div><div class="fw-row"><span>Security</span><strong>${escapeHtml(farmSecurityText(farm))}</strong></div><div class="fw-row"><span>Harvest time</span><strong>${escapeHtml(farmHarvestText(farm))}</strong></div></div></div>
+        </div>`;
+    }
+
+    function renderRegisterFarm() {
+      const steps = ['Basics', 'Production', 'Terms', 'Review'];
+      $('regStepList').innerHTML = steps.map((name, index) => `<div class="reg-step ${index === regStep ? 'active' : ''} ${index < regStep ? 'done' : ''}"><div class="reg-num ${index === regStep ? 'active' : ''} ${index < regStep ? 'done' : ''}">${index < regStep ? '✓' : index + 1}</div><div class="reg-sname">${name}</div></div>`).join('');
+      const crops = ['Vegetables','Grains & Wheat','Fruit Orchards','Livestock','Free-range Eggs','Aquaculture','Cash Crops','Honey & Bees'];
+      const fundingOptions = ['Working capital','Equipment purchase','Expansion project'];
+      const stepHtml = [
+        `<div class="reg-content active"><div class="reg-eyebrow">Step 1</div><div class="reg-title">Farm basics</div><div class="reg-desc">Tell investors what you are building and where the farm operates.</div><div class="reg-err" id="regErr"></div><div class="field"><label class="label">Farm name</label><input id="rfName" class="input" value="${escapeHtml(regData.name || '')}" placeholder="e.g. Limpopo Tomato Tunnel"></div><div class="form-row"><div class="field"><label class="label">Province</label><select id="rfProvince" class="select">${provinceOptions(regData.province)}</select></div><div class="field"><label class="label">Town / area</label><input id="rfTown" class="input" value="${escapeHtml(regData.town || '')}" placeholder="Tzaneen"></div></div>${regNav()}`,
+        `<div class="reg-content active"><div class="reg-eyebrow">Step 2</div><div class="reg-title">Production focus</div><div class="reg-desc">Choose the closest category and name the goods you will provide.</div><div class="crop-grid">${crops.map(crop => `<div class="crop-opt ${regData.crop === crop ? 'selected' : ''}" onclick="regData.crop='${crop}';renderRegisterFarm()"><div class="crop-opt-icon">${cropIcon(crop)}</div><div class="crop-opt-name">${crop}</div></div>`).join('')}</div><div class="field"><label class="label">Goods provided</label><input id="rfGoods" class="input" value="${escapeHtml(regData.goodsProvided || '')}" placeholder="e.g. pregnant cows, tomato harvest, macadamia nuts"></div>${regNav()}`,
+        `<div class="reg-content active"><div class="reg-eyebrow">Step 3</div><div class="reg-title">Profit, security, and harvest time</div><div class="reg-desc">State how profit is made, what security you provide, and how long harvesting will take.</div><div class="reg-err" id="regErr"></div><div class="form-row"><div class="field"><label class="label">Funding goal</label><input id="rfGoal" class="input" type="number" value="${regData.goal || 500000}"></div><div class="field"><label class="label">Share price</label><input id="rfShare" class="input" type="number" value="${regData.sharePrice || 500}"></div></div><div class="form-row"><div class="field"><label class="label">Expected profit from goods (%)</label><input id="rfProfit" class="input" type="number" min="1" max="100" value="${regData.expectedProfit || 12}"></div><div class="field"><label class="label">Time needed until harvest (months)</label><input id="rfHarvest" class="input" type="number" min="1" max="120" value="${regData.harvestMonths || 12}"></div></div><div class="field"><label class="label">Security provided by farmer</label><textarea id="rfSecurity" class="textarea" placeholder="e.g. insured livestock, signed buy-back contract, harvest stored with approved buyer">${escapeHtml(regData.security || '')}</textarea></div><div class="field"><label class="label">Selfie-style farm intro video summary</label><textarea id="rfIntro" class="textarea" placeholder="Introduce yourself, years farming, what you grow, and how investor funds will be used.">${escapeHtml(regData.introVideo || '')}</textarea></div><div class="form-row"><div class="field"><label class="label">Upload farm photos</label><input class="input" type="file" multiple accept="image/*"><div class="hint">Farmland, crops, irrigation, machinery, livestock, harvests.</div></div><div class="field"><label class="label">Upload land document</label><input class="input" type="file" accept=".pdf,image/*"><div class="hint">Title deed or lease agreement. Not shown publicly.</div></div></div><div class="form-row"><div class="field"><label class="label">Upload ID document</label><input class="input" type="file" accept=".pdf,image/*"><div class="hint">Used only for private SA ID verification.</div></div><div class="field"><label class="label">References</label><input id="rfRefs" class="input" value="${escapeHtml(regData.references || '')}" placeholder="Co-op, bank, supplier, extension officer"></div></div><div class="fund-opts">${fundingOptions.map(item => `<div class="fund-opt ${regData.funding === item ? 'selected' : ''}" onclick="regData.funding='${item}';renderRegisterFarm()"><div>💼</div><div><div class="fund-opt-title">${item}</div><div class="fund-opt-desc">Use investor capital for ${item.toLowerCase()}.</div></div></div>`).join('')}</div>${regNav()}`,
+        `<div class="reg-content active"><div class="reg-eyebrow">Step 4</div><div class="reg-title">Review listing</div><div class="reg-desc">Submit your farm for admin approval.</div><div class="val-box"><div class="val-row"><span class="val-name">Farm</span><strong>${escapeHtml(regData.name || 'Untitled farm')}</strong></div><div class="val-row"><span class="val-name">Location</span><strong>${escapeHtml([regData.town, regData.province].filter(Boolean).join(', ') || 'Not set')}</strong></div><div class="val-row"><span class="val-name">Goods</span><strong>${escapeHtml(regData.goodsProvided || regData.crop)}</strong></div><div class="val-row"><span class="val-name">Profit</span><strong>${escapeHtml(regData.expectedProfit || 12)}% target from goods</strong></div><div class="val-row"><span class="val-name">Security</span><strong>${escapeHtml(regData.security || 'Farmer security to be reviewed')}</strong></div><div class="val-row"><span class="val-name">Harvest</span><strong>${escapeHtml(regData.harvestMonths || 12)} months</strong></div><div class="val-row"><span class="val-name">Goal</span><strong>${plainCurrency(Number(regData.goal || 500000))}</strong></div></div>${regNav(true)}`
+      ];
+      $('regMain').innerHTML = stepHtml[regStep];
+    }
+
+    function regNav(isFinal = false) {
+      return `<div class="reg-nav"><button class="btn btn-secondary" onclick="prevRegStep()" ${regStep === 0 ? 'disabled' : ''}>Back</button><button class="btn btn-primary" onclick="${isFinal ? 'submitFarm()' : 'nextRegStep()'}">${isFinal ? 'Submit farm' : 'Continue'}</button></div></div>`;
+    }
+
+    function nextRegStep() {
+      if (regStep === 0) {
+        regData.name = $('rfName').value.trim();
+        regData.province = $('rfProvince').value;
+        regData.town = $('rfTown').value.trim();
+        if (!regData.name || !regData.province || !regData.town) return showRegErr('Please complete farm name, province, and town.');
+      }
+      if (regStep === 1) {
+        regData.goodsProvided = $('rfGoods').value.trim() || regData.crop;
+      }
+      if (regStep === 2) {
+        regData.goal = Number($('rfGoal').value || 0);
+        regData.sharePrice = Number($('rfShare').value || 0);
+        regData.expectedProfit = Number($('rfProfit').value || 0);
+        regData.harvestMonths = Number($('rfHarvest').value || 0);
+        regData.security = $('rfSecurity').value.trim();
+        regData.introVideo = $('rfIntro').value.trim();
+        regData.references = $('rfRefs').value.trim();
+        if (regData.goal < 10000 || regData.sharePrice < 100) return showRegErr('Use a goal above R10,000 and a share price above R100.');
+        if (regData.expectedProfit < 1 || regData.harvestMonths < 1 || !regData.security) return showRegErr('Add expected profit, harvest time, and farmer security.');
+      }
+      regStep = Math.min(3, regStep + 1);
+      renderRegisterFarm();
+    }
+
+    function prevRegStep() {
+      regStep = Math.max(0, regStep - 1);
+      renderRegisterFarm();
+    }
+
+    function submitFarm() {
+      const newFarm = {
+        id: Math.max(...state.farms.map(f => f.id)) + 1,
+        name: regData.name,
+        category: regData.crop,
+        province: regData.province,
+        location: `${regData.town}, ${regData.province}`,
+        goal: Number(regData.goal || 500000),
+        raised: 0,
+        sharePrice: Number(regData.sharePrice || 500),
+        returnRate: Number(regData.expectedProfit || 12),
+        goodsProvided: regData.goodsProvided || regData.crop,
+        farmerSecurity: regData.security || 'Farmer security to be reviewed',
+        harvestMonths: Number(regData.harvestMonths || 12),
+        introVideo: regData.introVideo || `${currentUser.name} introduces the farm, experience, production plan, and investor fund use.`,
+        references: regData.references ? regData.references.split(',').map(item => item.trim()).filter(Boolean) : ['References submitted for review'],
+        verification: { idVerified:false, landVerified:false, farmVisited:false, successfulHarvests:0 },
+        score: 72,
+        icon: cropIcon(regData.crop),
+        status: 'pending',
+        listed: isoDate(today),
+        maturity: addMonths(today, Number(regData.harvestMonths || 12)).toISOString().slice(0, 10),
+        farmer: currentUser.name,
+        ownerId: currentUser.id,
+        factors:{soil:72,water:70,operations:74,market:72,climate:70,financials:74}
+      };
+      state.farms.push(newFarm);
+      saveState();
+      $('regMain').innerHTML = `<div class="reg-success"><div class="reg-success-icon">✅</div><h2>Farm submitted</h2><p>Your listing is waiting for admin approval. You can track it from your farmer dashboard.</p><div class="success-steps"><div class="ss-step"><span class="ss-num">1</span>Admin reviews your farm documents.</div><div class="ss-step"><span class="ss-num">2</span>Valuation score is finalized.</div><div class="ss-step"><span class="ss-num">3</span>Approved farms open to investors.</div></div><button class="btn btn-primary" onclick="showPage('farmer-dashboard')">View dashboard</button></div>`;
+      buildNav();
+      toast('Farm submitted for approval.', 'success');
+    }
+
+    function showRegErr(message) {
+      const err = $('regErr');
+      if (err) {
+        err.textContent = message;
+        err.style.display = 'block';
+      }
+    }
+
+    function renderValuations() {
+      $('valWeights').innerHTML = factorWeights.map(item => `<div class="vw-card"><div class="vw-icon">${item.icon}</div><div class="vw-name">${item.name}</div><div class="vw-desc">${item.desc}</div><div class="vw-pct">${item.pct}% weight</div></div>`).join('');
+      $('valGrid').innerHTML = state.farms.map(farm => {
+        const trust = farmTrust(farm);
+        return `<div class="val-farm-card" onclick="openInvest(${farm.id})"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div><div class="fc-name">${escapeHtml(farm.name)}</div><div class="fc-loc">${escapeHtml(farm.category)} · ${escapeHtml(farm.province)}</div></div>${scoreRing(farm.score)}</div><div class="trust-strip" style="margin-bottom:10px"><span class="trust-pill tier-pill tier-${trust.tier.toLowerCase()}">${trust.tier}</span><span class="trust-pill">${trust.risk}</span><span class="trust-pill">ID ✅</span><span class="trust-pill">Land ✅</span></div>${factorWeights.map(item => factorRow(item.name, farm.factors[item.key])).join('')}</div>`;
+      }).join('');
+    }
+
+    function factorRow(name, value) {
+      const color = value >= 85 ? 'var(--brand)' : value >= 75 ? 'var(--gold)' : 'var(--red)';
+      return `<div class="val-row"><span class="val-name">${escapeHtml(name)}</span><div class="val-bar"><div class="val-fill" style="width:${value}%;background:${color}"></div></div><span class="val-num">${value}</span></div>`;
+    }
+
+    function farmerTrustSection(farm) {
+      const trust = farmTrust(farm);
+      return `
+        <div class="trust-video">
+          <div class="video-play">▶</div>
+          <div>
+            <div class="video-copy-title">60-90 second farmer introduction</div>
+            <div class="video-copy">${escapeHtml(trust.introVideo)} The farmer explains their name, farming experience, what they grow, and what investor funds will be used for. Filmed selfie-style on the actual farm.</div>
+          </div>
+        </div>
+
+        <div class="trust-grid">
+          <div class="trust-card">
+            <div class="trust-title">Identity & Land Verification</div>
+            <div class="trust-line"><span>ID status</span><strong>${trust.idVerified ? 'ID Verified ✅' : 'Pending'}</strong></div>
+            <div class="trust-line"><span>Land status</span><strong>${trust.landVerified ? 'Land Verified ✅' : 'Pending review'}</strong></div>
+            <div class="trust-line"><span>Documents</span><strong>Title deed / lease checked privately</strong></div>
+            <div class="trust-line"><span>Public ID document</span><strong>Never displayed</strong></div>
+          </div>
+          <div class="trust-card">
+            <div class="trust-title">FarmPool Reputation</div>
+            <div class="trust-line"><span>Tier</span><strong class="tier-pill tier-${trust.tier.toLowerCase()}" style="padding:4px 8px;border-radius:99px">${trust.tier}</strong></div>
+            <div class="trust-line"><span>Farm visited</span><strong>${trust.farmVisited ? 'Farm Visited ✅' : 'Not yet visited'}</strong></div>
+            <div class="trust-line"><span>Successful harvests</span><strong>${trust.successfulHarvests}</strong></div>
+            <div class="trust-line"><span>Field status</span><strong>${escapeHtml(trust.visitReport.status)}</strong></div>
+          </div>
+        </div>
+
+        <div class="gallery-grid">
+          ${trust.gallery.map(item => `<div class="gallery-tile"><span>${item[0]}</span><small>${escapeHtml(item[1])}</small></div>`).join('')}
+        </div>
+
+        <div class="map-box">
+          <iframe class="map-frame" loading="lazy" src="https://maps.google.com/maps?q=${encodeURIComponent(trust.coordinates)}&z=11&output=embed" title="Approximate farm location"></iframe>
+          <div class="map-grid"></div><div class="map-boundary"></div><div class="map-pin">📍</div>
+          <div class="map-meta"><strong>${escapeHtml(farm.province)} · ${escapeHtml(trust.nearestTown)}</strong><br>Coordinates: ${escapeHtml(trust.coordinates)} · approximate boundary shown</div>
+        </div>
+
+        <div class="trust-grid">
+          <div class="trust-card">
+            <div class="trust-title">Farming Track Record</div>
+            <div class="trust-line"><span>Years farming</span><strong>${trust.years}</strong></div>
+            <div class="trust-line"><span>Previous crops</span><strong>${escapeHtml(trust.previousCrops)}</strong></div>
+            <div class="trust-line"><span>Historical yields</span><strong>${escapeHtml(trust.historicalYields)}</strong></div>
+            <div class="trust-line"><span>Seasons completed</span><strong>${trust.seasons}</strong></div>
+            <div class="trust-line"><span>Annual production</span><strong>${escapeHtml(trust.annualProduction)}</strong></div>
+          </div>
+          <div class="trust-card">
+            <div class="trust-title">References & Credibility</div>
+            ${trust.references.map(ref => `<div class="trust-line"><span>Verified</span><strong>${escapeHtml(ref)}</strong></div>`).join('')}
+          </div>
+        </div>
+
+        <div class="trust-card" style="margin-bottom:14px">
+          <div class="trust-title">Farm Visit Report</div>
+          <div class="trust-line"><span>Agent</span><strong>${escapeHtml(trust.visitReport.agent)}</strong></div>
+          <div class="trust-line"><span>GPS confirmation</span><strong>Confirmed ✅</strong></div>
+          <div class="trust-line"><span>Visit photos</span><strong>${escapeHtml(trust.visitReport.photos)}</strong></div>
+          <div class="qa-a">${escapeHtml(trust.visitReport.notes)}</div>
+        </div>
+
+        <div class="trust-card" style="margin-bottom:14px">
+          <div class="trust-title">Financial Transparency Dashboard</div>
+          ${trust.budget.map(item => `<div class="budget-row"><div class="budget-head"><span>${escapeHtml(item.label)}</span><strong>${plainCurrency(item.amount)} · ${item.pct}%</strong></div><div class="budget-bar"><div class="budget-fill" style="width:${item.pct}%"></div></div></div>`).join('')}
+        </div>
+
+        <div class="trust-grid">
+          <div class="trust-card">
+            <div class="trust-title">Milestone-Based Funding Release</div>
+            <div class="milestone-list">${trust.milestones.map((item, index) => `<div class="milestone ${item.status.includes('Pending') ? 'pending' : ''}"><div class="milestone-dot">${index + 1}</div><div><strong>${escapeHtml(item.label)}</strong><br><span>${escapeHtml(item.status)}</span></div><strong>${item.release}%</strong></div>`).join('')}</div>
+          </div>
+          <div class="trust-card">
+            <div class="trust-title">Escrow & Payout Transparency</div>
+            <div class="qa-a" style="margin-bottom:8px">Investor funds are held securely by a third-party escrow provider and released progressively after verification.</div>
+            <div class="trust-line"><span>Projected returns</span><strong>${escapeHtml(trust.payout.projected)}</strong></div>
+            <div class="trust-line"><span>Actual returns</span><strong>${escapeHtml(trust.payout.actual)}</strong></div>
+            <div class="trust-line"><span>Payout dates</span><strong>${escapeHtml(trust.payout.dates)}</strong></div>
+            <div class="trust-line"><span>Completion rate</span><strong>${escapeHtml(trust.payout.completion)}</strong></div>
+            <div class="trust-line"><span>Investor satisfaction</span><strong>${escapeHtml(trust.payout.satisfaction)}</strong></div>
+          </div>
+        </div>
+
+        <div class="trust-grid">
+          <div class="trust-card">
+            <div class="trust-title">Risk Rating</div>
+            <div class="trust-line"><span>Listing risk</span><strong class="${trust.riskClass}">${trust.risk}</strong></div>
+            <div class="qa-a">Risk considers weather exposure, market volatility, irrigation reliability, farming experience, and verification status.</div>
+          </div>
+          <div class="trust-card">
+            <div class="trust-title">Investor Q&A</div>
+            ${trust.qa.map(item => `<div class="qa-item"><div class="qa-q">${escapeHtml(item.q)}</div><div class="qa-a">${escapeHtml(item.a)} Farmers must reply within 48 hours.</div></div>`).join('')}
+          </div>
+        </div>
+
+        <div class="trust-card" style="margin-bottom:14px">
+          <div class="trust-title">Live Farm Updates</div>
+          <div class="trust-strip">${trust.liveUpdates.map(update => `<span class="trust-pill">${escapeHtml(update)}</span>`).join('')}</div>
+        </div>`;
+    }
+
+    function renderChat() {
+      const conversations = approvedFarms().slice(0, 6);
+      $('chatList').innerHTML = conversations.map(farm => `<div class="chat-item ${selectedConversation === farm.id ? 'active' : ''}" onclick="openChat(${farm.id})"><div class="chat-av">${farm.icon}<span class="online"></span></div><div class="chat-info"><div class="chat-iname">${escapeHtml(farm.farmer)}</div><div class="chat-ipreview">${escapeHtml(farm.name)}</div></div></div>`).join('');
+      if (selectedConversation) drawConversation(selectedConversation);
+    }
+
+    function openChat(farmId) {
+      selectedConversation = farmId;
+      showPage('chat');
+      drawConversation(farmId);
+    }
+
+    function drawConversation(farmId) {
+      const farm = farmById(farmId);
+      document.querySelectorAll('.chat-item').forEach(item => item.classList.remove('active'));
+      const activeItem = document.querySelector(`.chat-item[onclick="openChat(${farmId})"]`);
+      if (activeItem) activeItem.classList.add('active');
+      $('chatHdrAv').textContent = farm.icon;
+      $('chatHdrName').textContent = farm.farmer;
+      $('chatHdrStatus').textContent = `${farm.name} · online`;
+      const messages = state.messages[farmId] || [{from:'farmer', text:`Hello from ${farm.name}. Ask me anything about the farm plan.`, time:'08:30'}];
+      $('chatMsgs').innerHTML = messages.map(msg => `<div class="msg ${msg.from === 'me' ? 'sent' : 'received'}"><div class="msg-av">${msg.from === 'me' ? initials(currentUser.name) : farm.icon}</div><div><div class="msg-bubble">${escapeHtml(msg.text)}</div><div class="msg-time">${msg.time}</div></div></div>`).join('');
+      $('chatMsgs').scrollTop = $('chatMsgs').scrollHeight;
+    }
+
+    function sendMsg() {
+      if (!selectedConversation) return toast('Select a conversation first.', 'warning');
+      const input = $('chatInp');
+      const text = input.value.trim();
+      if (!text) return;
+      state.messages[selectedConversation] = state.messages[selectedConversation] || [];
+      state.messages[selectedConversation].push({ from:'me', text, time:new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) });
+      input.value = '';
+      saveState();
+      drawConversation(selectedConversation);
+    }
+
+    function renderNotifications() {
+      const items = state.notifications.filter(item => !item.userId || item.userId === currentUser.id);
+      $('notifList').innerHTML = items.length ? `<div class="card"><div class="card-header"><div class="card-title">Notifications</div><button class="btn btn-ghost btn-sm" onclick="markAllRead()">Mark all read</button></div><div class="card-body">${items.map(item => `<div class="fw-row"><div><strong>${escapeHtml(item.title)}</strong><div style="font-size:12px;color:var(--ink-3)">${escapeHtml(item.body)} · ${formatDate(item.created)}</div></div><span class="badge ${item.read ? 'badge-gray' : 'badge-gold'}">${item.read ? 'Read' : 'New'}</span></div>`).join('')}</div></div>` : emptyState('No notifications', 'You are all caught up.', '🔔');
+    }
+
+    function markAllRead() {
+      state.notifications.forEach(item => {
+        if (!item.userId || item.userId === currentUser.id) item.read = true;
+      });
+      saveState();
+      renderNotifications();
+      renderNotificationDot();
+    }
+
+    function renderNotificationDot() {
+      const unread = state.notifications.some(item => (!item.userId || item.userId === currentUser.id) && !item.read);
+      $('notifDot').style.display = unread ? 'block' : 'none';
+    }
+
+    function renderTransactions() {
+      const investments = currentUser?.role === 'admin' ? state.investments : getInvestments();
+      $('txTable').innerHTML = investments.length ? investments.map(item => {
+        const farm = farmById(item.farmId);
+        return `<tr><td>${formatDate(item.created)}</td><td>Investment</td><td>${escapeHtml(farm.name)} · ${item.shares} shares</td><td>${plainCurrency(item.amount)}</td><td><span class="badge badge-green">${item.status}</span></td></tr>`;
+      }).join('') : `<tr><td colspan="5">${emptyState('No transactions', 'Investment activity will appear here.', '🧾')}</td></tr>`;
+    }
+
+    function renderAdmin() {
+      if (!$('adminStats')) return;
+      const pending = state.farms.filter(farm => farm.status === 'pending');
+      $('adminStats').innerHTML = [
+        ['Users', state.users.length], ['Farms', state.farms.length], ['Investments', state.investments.length], ['Raised', plainCurrency(sum(state.farms.map(f => f.raised)))]
+      ].map(([label, value]) => `<div class="adm-stat"><div class="adm-val">${value}</div><div class="adm-lbl">${label}</div></div>`).join('');
+      $('pendingBadge').textContent = pending.length;
+      $('adminFarms').innerHTML = pending.length ? pending.map(farm => `<div class="fw-row"><div><strong>${escapeHtml(farm.name)}</strong><div style="font-size:12px;color:var(--ink-3)">${escapeHtml(farm.location)} · ${plainCurrency(farm.goal)}</div></div><div style="display:flex;gap:6px"><button class="act-btn act-approve" onclick="setFarmStatus(${farm.id}, 'approved')">Approve</button><button class="act-btn act-reject" onclick="setFarmStatus(${farm.id}, 'rejected')">Reject</button></div></div>`).join('') : '<div style="font-size:13px;color:var(--ink-3)">No pending farms.</div>';
+      $('adminInvests').innerHTML = state.investments.slice(-5).reverse().map(item => `<div class="fw-row"><span>${escapeHtml(farmById(item.farmId).name)}</span><strong>${plainCurrency(item.amount)}</strong></div>`).join('') || '<div style="font-size:13px;color:var(--ink-3)">No investments yet.</div>';
+      $('adminUsers').innerHTML = state.users.map(user => `<tr><td>${escapeHtml(user.name)}</td><td>${escapeHtml(user.email)}</td><td><span class="badge badge-gray">${user.role}</span></td><td>${formatDate(user.joined)}</td><td><button class="act-btn act-view" onclick="toast('Demo user profile opened')">View</button></td></tr>`).join('');
+    }
+
+    function setFarmStatus(farmId, status) {
+      farmById(farmId).status = status;
+      saveState();
+      renderAll();
+      toast(`Farm ${status}.`, status === 'approved' ? 'success' : 'warning');
+    }
+
+    function emptyState(title, text, icon = '🌱', action = '') {
+      return `<div class="empty"><div class="empty-icon">${icon}</div><div class="empty-title">${title}</div><div class="empty-text">${text}</div>${action}</div>`;
+    }
+
+    function toast(message, type = 'success') {
+      const el = document.createElement('div');
+      el.className = `toast toast-${type}`;
+      el.innerHTML = `<span>${type === 'error' ? '⚠️' : type === 'warning' ? '⚠️' : '✅'}</span><span>${escapeHtml(message)}</span>`;
+      $('toastWrap').appendChild(el);
+      setTimeout(() => el.remove(), 2800);
+    }
+
+    function farmById(id) {
+      return state.farms.find(farm => farm.id === Number(id));
+    }
+
+    function farmerOwnedFarm() {
+      return state.farms.find(farm => farm.ownerId === currentUser?.id) || (currentUser?.role === 'farmer' ? state.farms.find(farm => farm.farmer === 'Sibusiso Dlamini') : null);
+    }
+
+    function progress(farm) {
+      return Math.min(100, (farm.raised / farm.goal) * 100);
+    }
+
+    function farmProfitText(farm) {
+      return farm.profitStatement || `${farm.returnRate || 12}% target from goods`;
+    }
+
+    function farmSecurityText(farm) {
+      return farm.farmerSecurity || 'Farm asset, harvest contract, and platform review';
+    }
+
+    function farmHarvestText(farm) {
+      if (farm.harvestTime) return farm.harvestTime;
+      if (farm.harvestMonths) return `${farm.harvestMonths} month${Number(farm.harvestMonths) === 1 ? '' : 's'}`;
+      return `By ${formatDate(farm.maturity)}`;
+    }
+
+    function sum(values) {
+      return values.reduce((total, value) => total + Number(value || 0), 0);
+    }
+
+    function initials(name) {
+      return name.split(/\s+/).map(part => part[0]).join('').slice(0, 2).toUpperCase();
+    }
+
+    function makeId() {
+      if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
+      return `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    }
+
+    function titleCase(value) {
+      return String(value).replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+    }
+
+    function isoDate(date) {
+      return date.toISOString().slice(0, 10);
+    }
+
+    function addMonths(date, months) {
+      const next = new Date(date);
+      next.setMonth(next.getMonth() + Number(months || 0));
+      return next;
+    }
+
+    function formatDate(value) {
+      return new Date(value).toLocaleDateString('en-ZA', { day:'2-digit', month:'short', year:'numeric' });
+    }
+
+    function relativeTime(value) {
+      const date = new Date(value);
+      const days = Math.max(0, Math.round((today - date) / 86400000));
+      if (days === 0) return 'Today';
+      if (days === 1) return 'Yesterday';
+      return `${days} days ago`;
+    }
+
+    function provinceOptions(selected = '') {
+      return ['Western Cape','Gauteng','KwaZulu-Natal','Eastern Cape','Northern Cape','Free State','Limpopo','Mpumalanga','North West'].map(province => `<option ${province === selected ? 'selected' : ''}>${province}</option>`).join('');
+    }
+
+    function cropIcon(crop) {
+      return {'Vegetables':'🥦','Grains & Wheat':'🌾','Fruit Orchards':'🍎','Livestock':'🐄','Free-range Eggs':'🥚','Aquaculture':'🐟','Cash Crops':'🌻','Honey & Bees':'🍯'}[crop] || '🌱';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      $('lEmail').value = 'investor@farmpool.test';
+      if (currentUser) bootApp();
+      else {
+        $('authScreen').style.display = 'flex';
+        $('appShell').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
