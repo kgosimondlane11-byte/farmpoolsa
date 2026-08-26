@@ -2,1604 +2,1352 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1a6b4a">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>FarmPool &mdash; Fresh from SA Farms</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FarmPool — Agricultural Investment Platform</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
-body{font-family:'Instrument Sans',sans-serif;background:#f7f5f0;color:#1a1816;line-height:1.5;overflow-x:hidden}
-button,input,select,textarea{font-family:inherit}
-img{display:block;max-width:100%}
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-thumb{background:#e0d8ce;border-radius:99px}
 :root{
-  --g:#1a6b4a;--g2:#2a9a6a;--gd:#0d3d28;--gp:#e8f5ee;
-  --gold:#c9922a;--gop:#f5e8d0;--red:#c0392b;--rp:#fdeeed;
-  --blue:#2563eb;--bp:#eff6ff;
-  --ink:#1a1816;--ink2:#4a4540;--muted:#78716c;
-  --bg:#f7f5f0;--bg2:#efebe4;--bg3:#e5e0d8;
-  --card:#fff;--border:#e0d8ce;
-  --r:12px;--r2:18px;--r3:24px;--r4:32px;
-  --sh:0 2px 12px rgba(0,0,0,.07);--shl:0 8px 40px rgba(0,0,0,.13);
-  --sw:260px;--bnav:62px;--fd:'Syne',sans-serif;
+  --brand:#1a6b4a;--brand2:#2a9a6a;--brand-pale:#e6f4ee;--brand-dark:#0f4730;
+  --gold:#c9922a;--gold-pale:#f5e8d0;--red:#c0392b;--red-pale:#fdeeed;--blue:#2563eb;--blue-pale:#eff6ff;
+  --dark:#161310;--dark2:#2d2a26;--bg:#f8f6f1;--bg2:#f0ede8;--bg3:#e5e0d8;
+  --card:#fff;--border:#ded8cf;--muted:#766f66;--ink:#1d1a16;
+  --r:14px;--r2:20px;--r3:26px;
+  --font:'Instrument Sans',sans-serif;--display:'Syne',sans-serif;
+  --sw:252px;
 }
+html{-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.5;overflow-x:hidden}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:99px}
 .hidden{display:none!important}
-.w100{width:100%}.f1{flex:1}.flex{display:flex}.col{flex-direction:column}
-.ac{align-items:center}.jb{justify-content:space-between}.jc{justify-content:center}
+
+/* TYPOGRAPHY */
+.display{font-family:var(--display)}
+.t-xs{font-size:11px}.t-sm{font-size:13px}.t-base{font-size:14px}.t-lg{font-size:17px}.t-xl{font-size:20px}.t-2xl{font-size:26px}.t-3xl{font-size:34px}
+.w-5{font-weight:500}.w-6{font-weight:600}.w-7{font-weight:700}.w-8{font-weight:800}
+.muted{color:var(--muted)}.brand{color:var(--brand)}.gold{color:var(--gold)}.white{color:#fff}
+.upper{text-transform:uppercase}.track{letter-spacing:.08em}
+
+/* LAYOUT */
+.flex{display:flex}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-between{justify-content:space-between}.justify-center{justify-content:center}.gap-1{gap:4px}.gap-2{gap:8px}.gap-3{gap:12px}.gap-4{gap:16px}.gap-6{gap:24px}.flex-1{flex:1}.flex-wrap{flex-wrap:wrap}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.ga{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
-.gap2{gap:8px}.gap3{gap:12px}.gap4{gap:16px}
-.mb2{margin-bottom:8px}.mb3{margin-bottom:12px}.mb4{margin-bottom:16px}.mb6{margin-bottom:24px}
-.mt2{margin-top:8px}.mt3{margin-top:12px}.mt4{margin-top:16px}
-.r{border-radius:var(--r)}.r2{border-radius:var(--r2)}.r3{border-radius:var(--r3)}
-.bd{border:1px solid var(--border)}.oh{overflow:hidden}.oa{overflow-y:auto}
-.rel{position:relative}.abs{position:absolute}.cp{cursor:pointer}
-.tr{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.muted{color:var(--muted)}.brand{color:var(--g)}
+.ga{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.w-full{width:100%}
+.mt-2{margin-top:8px}.mt-3{margin-top:12px}.mt-4{margin-top:16px}.mt-6{margin-top:24px}
+.mb-2{margin-bottom:8px}.mb-3{margin-bottom:12px}.mb-4{margin-bottom:16px}.mb-6{margin-bottom:24px}
+.p-3{padding:12px}.p-4{padding:16px}.p-5{padding:20px}.p-6{padding:24px}
+.rounded{border-radius:var(--r)}.rounded-lg{border-radius:var(--r2)}.rounded-xl{border-radius:var(--r3)}
+.border{border:1px solid var(--border)}.border-t{border-top:1px solid var(--border)}.border-b{border-bottom:1px solid var(--border)}
+.shadow{box-shadow:0 2px 10px rgba(0,0,0,.07)}.shadow-lg{box-shadow:0 8px 36px rgba(0,0,0,.12)}
+.overflow-hidden{overflow:hidden}
+.relative{position:relative}.absolute{position:absolute}
+.truncate{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cursor-pointer{cursor:pointer}
+
+/* AUTH */
+#authScreen{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#091f12 0%,#0f4730 50%,#071509 100%);padding:20px;overflow-y:auto}
+.auth-wrap{width:min(440px,100%)}
+.auth-logo{font-family:var(--display);font-size:40px;font-weight:800;color:#fff;text-align:center;margin-bottom:4px}
+.auth-logo span{color:#7ee8b8}
+.auth-tag{color:rgba(255,255,255,.48);text-align:center;font-size:13px;margin-bottom:26px}
+.auth-card{background:var(--card);border-radius:24px;padding:28px;box-shadow:0 28px 80px rgba(0,0,0,.35)}
+.auth-tabs{display:flex;background:var(--bg2);border-radius:12px;padding:4px;margin-bottom:20px;gap:3px}
+.auth-tab{flex:1;border:0;background:transparent;border-radius:9px;padding:9px;font-weight:700;font-size:13px;color:var(--muted);transition:all .2s}
+.auth-tab.active{background:#fff;color:var(--ink);box-shadow:0 1px 5px rgba(0,0,0,.08)}
+.auth-footer{text-align:center;margin-top:18px;font-size:11px;color:rgba(255,255,255,.3);line-height:1.6}
+.auth-link{color:#7ee8b8;cursor:pointer;font-size:13px;font-weight:600}
+
 /* FORMS */
 .field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
-.lbl{font-size:12px;font-weight:700;color:#4a4540;letter-spacing:.02em}
-.hint{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4}
-.inp,.sel,.ta{width:100%;border:1.5px solid var(--border);border-radius:var(--r);
-  background:var(--card);padding:10px 12px;font-size:14px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
-.inp:focus,.sel:focus,.ta:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(26,107,74,.08)}
-.ta{min-height:88px;resize:vertical}
-.sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%2378716c' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.chk{display:flex;align-items:flex-start;gap:9px;margin-bottom:10px;cursor:pointer;font-size:13px;color:var(--muted);line-height:1.5}
-.chk input{width:15px;height:15px;accent-color:var(--g);flex-shrink:0;margin-top:2px}
+.label{font-size:12px;font-weight:700;color:#4c453e;letter-spacing:.02em}
+.hint{font-size:11px;color:var(--muted);margin-top:2px}
+.input,.select,.textarea{width:100%;border:1.5px solid var(--border);border-radius:var(--r);background:#fff;padding:10px 12px;font-size:14px;color:var(--ink);outline:none;transition:border-color .2s}
+.textarea{min-height:88px;resize:vertical}
+.input:focus,.select:focus,.textarea:focus{border-color:var(--brand)}
+.input:disabled{background:var(--bg2);color:var(--muted);cursor:not-allowed}
+.select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%23766f66' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.checkbox-row{display:flex;align-items:flex-start;gap:9px;margin-bottom:10px;cursor:pointer;font-size:13px;color:var(--muted);line-height:1.5}
+.checkbox-row input{width:15px;height:15px;accent-color:var(--brand);flex-shrink:0;margin-top:2px}
+
 /* BUTTONS */
-.btn{border:0;border-radius:var(--r);padding:10px 18px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:all .2s;line-height:1;white-space:nowrap;cursor:pointer}
+.btn{border:0;border-radius:var(--r);padding:10px 16px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:all .2s;line-height:1;white-space:nowrap}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.bp{background:var(--g);color:#fff}.bp:hover:not(:disabled){background:var(--g2);transform:translateY(-1px);box-shadow:0 4px 14px rgba(26,107,74,.3)}
-.bs{background:var(--bg2);color:var(--ink);border:1px solid var(--border)}.bs:hover:not(:disabled){background:var(--bg3)}
-.bgold{background:var(--gold);color:#fff}.bgold:hover:not(:disabled){background:#a87823;transform:translateY(-1px)}
-.bdan{background:var(--red);color:#fff}.bdan:hover:not(:disabled){opacity:.88}
-.bgh{background:transparent;color:var(--g);padding:8px 12px}.bgh:hover{background:var(--gp)}
-.bol{background:transparent;border:2px solid var(--g);color:var(--g)}.bol:hover{background:var(--gp)}
-.bsm{padding:6px 12px;font-size:12px;border-radius:9px}
-.blg{padding:13px 24px;font-size:15px;border-radius:var(--r2)}
+.btn-primary{background:var(--brand);color:#fff}.btn-primary:hover:not(:disabled){background:var(--brand2);transform:translateY(-1px);box-shadow:0 4px 14px rgba(26,107,74,.3)}
+.btn-secondary{background:var(--bg2);color:var(--ink);border:1px solid var(--border)}.btn-secondary:hover:not(:disabled){background:var(--bg3)}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover:not(:disabled){background:#a87823}
+.btn-danger{background:var(--red);color:#fff}.btn-danger:hover:not(:disabled){opacity:.9}
+.btn-ghost{background:transparent;color:var(--brand);padding:7px 10px}.btn-ghost:hover{background:var(--brand-pale)}
+.btn-outline{background:transparent;border:2px solid var(--brand);color:var(--brand)}.btn-outline:hover{background:var(--brand-pale)}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:9px}
+.btn-lg{padding:13px 24px;font-size:15px;border-radius:var(--r2)}
+.btn-icon{width:34px;height:34px;padding:0;border-radius:9px}
+
 /* BADGES */
-.bdg{display:inline-flex;align-items:center;gap:3px;border-radius:99px;padding:3px 9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
-.bdg-g{background:var(--gp);color:var(--gd)}.bdg-o{background:var(--gop);color:#7a5610}
-.bdg-r{background:var(--rp);color:var(--red)}.bdg-b{background:var(--bp);color:var(--blue)}
-.bdg-gr{background:var(--bg2);color:var(--muted)}.bdg-vf{background:linear-gradient(135deg,var(--g),var(--g2));color:#fff}
+.badge{display:inline-flex;align-items:center;gap:3px;border-radius:99px;padding:3px 9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.badge-green,.approved{background:var(--brand-pale);color:var(--brand-dark)}
+.badge-gold,.pending{background:var(--gold-pale);color:#7a5610}
+.badge-red,.rejected,.cancelled{background:var(--red-pale);color:var(--red)}
+.badge-blue,.processing{background:var(--blue-pale);color:var(--blue)}
+.badge-gray{background:var(--bg2);color:var(--muted)}
+.badge-verified{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff}
+.delivered,.accepted{background:var(--brand-pale);color:var(--brand-dark)}
+
 /* ALERTS */
-.alert{border-radius:var(--r);padding:10px 14px;font-size:13px;margin-bottom:14px;display:flex;align-items:flex-start;gap:9px;line-height:1.5}
-.ae{background:var(--rp);color:var(--red);border:1px solid rgba(192,57,43,.18)}
-.as{background:var(--gp);color:var(--gd);border:1px solid rgba(26,107,74,.18)}
-.aw{background:var(--gop);color:#7a5610;border:1px solid rgba(201,146,42,.2)}
-.ai{background:var(--bp);color:var(--blue);border:1px solid rgba(37,99,235,.18)}
+.alert{border-radius:var(--r);padding:10px 13px;font-size:13px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.alert-err{background:var(--red-pale);color:var(--red);border:1px solid rgba(192,57,43,.18)}
+.alert-ok{background:var(--brand-pale);color:var(--brand-dark);border:1px solid rgba(26,107,74,.18)}
+.alert-warn{background:var(--gold-pale);color:#7a5610;border:1px solid rgba(201,146,42,.2)}
+.alert-info{background:var(--blue-pale);color:var(--blue);border:1px solid rgba(37,99,235,.18)}
+
 /* CARDS */
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
-.card-h{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);gap:10px}
-.card-t{font-family:var(--fd);font-size:15px;font-weight:800}
-.card-b{padding:16px 18px}
+.card-h{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--border);gap:10px}
+.card-title{font-family:var(--display);font-size:15px;font-weight:800}
+.card-b{padding:16px}
+
 /* STAT CARDS */
-.sc{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:18px;position:relative;overflow:hidden}
-.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.sc1::before{background:linear-gradient(90deg,var(--g),var(--g2))}.sc2::before{background:linear-gradient(90deg,var(--gold),#e8b86d)}
-.sc3::before{background:linear-gradient(90deg,#2563eb,#60a5fa)}.sc4::before{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
-.sl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
-.sv{font-family:var(--fd);font-size:28px;font-weight:800;color:var(--ink);line-height:1}
-.ss{font-size:12px;color:var(--muted);margin-top:4px}.si{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:32px;opacity:.07}
-/* AUTH */
-#authWrap{min-height:100vh;display:grid;place-items:center;background:linear-gradient(160deg,#07200f 0%,#0d3d28 55%,#091a0f 100%);padding:20px;overflow-y:auto}
-.a-box{width:min(430px,100%)}
-.a-logo{font-family:var(--fd);font-size:42px;font-weight:800;color:#fff;text-align:center;margin-bottom:4px}
-.a-logo em{color:#7ee8b8;font-style:normal}
-.a-tag{color:rgba(255,255,255,.45);text-align:center;font-size:13px;margin-bottom:26px}
-.a-card{background:#fff;border-radius:var(--r4);padding:28px;box-shadow:0 32px 80px rgba(0,0,0,.4)}
-.a-tabs{display:flex;background:var(--bg);border-radius:10px;padding:3px;margin-bottom:20px;gap:3px}
-.a-tab{flex:1;border:0;background:transparent;border-radius:8px;padding:9px;font-weight:700;font-size:13px;color:var(--muted);transition:all .2s;cursor:pointer}
-.a-tab.on{background:#fff;color:var(--ink);box-shadow:0 1px 5px rgba(0,0,0,.1)}
-.alink{color:var(--g);cursor:pointer;font-weight:700;font-size:13px}
-.a-foot{text-align:center;margin-top:18px;font-size:11px;color:rgba(255,255,255,.28);line-height:1.6}
-/* SHELL */
-#app{display:none;height:100vh;overflow:hidden}
-.shell{display:grid;grid-template-columns:var(--sw) 1fr;height:100vh;overflow:hidden}
-/* SIDEBAR */
-.side{background:#0f0d0b;display:flex;flex-direction:column;height:100vh;overflow:hidden}
-.slogo{padding:20px 18px 15px;border-bottom:1px solid rgba(255,255,255,.05);flex-shrink:0}
-.slogo-t{font-family:var(--fd);font-size:22px;font-weight:800;color:#fff}
-.slogo-t em{color:#7ee8b8;font-style:normal}
-.slogo-s{font-size:10px;color:rgba(255,255,255,.28);letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
-.snav{flex:1;padding:14px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;min-height:0}
-.nsec{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.18);padding:10px 10px 3px;margin-top:6px}
-.ni{border:0;background:transparent;color:rgba(255,255,255,.5);padding:9px 12px;border-radius:10px;text-align:left;font-weight:600;font-size:13px;width:100%;display:flex;align-items:center;gap:10px;transition:all .15s;position:relative;cursor:pointer}
-.ni:hover,.ni.on{background:rgba(255,255,255,.07);color:#fff}
-.ni.on::before{content:'';position:absolute;left:0;top:22%;bottom:22%;width:3px;background:#7ee8b8;border-radius:0 3px 3px 0}
-.ni-ic{font-size:16px;width:20px;text-align:center}
-.sfooter{padding:12px;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0}
-.utile{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;cursor:pointer}
-.utile:hover{background:rgba(255,255,255,.05)}
-.uav{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;font-family:var(--fd)}
-.uname{font-size:13px;color:#fff;font-weight:700}.urole{font-size:10px;color:rgba(255,255,255,.3);text-transform:capitalize}
-.lo-btn{width:100%;margin-top:4px;padding:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;color:rgba(255,255,255,.35);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
-.lo-btn:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7)}
-/* TOPBAR */
-.mwrap{min-width:0;display:flex;flex-direction:column;height:100vh;overflow:hidden}
-.tbar{height:60px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 22px;flex-shrink:0;gap:14px;z-index:20}
-.tbar-t{font-family:var(--fd);font-weight:800;font-size:18px;color:var(--ink)}
-.tbar-r{display:flex;align-items:center;gap:10px}
-.sbox{display:flex;align-items:center;gap:7px;background:var(--bg);border:1.5px solid var(--border);border-radius:99px;padding:8px 16px;min-width:220px;transition:border-color .2s}
-.sbox:focus-within{border-color:var(--g)}
-.sbox input{border:none;background:none;outline:none;font-size:13px;color:var(--ink);width:100%}
-.tbar-btn{width:38px;height:38px;border-radius:10px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .2s;position:relative;flex-shrink:0}
-.tbar-btn:hover{background:var(--bg2)}
-.tbar-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid #fff;display:none}
-.cart-ic{background:var(--gp);border-color:rgba(26,107,74,.2)}.cart-ic:hover{background:var(--g);color:#fff}
-/* CONTENT */
-.cont{padding:22px;overflow-y:auto;flex:1;min-height:0;-webkit-overflow-scrolling:touch}
-/* PAGES */
-.pg{display:none}.pg.on{display:block;animation:fadeUp .28s ease both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.spinner{width:24px;height:24px;border:3px solid var(--bg3);border-top-color:var(--g);border-radius:50%;animation:spin .7s linear infinite}
-.ld{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px;gap:10px;color:var(--muted);font-size:13px}
-.empty{text-align:center;padding:56px 20px;color:var(--muted)}
-.empty-ic{font-size:48px;margin-bottom:12px}
-.empty h3{font-family:var(--fd);color:var(--ink);font-size:18px;margin-bottom:5px}
-.empty p{font-size:13px;line-height:1.6;max-width:260px;margin:0 auto 18px}
-/* HERO */
-.hero{background:linear-gradient(135deg,#0d3d28 0%,#1a6b4a 60%,#2a9a6a 100%);border-radius:var(--r4);padding:32px;margin-bottom:22px;position:relative;overflow:hidden}
-.hero::after{content:'\1F33E';position:absolute;right:20px;bottom:-10px;font-size:120px;opacity:.08;line-height:1}
-.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:99px;padding:4px 12px;font-size:11px;font-weight:700;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
-.hero h1{font-family:var(--fd);font-size:34px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:8px;max-width:500px}
-.hero h1 em{color:#7ee8b8;font-style:normal}
-.hero-sub{font-size:14px;color:rgba(255,255,255,.6);max-width:440px;line-height:1.65;margin-bottom:22px}
-.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
-.hero-stats{display:flex;gap:28px;margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
-.hs-v{font-family:var(--fd);font-size:22px;font-weight:800;color:#fff}
-.hs-l{font-size:11px;color:rgba(255,255,255,.45);margin-top:1px}
-/* CATEGORY PILLS */
-.cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-bottom:20px;flex-wrap:nowrap}
-.cats::-webkit-scrollbar{display:none}
-.cat-pill{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--muted);transition:all .18s;white-space:nowrap;flex-shrink:0}
-.cat-pill:hover{border-color:var(--g);color:var(--g)}.cat-pill.on{background:var(--g);color:#fff;border-color:var(--g)}
-/* PRODUCT CARDS */
-.prod-card{background:#fff;border:1px solid var(--border);border-radius:var(--r3);overflow:hidden;display:flex;flex-direction:column;transition:all .22s;cursor:pointer;position:relative}
-.prod-card:hover{transform:translateY(-4px);box-shadow:var(--shl);border-color:rgba(26,107,74,.2)}
-.prod-img{height:180px;position:relative;overflow:hidden;background:var(--bg2);display:flex;align-items:center;justify-content:center}
-.prod-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.prod-img-emoji{font-size:64px;opacity:.7}
-.prod-badges{position:absolute;top:10px;left:10px;display:flex;gap:5px;flex-wrap:wrap}
-.prod-qty-badge{position:absolute;top:10px;right:10px}
-.prod-body{padding:14px;flex:1;display:flex;flex-direction:column;gap:8px}
-.prod-farm-row{display:flex;align-items:center;gap:6px}
-.prod-farm-av{width:20px;height:20px;border-radius:50%;background:var(--gp);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
-.prod-farm-name{font-size:11px;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.06em}
-.prod-name{font-family:var(--fd);font-size:15px;font-weight:800;line-height:1.2;color:var(--ink)}
-.prod-desc{font-size:12px;color:var(--muted);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.prod-tags{display:flex;gap:5px;flex-wrap:wrap}
-.prod-foot{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-top:1px solid var(--border);gap:8px}
-.prod-price{font-family:var(--fd);font-size:20px;font-weight:800;color:var(--ink)}
-.prod-price small{font-size:12px;font-weight:500;color:var(--muted)}
-.prod-stock{font-size:11px;color:var(--muted)}.prod-stock.low{color:var(--gold);font-weight:700}.prod-stock.out{color:var(--red);font-weight:700}
-.add-btn{display:flex;align-items:center;gap:5px;padding:8px 14px;background:var(--g);color:#fff;border:0;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
-.add-btn:hover{background:var(--g2);transform:translateY(-1px)}.add-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-/* FARM CARDS */
-.farm-card{background:#fff;border:1px solid var(--border);border-radius:var(--r3);overflow:hidden;transition:all .22s;cursor:pointer}
-.farm-card:hover{transform:translateY(-4px);box-shadow:var(--shl)}
-.farm-cover{height:120px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.farm-cover-emoji{font-size:60px;opacity:.2}
-.farm-cover-ov{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(0,0,0,.25))}
-.farm-cover-bdgs{position:absolute;top:8px;left:8px;display:flex;gap:4px}
-.farm-score{position:absolute;top:8px;right:8px;background:#fff;border-radius:99px;padding:3px 9px;font-size:11px;font-weight:800;font-family:var(--fd)}
-.farm-score.sg{color:var(--g)}.farm-score.sa{color:var(--gold)}.farm-score.sp{color:var(--muted)}
-.farm-body{padding:14px}
-.farm-name{font-family:var(--fd);font-size:15px;font-weight:800;margin-bottom:2px}
-.farm-loc{font-size:12px;color:var(--muted);margin-bottom:9px}
-.farm-foot{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-top:1px solid var(--border)}
-/* TRUST STRIP */
-.trust-strip{display:flex;align-items:stretch;background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:20px}
-.ts-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 8px;gap:4px;border-right:1px solid var(--border);text-align:center}
-.ts-item:last-child{border-right:none}
-.ts-icon{font-size:18px}.ts-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-/* CART */
-.cart-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);z-index:300}
-.cart-overlay.open{display:block}
-.cart-panel{position:fixed;right:0;top:0;bottom:0;width:400px;background:#fff;display:flex;flex-direction:column;z-index:301;box-shadow:-8px 0 48px rgba(0,0,0,.18);transform:translateX(100%);transition:transform .32s cubic-bezier(.32,.72,0,1)}
-.cart-panel.open{transform:translateX(0)}
-.cart-hdr{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.cart-title{font-family:var(--fd);font-size:17px;font-weight:800}
-.cart-x{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);transition:all .15s}
-.cart-x:hover{background:var(--bg2)}
-.cart-items{flex:1;overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:10px;min-height:0}
-.cart-item{display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border-radius:12px;border:1px solid var(--border)}
-.ci-em{width:44px;height:44px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
-.ci-info{flex:1;min-width:0}
-.ci-name{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ci-farm{font-size:11px;color:var(--muted)}
-.ci-qty{display:flex;align-items:center;gap:6px;margin-top:5px}
-.qbtn{width:24px;height:24px;border-radius:6px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:13px;font-weight:800;color:var(--ink);display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
-.qbtn:hover{background:var(--gp);border-color:var(--g);color:var(--g)}
-.qnum{font-size:13px;font-weight:700;min-width:20px;text-align:center}
-.ci-price{font-family:var(--fd);font-size:14px;font-weight:800;color:var(--g);flex-shrink:0}
-.ci-rm{width:26px;height:26px;border:none;background:none;cursor:pointer;font-size:14px;color:var(--muted);display:flex;align-items:center;justify-content:center;border-radius:6px}
-.ci-rm:hover{background:var(--rp);color:var(--red)}
-.cart-footer{padding:18px 20px;border-top:1px solid var(--border);flex-shrink:0}
-.cart-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
-.cart-row.total{font-family:var(--fd);font-size:18px;font-weight:800;padding-top:10px;margin-top:10px;border-top:1px solid var(--border)}
-/* FARM DETAIL */
-.fd-hero{background:linear-gradient(135deg,var(--gd),#1a6b4a);border-radius:var(--r3);overflow:hidden;margin-bottom:20px}
-.fd-top{padding:24px;position:relative}
-.fd-name{font-family:var(--fd);font-size:24px;font-weight:800;color:#fff;margin-bottom:4px}
-.fd-loc{font-size:13px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:5px}
-.fd-badges{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
-.fdb{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
-.fdb-g{background:rgba(5,150,105,.2);color:#6ee7b7;border:1px solid rgba(5,150,105,.25)}
-.fdb-o{background:rgba(201,146,42,.2);color:#e8b86d;border:1px solid rgba(201,146,42,.25)}
-.fdb-w{background:rgba(255,255,255,.1);color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.15)}
-.fd-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.08)}
-.fds{padding:14px 12px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
-.fds:last-child{border-right:none}
-.fdsv{font-family:var(--fd);font-size:20px;font-weight:800;color:#fff}
-.fdsl{font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
-/* TRUST CHECK */
-.tchk{display:flex;align-items:flex-start;gap:10px;padding:9px;border-radius:10px;margin-bottom:7px}
-.tchk-ic{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;color:#fff;font-weight:700}
-.tchk-t{font-size:13px;font-weight:700}.tchk-s{font-size:11px;color:var(--muted);margin-top:1px}
-/* VIDEO */
-.vid-wrap{position:relative;width:100%;padding-top:56.25%;border-radius:var(--r2);overflow:hidden;background:#000;margin-bottom:14px}
-.vid-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-/* ORDERS */
-.ord-card{background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:12px}
-.ord-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px;background:var(--bg)}
-.ord-id{font-family:monospace;font-size:12px;color:var(--muted);font-weight:600}
-.ord-body{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
-.ord-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.ord-meta-item label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:2px}
-.ord-meta-item span{font-size:13px;color:var(--ink);font-weight:600}
-.ord-foot{padding:12px 16px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.ord-total{font-family:var(--fd);font-size:18px;font-weight:800;color:var(--g)}
-.s-chip{display:inline-flex;align-items:center;border-radius:99px;padding:4px 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
-.s-Pending{background:#fef3c7;color:#92400e}.s-Accepted{background:var(--bp);color:#1e40af}
-.s-Processing{background:#f3e8ff;color:#6b21a8}.s-Packing{background:#f3e8ff;color:#6b21a8}
-.s-Ready{background:var(--gop);color:#7a5610}.s-Delivered{background:var(--gp);color:var(--gd)}
-.s-Cancelled{background:var(--rp);color:var(--red)}
-/* CHAT */
-.chat{display:grid;grid-template-columns:280px 1fr;height:calc(100vh - 130px);min-height:440px;background:#fff;border:1px solid var(--border);border-radius:var(--r3);overflow:hidden}
-.clist{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
-.csrch{padding:11px 13px;border-bottom:1px solid var(--border);flex-shrink:0}
-.csrch input{width:100%;padding:8px 12px;border-radius:99px;border:1.5px solid var(--border);background:var(--bg);font-size:13px;outline:none}
-.csrch input:focus{border-color:var(--g)}
-.c-threads{flex:1;overflow-y:auto;min-height:0}
-.c-thread{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;transition:background .15s;border-bottom:1px solid rgba(0,0,0,.05)}
-.c-thread:hover{background:var(--bg)}.c-thread.on{background:var(--gp)}
-.c-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
-.c-name{font-size:13px;font-weight:700;color:var(--ink)}.c-prev{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
-.c-time{font-size:10px;color:var(--muted);flex-shrink:0}
-.c-main{display:flex;flex-direction:column;min-width:0;overflow:hidden}
-.c-hdr{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
-.c-hdr-name{font-size:14px;font-weight:700}.c-hdr-sub{font-size:11px;color:#22c55e}
-.msgs{padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;flex:1;min-height:0}
-.bbl{max-width:72%;padding:10px 13px;border-radius:14px;font-size:13px;line-height:1.5;word-break:break-word}
-.bbl.me{align-self:flex-end;background:var(--g);color:#fff;border-bottom-right-radius:4px}
-.bbl.them{align-self:flex-start;background:var(--bg2);color:var(--ink);border-bottom-left-radius:4px}
-.bbl-time{font-size:10px;opacity:.6;margin-top:3px}
-.c-inp{display:flex;gap:9px;border-top:1px solid var(--border);padding:12px 14px;flex-shrink:0}
-.c-inp input{flex:1;padding:10px 14px;border-radius:var(--r2);border:1.5px solid var(--border);background:var(--bg);font-size:13px;outline:none}
-.c-inp input:focus{border-color:var(--g)}
-/* ADMIN */
-.adm-hero{background:linear-gradient(135deg,#0f0d0b,#1a1614);border-radius:var(--r3);padding:26px;margin-bottom:20px;color:#fff}
-.adm-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:20px}
-.adm-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:var(--r2);padding:14px}
-.adm-v{font-family:var(--fd);font-size:22px;font-weight:800;color:#fff}
-.adm-l{font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
-.ab{display:inline-flex;align-items:center;gap:3px;padding:4px 9px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid;transition:all .15s}
-.ab-ok{color:var(--g);border-color:var(--g);background:var(--gp)}.ab-ok:hover{background:var(--g);color:#fff}
-.ab-rej{color:var(--red);border-color:var(--red);background:var(--rp)}.ab-rej:hover{background:var(--red);color:#fff}
-.ab-v{color:var(--blue);border-color:var(--blue);background:var(--bp)}.ab-v:hover{background:var(--blue);color:#fff}
-/* MODAL */
-.mo{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(5px);z-index:400;display:flex;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
-.modal{background:#fff;border-radius:var(--r3);width:540px;max-width:96vw;margin:auto;box-shadow:0 24px 80px rgba(0,0,0,.3);animation:fadeUp .25s ease}
-.m-hdr{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.m-ttl{font-family:var(--fd);font-size:18px;font-weight:800}
-.m-x{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);transition:all .15s}
-.m-x:hover{background:var(--bg2)}
-.m-body{padding:20px 22px}.m-foot{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
-/* TOAST */
-#twrap{position:fixed;bottom:22px;right:22px;z-index:999;display:flex;flex-direction:column;gap:8px}
-.toast{background:#0f0d0b;color:#fff;border-radius:var(--r2);padding:12px 18px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:9px;max-width:340px;animation:fadeUp .3s ease;box-shadow:0 8px 32px rgba(0,0,0,.25)}
-.t-ok{background:var(--g)}.t-err{background:var(--red)}.t-wrn{background:var(--gold)}
-/* TABLE */
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:16px;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r2) var(--r2) 0 0}
+.sc-brand::before{background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.sc-gold::before{background:linear-gradient(90deg,var(--gold),#e8b86d)}
+.sc-blue::before{background:linear-gradient(90deg,var(--blue),#60a5fa)}
+.sc-purple::before{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
+.stat-l{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.stat-v{font-family:var(--display);font-size:28px;font-weight:800;color:var(--ink);line-height:1}
+.stat-s{font-size:12px;color:var(--muted);margin-top:4px}
+.stat-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:30px;opacity:.07}
+
+/* PROGRESS */
+.prog-bar{height:5px;background:var(--bg2);border-radius:99px;overflow:hidden;margin:6px 0}
+.prog-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .6s}
+
+/* TABLES */
 table{width:100%;border-collapse:collapse}
 th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:9px 12px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--border)}
-td{font-size:13px;padding:10px 12px;border-bottom:1px solid rgba(0,0,0,.05);vertical-align:middle}
+td{font-size:13px;padding:10px 12px;border-bottom:1px solid rgba(0,0,0,.05);vertical-align:middle;color:var(--ink)}
 tbody tr:hover{background:var(--bg)}
 tbody tr:last-child td{border-bottom:none}
-.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
-/* MOBILE NAV */
-.mobnav{display:none;position:fixed;bottom:0;left:0;right:0;height:var(--bnav);background:#fff;border-top:1px solid var(--border);z-index:100;padding:0 4px 6px;align-items:stretch;box-shadow:0 -4px 20px rgba(0,0,0,.08)}
-.mn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border:none;background:none;color:var(--muted);font-size:10px;font-weight:700;font-family:'Instrument Sans',sans-serif;-webkit-tap-highlight-color:transparent;position:relative;padding:3px 0}
-.mn.on{color:var(--g)}.mn-ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
-.mn.on .mn-ic{background:var(--gp);transform:scale(1.06)}
-.mn-dot{position:absolute;top:2px;right:calc(50% - 22px);background:var(--red);color:#fff;font-size:9px;font-weight:800;padding:1px 5px;border-radius:99px;border:1.5px solid #fff;display:none}
-/* MOBILE SEARCH */
-.mob-srch{display:none}.mob-srch.open{display:flex;align-items:center;gap:8px;padding:9px 14px;background:#fff;border-bottom:1px solid var(--border)}
-.mob-srch input{flex:1;border:1.5px solid var(--border);border-radius:99px;padding:8px 14px;font-size:14px;outline:none;background:var(--bg)}
-.mob-srch input:focus{border-color:var(--g)}
-.mob-srch-btn{display:none;width:36px;height:36px;border-radius:10px;background:var(--bg);border:1px solid var(--border);align-items:center;justify-content:center;cursor:pointer;font-size:15px;flex-shrink:0}
-/* RESPONSIVE */
-@media(max-width:768px){
-  body{overflow-x:hidden}.shell{display:block;height:100vh;overflow:hidden}.side{display:none}
-  .mwrap{height:100vh;display:flex;flex-direction:column;overflow:hidden}
-  .tbar{height:54px;padding:0 14px}.tbar-t{font-size:16px}.sbox{display:none}
-  .mob-srch-btn{display:flex!important}.mobnav{display:flex}
-  .cont{padding:12px 12px 76px;overflow-y:auto;flex:1;min-height:0}
-  #twrap{left:12px;right:12px;bottom:70px}.toast{max-width:100%}
-  .g4,.g3{grid-template-columns:1fr 1fr;gap:10px}.g2{grid-template-columns:1fr}
-  .ga{grid-template-columns:1fr 1fr;gap:10px}.row2{grid-template-columns:1fr}
-  .hero{padding:20px;border-radius:var(--r2)}.hero h1{font-size:22px}
-  .hero-btns{flex-direction:column}.hero-btns .btn{width:100%}.hero-stats{gap:16px}
-  .trust-strip{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .ts-item{min-width:70px;padding:10px 6px}
-  .fd-stats{grid-template-columns:1fr 1fr}
-  .mo{padding:0;align-items:flex-end}
-  .modal{border-radius:var(--r3) var(--r3) 0 0;max-height:92vh;overflow-y:auto;animation:slideUp .32s cubic-bezier(.32,.72,0,1);width:100%;max-width:100%}
-  .m-hdr::before{content:'';display:block;width:36px;height:4px;border-radius:99px;background:var(--bg3);margin:0 auto 12px}
-  .m-foot{flex-direction:column}.m-foot .btn{width:100%}
-  .cart-panel{width:100%;border-radius:var(--r3) var(--r3) 0 0;top:auto;height:90vh}
-  .chat{grid-template-columns:1fr;height:auto}.clist{border-right:none;border-bottom:1px solid var(--border);max-height:170px}
-  .msgs{height:calc(100vh - 400px);min-height:200px}
-  .btn{min-height:42px}.bsm{min-height:34px}.blg{min-height:48px}
-  .inp,.sel,.ta{padding:11px 13px;font-size:15px}
+.table-wrap{overflow-x:auto}
+
+/* SIDEBAR */
+#app{display:none;min-height:100vh}
+.shell{display:grid;grid-template-columns:var(--sw) 1fr;height:100vh;overflow:hidden}
+.side{background:var(--dark);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:hidden}
+.side-logo-wrap{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
+.side-logo{font-family:var(--display);font-size:21px;font-weight:800;color:#fff}
+.side-logo span{color:#7ee8b8}
+.side-sub{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
+.nav{display:flex;flex-direction:column;gap:2px;flex:1;padding:14px 10px;overflow-y:auto;min-height:0}
+.nav-section{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.2);padding:10px 10px 3px;margin-top:4px}
+.nav button{border:0;background:transparent;color:rgba(255,255,255,.55);padding:9px 11px;border-radius:9px;text-align:left;font-weight:600;font-size:13px;width:100%;display:flex;align-items:center;gap:9px;transition:all .15s;position:relative}
+.nav button:hover,.nav button.active{background:rgba(255,255,255,.08);color:#fff}
+.nav button.active::before{content:'';position:absolute;left:0;top:22%;bottom:22%;width:3px;background:#7ee8b8;border-radius:0 3px 3px 0}
+.side-footer{padding:12px;border-top:1px solid rgba(255,255,255,.06)}
+.user-tile{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:10px;cursor:pointer}
+.user-tile:hover{background:rgba(255,255,255,.05)}
+.user-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;font-family:var(--display)}
+.user-name{font-size:13px;color:#fff;font-weight:600}
+.user-role{font-size:10px;color:rgba(255,255,255,.3);text-transform:capitalize}
+.logout-btn{width:100%;margin-top:4px;padding:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;color:rgba(255,255,255,.35);font-size:12px;font-weight:600;transition:all .15s}
+.logout-btn:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7)}
+
+/* TOPBAR */
+.main-wrap{min-width:0;display:flex;flex-direction:column;overflow-y:auto}
+.topbar{height:62px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;z-index:10;gap:14px}
+.topbar-title{font-family:var(--display);font-weight:800;font-size:19px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.search-box{display:flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border);border-radius:99px;padding:7px 13px;min-width:180px}
+.search-box input{border:none;background:none;outline:none;font-size:13px;color:var(--ink);width:100%}
+.notif-btn{position:relative;width:36px;height:36px;border-radius:9px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:background .15s}
+.notif-btn:hover{background:var(--bg2)}
+.notif-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--gold);border:2px solid #fff;display:none}
+.content{padding:22px;overflow-y:auto;flex:1}
+.page{display:none;animation:fadeUp .3s ease}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bounceIn{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+
+/* FARM CARDS */
+.farm-card{background:#fff;border:1px solid var(--border);border-radius:var(--r3);overflow:hidden;display:flex;flex-direction:column;transition:all .22s}
+.farm-card:hover{transform:translateY(-4px);box-shadow:0 10px 40px rgba(0,0,0,.13);border-color:rgba(26,107,74,.2)}
+.farm-media{height:160px;position:relative;overflow:hidden}
+.farm-media-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:60px;opacity:.15}
+.farm-media-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,.2))}
+.farm-media-badges{position:absolute;top:10px;left:10px;display:flex;gap:5px;flex-wrap:wrap}
+.farm-media-score{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:2.5px solid;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;font-family:var(--display);background:#fff}
+.score-good{border-color:var(--brand);color:var(--brand)}
+.score-avg{border-color:var(--gold);color:var(--gold)}
+.score-pend{border-color:var(--muted);color:var(--muted)}
+.farm-body{padding:14px;flex:1;display:flex;flex-direction:column;gap:9px}
+.farm-name{font-family:var(--display);font-size:16px;font-weight:800;line-height:1.2}
+.farm-loc{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.farm-footer{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-top:1px solid var(--border);gap:8px}
+
+/* FARMER PROFILE */
+.fp-hero{background:linear-gradient(135deg,var(--brand-dark),#1e5c3a);border-radius:var(--r3);overflow:hidden;margin-bottom:18px}
+.fp-hero-top{padding:24px 26px;position:relative}
+.fp-hero-top::before{content:'🌾';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:68px;opacity:.08}
+.fp-name{font-family:var(--display);font-size:24px;font-weight:800;color:#fff;margin-bottom:3px}
+.fp-loc{font-size:13px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:5px}
+.fp-badges{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+.fp-verify-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:99px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.fvb-gold{background:rgba(201,146,42,.25);color:#e8b86d;border:1px solid rgba(201,146,42,.3)}
+.fvb-green{background:rgba(5,150,105,.2);color:#6ee7b7;border:1px solid rgba(5,150,105,.25)}
+.fvb-white{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15)}
+.fp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(255,255,255,.08)}
+.fp-stat{padding:14px 16px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
+.fp-stat:last-child{border-right:none}
+.fp-stat-v{font-family:var(--display);font-size:20px;font-weight:800;color:#fff}
+.fp-stat-l{font-size:10px;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+
+/* VIDEO */
+.video-wrap{position:relative;width:100%;border-radius:var(--r2);overflow:hidden;background:#000;aspect-ratio:16/9}
+.video-wrap iframe,.video-wrap video{position:absolute;inset:0;width:100%;height:100%;border:none}
+.video-placeholder{position:absolute;inset:0;background:linear-gradient(135deg,var(--dark),var(--dark2));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:rgba(255,255,255,.4);cursor:pointer}
+.video-play{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:4px}
+
+/* TRUST SIGNALS */
+.trust-bar{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:14px 18px;margin-bottom:18px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--ink)}
+.trust-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ti-green{background:var(--brand-pale)}
+.ti-gold{background:var(--gold-pale)}
+.ti-gray{background:var(--bg2)}
+.trust-divider{width:1px;height:24px;background:var(--border)}
+
+/* VERIFICATION TIERS */
+.tier-card{background:var(--card);border:2px solid var(--border);border-radius:var(--r2);padding:16px;transition:all .2s}
+.tier-bronze{border-color:rgba(201,146,42,.4);background:linear-gradient(135deg,#fff,#fffbf5)}
+.tier-silver{border-color:rgba(107,114,128,.4);background:linear-gradient(135deg,#fff,#f9fafb)}
+.tier-gold{border-color:rgba(201,146,42,.6);background:linear-gradient(135deg,#fff,#fffbec)}
+.tier-icon{font-size:28px;margin-bottom:8px}
+.tier-name{font-family:var(--display);font-size:16px;font-weight:800;margin-bottom:4px}
+.tier-checks{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.tier-check{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.tier-check.done{color:var(--brand)}
+
+/* Q&A */
+.qa-item{background:var(--bg);border-radius:var(--r);padding:12px 14px;margin-bottom:9px}
+.qa-q{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.qa-meta{font-size:11px;color:var(--muted);margin-bottom:8px}
+.qa-a{font-size:13px;color:var(--ink-2,#4a4640);background:#fff;border-radius:9px;padding:9px 11px;border-left:3px solid var(--brand)}
+
+/* CHAT */
+.chat{display:grid;grid-template-columns:268px 1fr;height:calc(100vh - 130px);min-height:500px;background:#fff;border:1px solid var(--border);border-radius:var(--r3);overflow:hidden}
+.chat-list{border-right:1px solid var(--border);overflow:auto;display:flex;flex-direction:column}
+.chat-search{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chat-search input{width:100%;padding:7px 11px;border-radius:99px;border:1.5px solid var(--border);background:var(--bg);font-size:13px;outline:none}
+.chat-item{padding:12px 13px;border-bottom:1px solid rgba(0,0,0,.05);cursor:pointer;transition:background .15s}
+.chat-item:hover{background:var(--bg)}
+.chat-item.active{background:var(--brand-pale)}
+.chat-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.chat-item-name{font-size:13px;font-weight:600}
+.chat-item-prev{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+.chat-main{display:flex;flex-direction:column;min-width:0}
+.chat-hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.chat-hdr-name{font-size:14px;font-weight:700}
+.chat-hdr-status{font-size:11px;color:#22c55e}
+.msgs{padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:9px;flex:1;min-height:0}
+.bubble{max-width:70%;padding:9px 12px;border-radius:14px;background:var(--bg2);font-size:13px;line-height:1.5}
+.bubble.me{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:4px}
+.bubble-time{font-size:10px;opacity:.6;margin-top:3px;text-align:right}
+.chat-input{display:flex;gap:8px;border-top:1px solid var(--border);padding:11px 13px}
+
+/* ADMIN */
+.admin-hero{background:linear-gradient(135deg,var(--dark),var(--dark2));border-radius:var(--r3);padding:24px;margin-bottom:18px;color:#fff}
+.adm-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;margin-bottom:18px}
+.adm-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:var(--r2);padding:14px}
+.adm-v{font-family:var(--display);font-size:22px;font-weight:800;color:#fff}
+.adm-l{font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+.act-btn{display:inline-flex;align-items:center;gap:3px;padding:4px 9px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid;transition:all .15s}
+.act-ok{color:var(--brand);border-color:var(--brand);background:var(--brand-pale)}.act-ok:hover{background:var(--brand);color:#fff}
+.act-rej{color:var(--red);border-color:var(--red);background:var(--red-pale)}.act-rej:hover{background:var(--red);color:#fff}
+.act-view{color:var(--blue);border-color:var(--blue);background:var(--blue-pale)}.act-view:hover{background:var(--blue);color:#fff}
+
+/* EMPTY / LOADING */
+.empty{text-align:center;padding:48px 16px;color:var(--muted)}
+.empty h3{font-family:var(--display);color:var(--ink);margin-bottom:5px;font-size:17px}
+.empty p{font-size:13px;line-height:1.6;max-width:260px;margin:0 auto 16px}
+.spinner{width:24px;height:24px;border:3px solid var(--bg3);border-top-color:var(--brand);border-radius:50%;animation:spin .7s linear infinite}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px;gap:9px;color:var(--muted);font-size:13px}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(22,19,16,.6);backdrop-filter:blur(5px);z-index:200;display:flex;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
+.modal{background:#fff;border-radius:var(--r3);width:540px;max-width:95vw;margin:auto;box-shadow:0 24px 80px rgba(0,0,0,.25);animation:fadeUp .25s ease}
+.modal-hdr{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-family:var(--display);font-size:18px;font-weight:800}
+.modal-close{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);transition:all .15s}
+.modal-close:hover{background:var(--bg2)}
+.modal-body{padding:20px 22px}
+.modal-footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+
+/* TOAST */
+#toastWrap{position:fixed;bottom:22px;right:22px;z-index:999;display:flex;flex-direction:column;gap:7px}
+.toast{background:var(--dark);color:#fff;border-radius:var(--r2);padding:11px 16px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;max-width:320px;animation:fadeUp .3s ease;box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.toast-ok{background:var(--brand)}.toast-err{background:var(--red)}.toast-warn{background:var(--gold)}
+
+@media(max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;height:auto}
+  .g4,.g3{grid-template-columns:1fr 1fr}
+  .g2{grid-template-columns:1fr}
+  .chat{grid-template-columns:1fr;height:75vh}
+  .chat-list{max-height:200px}
+  .row{grid-template-columns:1fr}
+  .trust-bar{gap:10px}
 }
-@media(max-width:400px){.ga{grid-template-columns:1fr}.hero h1{font-size:19px}.cont{padding:10px 10px 76px}}
+@media(max-width:600px){
+  .g4{grid-template-columns:1fr 1fr}
+  .content{padding:14px}
+  .topbar{padding:0 14px}
+}
 </style>
 </head>
 <body>
 
 <!-- AUTH -->
-<div id="authWrap">
-  <div class="a-box">
-    <div class="a-logo">Farm<em>Pool</em></div>
-    <div class="a-tag">South Africa&#39;s fresh produce marketplace</div>
-    <div class="a-card">
-      <div id="amsg"></div>
-      <div class="a-tabs">
-        <button class="a-tab on" id="aTab1" onclick="authTab('login')">Sign in</button>
-        <button class="a-tab" id="aTab2" onclick="authTab('register')">Register</button>
+<div id="authScreen">
+  <div class="auth-wrap">
+    <div class="auth-logo">Farm<span>Pool</span></div>
+    <div class="auth-tag">South Africa's live agricultural marketplace and investment platform</div>
+    <div class="auth-card">
+      <div id="authMsg"></div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="loginTab" onclick="showAuth('login')">Sign in</button>
+        <button class="auth-tab" id="registerTab" onclick="showAuth('register')">Register</button>
       </div>
-      <div id="aLogin">
-        <div class="field"><label class="lbl">Email address</label><input class="inp" id="lEmail" type="email" placeholder="you@example.com" autocomplete="email"></div>
-        <div class="field"><label class="lbl">Password</label><input class="inp" id="lPass" type="password" placeholder="Your password" autocomplete="current-password"></div>
-        <button class="btn bp w100 blg" id="lBtn" onclick="doLogin()">Sign in</button>
-        <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--muted)">New here? <span class="alink" onclick="authTab('register')">Create account</span></p>
+      <div id="loginForm">
+        <div class="field"><label class="label">Email address</label><input class="input" id="loginEmail" type="email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')login()"></div>
+        <div class="field"><label class="label">Password</label><input class="input" id="loginPassword" type="password" placeholder="Your password" onkeydown="if(event.key==='Enter')login()"></div>
+        <button class="btn btn-primary w-full btn-lg" id="loginBtn" onclick="login()">Sign in</button>
+        <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--muted)">New here? <span class="auth-link" onclick="showAuth('register')">Create an account</span></p>
       </div>
-      <div id="aReg" class="hidden">
-        <div class="field"><label class="lbl">Full name</label><input class="inp" id="rName" placeholder="Thabo Mokoena"></div>
-        <div class="row2">
-          <div class="field"><label class="lbl">Email</label><input class="inp" id="rEmail" type="email" placeholder="you@example.com"></div>
-          <div class="field"><label class="lbl">I am joining as</label>
-            <select class="sel" id="rRole">
-              <option value="buyer">Buyer &mdash; I want to shop</option>
-              <option value="farmer">Farmer &mdash; I want to sell</option>
+      <div id="registerForm" class="hidden">
+        <div class="field"><label class="label">Full name</label><input class="input" id="regName" placeholder="Thabo Mokoena"></div>
+        <div class="row">
+          <div class="field"><label class="label">Email</label><input class="input" id="regEmail" type="email" placeholder="you@example.com"></div>
+          <div class="field"><label class="label">I am a</label>
+            <select class="select" id="regRole">
+              <option value="buyer">Buyer / Investor</option>
+              <option value="farmer">Farmer</option>
             </select>
           </div>
         </div>
-        <div class="field"><label class="lbl">Password (min 6 characters)</label><input class="inp" id="rPass" type="password" placeholder="Create a password"></div>
-        <button class="btn bp w100 blg" id="rBtn" onclick="doRegister()">Create account</button>
-        <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--muted)">Have an account? <span class="alink" onclick="authTab('login')">Sign in</span></p>
+        <div class="field"><label class="label">Password (min 6 chars)</label><input class="input" id="regPassword" type="password" placeholder="Create a password"></div>
+        <button class="btn btn-primary w-full btn-lg" id="registerBtn" onclick="register()">Create account</button>
+        <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--muted)">Have an account? <span class="auth-link" onclick="showAuth('login')">Sign in</span></p>
       </div>
     </div>
-    <div class="a-foot">By joining you agree to FarmPool&#39;s Terms &amp; Privacy Policy.</div>
+    <div class="auth-footer">By joining you agree to FarmPool's Terms of Service &amp; Privacy Policy.<br>Investment returns are not guaranteed. Agricultural investing carries risk.</div>
   </div>
 </div>
 
 <!-- APP -->
 <div id="app">
-<div class="shell">
-  <aside class="side">
-    <div class="slogo"><div class="slogo-t">Farm<em>Pool</em></div><div class="slogo-s" id="roleLabel">Marketplace</div></div>
-    <nav class="snav" id="snav"></nav>
-    <div class="sfooter">
-      <div class="utile"><div class="uav" id="uav">?</div><div><div class="uname" id="uname">Loading</div><div class="urole" id="urole">&mdash;</div></div></div>
-      <button class="lo-btn" onclick="doLogout()">Sign out</button>
-    </div>
-  </aside>
-  <div class="mwrap">
-    <header class="tbar">
-      <div class="tbar-t" id="ptitle">Marketplace</div>
-      <div class="tbar-r">
-        <div class="sbox">&#128269; <input id="srch" placeholder="Search produce, farms&hellip;" oninput="onSearch()"></div>
-        <button class="mob-srch-btn" id="mobSrchBtn" onclick="toggleMobSearch()">&#128269;</button>
-        <div class="tbar-btn cart-ic" id="cartBtn" onclick="openCart()" title="Cart">&#128717;<div class="tbar-dot" id="cartDot"></div></div>
-        <div class="tbar-btn" onclick="showPage('notifications')" title="Notifications">&#128276;<div class="tbar-dot" id="notifDot"></div></div>
+  <div class="shell">
+    <!-- SIDEBAR -->
+    <aside class="side">
+      <div class="side-logo-wrap">
+        <div class="side-logo">Farm<span>Pool</span></div>
+        <div class="side-sub" id="roleLabel">Platform</div>
       </div>
-    </header>
-    <div class="mob-srch" id="mobSrch">
-      <input id="mobSrchInp" placeholder="Search produce, farms&hellip;" oninput="onMobSearch()">
-      <button class="btn bs bsm" onclick="closeMobSearch()">&#10005;</button>
-    </div>
-    <div class="cont">
-
-      <!-- HOME -->
-      <section class="pg on" id="pg-home">
-        <div class="hero">
-          <div class="hero-tag">&#127806; Live marketplace</div>
-          <h1>Fresh produce, <em>direct from SA farms</em></h1>
-          <div class="hero-sub">Browse verified farms, order fresh produce, and have it delivered. No middlemen &mdash; real farmers, real food.</div>
-          <div class="hero-btns">
-            <button class="btn bp blg" onclick="showPage('shop')">&#128717; Shop now</button>
-            <button class="btn blg" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18)" onclick="showPage('farms')">&#127806; Browse farms</button>
-          </div>
-          <div class="hero-stats">
-            <div><div class="hs-v" id="hs1">0</div><div class="hs-l">Farms</div></div>
-            <div><div class="hs-v" id="hs2">0</div><div class="hs-l">Products</div></div>
-            <div><div class="hs-v" id="hs3">0</div><div class="hs-l">Orders</div></div>
+      <nav class="nav" id="nav"></nav>
+      <div class="side-footer">
+        <div class="user-tile">
+          <div class="user-av" id="userAv">?</div>
+          <div>
+            <div class="user-name" id="userName">Loading...</div>
+            <div class="user-role" id="userRoleLabel">—</div>
           </div>
         </div>
-        <div class="trust-strip">
-          <div class="ts-item"><div class="ts-icon">&#9989;</div><div class="ts-label">ID Verified</div></div>
-          <div class="ts-item"><div class="ts-icon">&#127885;</div><div class="ts-label">Farm Inspected</div></div>
-          <div class="ts-item"><div class="ts-icon">&#127909;</div><div class="ts-label">Video Verified</div></div>
-          <div class="ts-item"><div class="ts-icon">&#128274;</div><div class="ts-label">Secure Orders</div></div>
-          <div class="ts-item"><div class="ts-icon">&#128666;</div><div class="ts-label">Fresh Delivery</div></div>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="font-family:var(--fd);font-size:18px;font-weight:800">Featured produce</div>
-          <button class="btn bgh bsm" onclick="showPage('shop')">View all &rarr;</button>
-        </div>
-        <div id="homeProdGrid"><div class="ld"><div class="spinner"></div>Loading produce&hellip;</div></div>
-      </section>
+        <button class="logout-btn" onclick="logout()">Sign out</button>
+      </div>
+    </aside>
 
-      <!-- SHOP -->
-      <section class="pg" id="pg-shop">
-        <div class="cats" id="catPills">
-          <div class="cat-pill on" onclick="filterCat('',this)">&#127757; All</div>
-          <div class="cat-pill" onclick="filterCat('Vegetables',this)">&#129382; Vegetables</div>
-          <div class="cat-pill" onclick="filterCat('Fruit',this)">&#127822; Fruit</div>
-          <div class="cat-pill" onclick="filterCat('Grains',this)">&#127806; Grains</div>
-          <div class="cat-pill" onclick="filterCat('Livestock',this)">&#128004; Livestock</div>
-          <div class="cat-pill" onclick="filterCat('Poultry',this)">&#128020; Poultry</div>
-          <div class="cat-pill" onclick="filterCat('Dairy',this)">&#129371; Dairy</div>
-          <div class="cat-pill" onclick="filterCat('Eggs',this)">&#129370; Eggs</div>
-          <div class="cat-pill" onclick="filterCat('Honey',this)">&#127855; Honey</div>
-          <div class="cat-pill" onclick="filterCat('Herbs',this)">&#127807; Herbs</div>
+    <!-- MAIN -->
+    <div class="main-wrap">
+      <header class="topbar">
+        <div class="topbar-title" id="pageTitle">Dashboard</div>
+        <div class="topbar-right">
+          <div class="search-box">🔍 <input id="searchInput" placeholder="Search farms, products..." oninput="onSearch()"></div>
+          <div class="notif-btn" onclick="showPage('activity')" title="Activity">🔔<div class="notif-dot" id="notifDot"></div></div>
+          <button class="btn btn-secondary btn-sm" onclick="loadAll()">↻ Refresh</button>
         </div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap">
-          <select class="sel bsm" id="provFilt" onchange="renderShop()" style="width:auto;padding:7px 12px">
-            <option value="">All provinces</option>
-            <option>Western Cape</option><option>Gauteng</option><option>KwaZulu-Natal</option>
-            <option>Eastern Cape</option><option>Northern Cape</option><option>Free State</option>
-            <option>Limpopo</option><option>Mpumalanga</option><option>North West</option>
-          </select>
-          <select class="sel bsm" id="sortFilt" onchange="renderShop()" style="width:auto;padding:7px 12px">
-            <option value="new">Newest</option>
-            <option value="price_asc">Price: Low to High</option>
-            <option value="price_desc">Price: High to Low</option>
-            <option value="name">Name A-Z</option>
-          </select>
-          <div id="shopCount" style="font-size:13px;color:var(--muted);margin-left:auto"></div>
-        </div>
-        <div id="shopGrid" class="ga"></div>
-      </section>
+      </header>
 
-      <!-- FARMS -->
-      <section class="pg" id="pg-farms">
-        <div id="farmRegBox" class="hidden">
-          <div class="card mb4">
-            <div class="card-h"><div class="card-t">&#127806; Register Your Farm</div><span class="bdg bdg-o">Pending approval</span></div>
-            <div class="card-b">
-              <div class="alert ai"><span>&#8505;&#65039;</span><div>Complete all fields. A FarmPool agent verifies before approval. Once approved you can list products.</div></div>
-              <div class="row2">
-                <div class="field"><label class="lbl">Farm name *</label><input class="inp" id="fName" placeholder="e.g. Sunshine Valley Farm"></div>
-                <div class="field"><label class="lbl">Province *</label>
-                  <select class="sel" id="fProv"><option value="">Select</option>
-                    <option>Western Cape</option><option>Gauteng</option><option>KwaZulu-Natal</option>
-                    <option>Eastern Cape</option><option>Northern Cape</option><option>Free State</option>
-                    <option>Limpopo</option><option>Mpumalanga</option><option>North West</option>
-                  </select>
+      <div class="content">
+
+        <!-- DASHBOARD -->
+        <section class="page active" id="page-dashboard">
+          <div style="background:linear-gradient(135deg,var(--brand-dark),#1a5c3c);border-radius:var(--r3);padding:22px 26px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden">
+            <div style="position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:70px;opacity:.06">🌾</div>
+            <div><div id="dashWelcome" style="font-family:var(--display);font-size:20px;font-weight:800;color:#fff;margin-bottom:4px">Welcome to FarmPool</div><div id="dashSub" style="font-size:13px;color:rgba(255,255,255,.5)">Live agricultural marketplace connecting buyers, investors and farmers.</div></div>
+            <button class="btn btn-sm" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18);flex-shrink:0" onclick="showPage('farms')">Explore farms →</button>
+          </div>
+          <div class="g4 mb-4">
+            <div class="stat-card sc-brand"><div class="stat-l">Users</div><div class="stat-v" id="mUsers">0</div><div class="stat-s">Registered profiles</div><div class="stat-icon">👥</div></div>
+            <div class="stat-card sc-gold"><div class="stat-l">Farms</div><div class="stat-v" id="mFarms">0</div><div class="stat-s">Listed on platform</div><div class="stat-icon">🌾</div></div>
+            <div class="stat-card sc-blue"><div class="stat-l">Orders</div><div class="stat-v" id="mOrders">0</div><div class="stat-s">Marketplace orders</div><div class="stat-icon">📦</div></div>
+            <div class="stat-card sc-purple"><div class="stat-l">Revenue</div><div class="stat-v" id="mRevenue">R0</div><div class="stat-s">Delivered orders</div><div class="stat-icon">💰</div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px">
+            <div style="font-family:var(--display);font-size:17px;font-weight:800">Recent farms</div>
+            <button class="btn btn-ghost btn-sm" onclick="showPage('farms')">View all →</button>
+          </div>
+          <div id="dashFarmGrid"><div class="loading"><div class="spinner"></div>Loading farms...</div></div>
+        </section>
+
+        <!-- FARMS -->
+        <section class="page" id="page-farms">
+          <div class="trust-bar">
+            <div class="trust-item"><div class="trust-icon ti-green">✅</div>ID Verified</div>
+            <div class="trust-divider"></div>
+            <div class="trust-item"><div class="trust-icon ti-gold">🏅</div>Farm Inspected</div>
+            <div class="trust-divider"></div>
+            <div class="trust-item"><div class="trust-icon ti-green">📹</div>Video Verified</div>
+            <div class="trust-divider"></div>
+            <div class="trust-item"><div class="trust-icon ti-gold">🔒</div>Escrow Protected</div>
+            <div class="trust-divider"></div>
+            <div class="trust-item"><div class="trust-icon ti-green">📋</div>FSCA Compliant</div>
+          </div>
+
+          <div id="farmRegisterBox">
+            <div class="card mb-4">
+              <div class="card-h"><div class="card-title">Register Your Farm</div><span class="badge badge-gold">Pending admin approval</span></div>
+              <div class="card-b">
+                <div class="alert alert-info"><span>ℹ️</span><div>Complete all fields honestly. A FarmPool agent will visit your farm before approval. False information leads to permanent suspension.</div></div>
+                <div class="row">
+                  <div class="field"><label class="label">Farm name *</label><input class="input" id="farmName" placeholder="e.g. Sunshine Valley Farm"></div>
+                  <div class="field"><label class="label">Province *</label>
+                    <select class="select" id="farmProvince">
+                      <option value="">Select province</option>
+                      <option>Western Cape</option><option>Gauteng</option><option>KwaZulu-Natal</option>
+                      <option>Eastern Cape</option><option>Northern Cape</option><option>Free State</option>
+                      <option>Limpopo</option><option>Mpumalanga</option><option>North West</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div class="row2">
-                <div class="field"><label class="lbl">Nearest town *</label><input class="inp" id="fTown" placeholder="e.g. Wellington"></div>
-                <div class="field"><label class="lbl">Category *</label>
-                  <select class="sel" id="fCat"><option value="">Select</option>
-                    <option>Vegetables</option><option>Fruit</option><option>Grains</option>
-                    <option>Livestock</option><option>Poultry</option><option>Dairy</option>
-                    <option>Eggs</option><option>Honey</option><option>Herbs</option><option>Mixed</option>
-                  </select>
+                <div class="row">
+                  <div class="field"><label class="label">Nearest town *</label><input class="input" id="farmTown" placeholder="e.g. Wellington"></div>
+                  <div class="field"><label class="label">Farm category *</label><input class="input" id="farmCategory" placeholder="Vegetables, livestock, fruit..."></div>
                 </div>
-              </div>
-              <div class="field"><label class="lbl">Introduction video URL *</label><input class="inp" id="fVideo" placeholder="YouTube or Vimeo link &mdash; film yourself on your farm"><div class="hint">&#127909; This is the #1 trust signal for buyers.</div></div>
-              <div class="row2">
-                <div class="field"><label class="lbl">Farm size (ha)</label><input class="inp" id="fSize" type="number" placeholder="e.g. 15"></div>
-                <div class="field"><label class="lbl">Years experience</label><input class="inp" id="fExp" type="number" placeholder="e.g. 5"></div>
-              </div>
-              <div class="field"><label class="lbl">Certifications</label><input class="inp" id="fCert" placeholder="e.g. Organic certified, GlobalG.A.P"></div>
-              <div class="field"><label class="lbl">Proof of land</label><input class="inp" id="fProof" type="file" accept="image/*,.pdf"><div class="hint">Lease, title deed, or farm photo. Reviewed privately by admins only.</div></div>
-              <div class="field"><label class="lbl">About your farm *</label><textarea class="ta" id="fAbout" placeholder="Tell buyers about your farm, what you grow, your methods&hellip;"></textarea></div>
-              <div class="chk"><input type="checkbox" id="fAgree"><span>All information is accurate. False information results in permanent suspension.</span></div>
-              <button class="btn bp" id="farmRegBtn" onclick="doRegisterFarm()">Submit farm for approval</button>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-          <div style="font-family:var(--fd);font-size:18px;font-weight:800">All Farms</div>
-          <div style="display:flex;gap:8px">
-            <select class="sel bsm" id="farmCatFilt" onchange="renderFarms()" style="width:auto;padding:6px 12px"><option value="">All categories</option><option>Vegetables</option><option>Fruit</option><option>Grains</option><option>Livestock</option><option>Poultry</option><option>Dairy</option></select>
-            <select class="sel bsm" id="farmStatFilt" onchange="renderFarms()" style="width:auto;padding:6px 12px"><option value="">All statuses</option><option value="approved">Approved</option><option value="pending">Pending</option></select>
-          </div>
-        </div>
-        <div id="farmGrid" class="ga"></div>
-      </section>
-
-      <!-- FARM DETAIL -->
-      <section class="pg" id="pg-farm-detail">
-        <button class="btn bs bsm mb4" onclick="goBack()">&#8592; Back</button>
-        <div id="farmDetailContent"><div class="ld"><div class="spinner"></div>Loading&hellip;</div></div>
-      </section>
-
-      <!-- SELL -->
-      <section class="pg" id="pg-sell">
-        <div class="card mb4">
-          <div class="card-h"><div class="card-t">&#128230; List a Product</div><span class="bdg bdg-g">Live immediately</span></div>
-          <div class="card-b">
-            <div class="row2">
-              <div class="field"><label class="lbl">Your farm *</label><select class="sel" id="pFarm"></select></div>
-              <div class="field"><label class="lbl">Product name *</label><input class="inp" id="pName" placeholder="e.g. Baby spinach 500g"></div>
-            </div>
-            <div class="row2">
-              <div class="field"><label class="lbl">Category *</label>
-                <select class="sel" id="pCat"><option value="">Select</option>
-                  <option>Vegetables</option><option>Fruit</option><option>Grains</option>
-                  <option>Livestock</option><option>Poultry</option><option>Dairy</option>
-                  <option>Eggs</option><option>Honey</option><option>Herbs</option><option>Other</option>
-                </select>
-              </div>
-              <div class="field"><label class="lbl">Unit *</label>
-                <select class="sel" id="pUnit"><option value="">Select</option>
-                  <option>per kg</option><option>per 500g</option><option>per 250g</option>
-                  <option>per head</option><option>per dozen</option><option>per litre</option>
-                  <option>per bunch</option><option>per bag</option><option>per box</option><option>each</option>
-                </select>
+                <div class="field">
+                  <label class="label">Farmer introduction video URL *</label>
+                  <input class="input" id="farmVideo" placeholder="YouTube or Vimeo link — film yourself on the farm (60–90 seconds)">
+                  <div class="hint">🎥 Show your face, your land, and explain your plan. This is the #1 trust signal for investors.</div>
+                </div>
+                <div class="row">
+                  <div class="field"><label class="label">Farm size (hectares)</label><input class="input" id="farmSize" type="number" placeholder="e.g. 15"></div>
+                  <div class="field"><label class="label">Years of experience</label><input class="input" id="farmExp" type="number" placeholder="e.g. 5"></div>
+                </div>
+                <div class="field">
+                  <label class="label">Certifications (if any)</label>
+                  <input class="input" id="farmCert" placeholder="Organic certified, GlobalG.A.P, etc.">
+                </div>
+                <div class="field">
+                  <label class="label">Security, verification notes &amp; references</label>
+                  <textarea class="textarea" id="farmSecurity" placeholder="List any references (co-op officer, bank, extension officer), upload proof of land, crop insurance details..."></textarea>
+                </div>
+                <div class="checkbox-row"><input type="checkbox" id="farmAgree"><span>I confirm all information is accurate. I understand false information results in permanent suspension and legal action.</span></div>
+                <button class="btn btn-primary" onclick="createFarm()">Submit farm for approval</button>
               </div>
             </div>
-            <div class="row2">
-              <div class="field"><label class="lbl">Price (R) *</label><input class="inp" id="pPrice" type="number" placeholder="0.00" min="1"></div>
-              <div class="field"><label class="lbl">Quantity available *</label><input class="inp" id="pQty" type="number" placeholder="e.g. 50" min="1"></div>
-            </div>
-            <div class="row2">
-              <div class="field"><label class="lbl">Harvest date</label><input class="inp" id="pHarvest" type="date"></div>
-              <div class="field"><label class="lbl">Organic?</label><select class="sel" id="pOrganic"><option value="false">No</option><option value="true">Yes &mdash; certified organic</option></select></div>
-            </div>
-            <div class="field"><label class="lbl">Description</label><textarea class="ta" id="pDesc" style="min-height:72px" placeholder="Describe the product &mdash; freshness, growing method, packaging&hellip;"></textarea></div>
-            <button class="btn bp" id="addProdBtn" onclick="doAddProduct()">&#10003; List product</button>
           </div>
-        </div>
-        <div style="font-family:var(--fd);font-size:16px;font-weight:800;margin-bottom:14px">My Listed Products</div>
-        <div id="myProdGrid" class="ga"></div>
-      </section>
 
-      <!-- ORDERS -->
-      <section class="pg" id="pg-orders">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-          <div style="font-family:var(--fd);font-size:18px;font-weight:800">Orders</div>
-          <select class="sel bsm" id="ordStatFilt" onchange="renderOrders()" style="width:auto;padding:6px 12px">
-            <option value="">All statuses</option>
-            <option>Pending</option><option>Accepted</option><option>Processing</option>
-            <option>Ready</option><option>Delivered</option><option>Cancelled</option>
-          </select>
-        </div>
-        <div id="ordersWrap"></div>
-      </section>
-
-      <!-- MESSAGES -->
-      <section class="pg" id="pg-messages">
-        <div class="chat">
-          <div class="clist">
-            <div class="csrch"><input id="cSrch" placeholder="Search conversations&hellip;" oninput="filterThreads()"></div>
-            <div class="c-threads" id="threadList"></div>
-          </div>
-          <div class="c-main">
-            <div class="c-hdr">
-              <div class="c-av" id="cHdrAv" style="width:38px;height:38px;font-size:13px">?</div>
-              <div><div class="c-hdr-name" id="cHdrName">Select a conversation</div><div class="c-hdr-sub" id="cHdrSub">&mdash;</div></div>
-            </div>
-            <div class="msgs" id="msgBox">
-              <div class="empty"><div class="empty-ic">&#128172;</div><h3>No conversation open</h3><p>Message a farmer from their farm page.</p></div>
-            </div>
-            <div class="c-inp">
-              <input id="msgInp" placeholder="Type a message&hellip;" onkeydown="if(event.key==='Enter')sendMsg()">
-              <button class="btn bp" onclick="sendMsg()">Send</button>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px">
+            <div style="font-family:var(--display);font-size:17px;font-weight:800">All Farms</div>
+            <div style="display:flex;gap:8px">
+              <select class="select btn-sm" id="farmCatFilter" onchange="renderFarms()" style="width:auto;padding:6px 12px">
+                <option value="">All categories</option>
+                <option>Vegetables</option><option>Livestock</option><option>Fruit</option>
+                <option>Grains</option><option>Poultry</option><option>Dairy</option>
+              </select>
+              <select class="select btn-sm" id="farmStatusFilter" onchange="renderFarms()" style="width:auto;padding:6px 12px">
+                <option value="">All statuses</option>
+                <option value="approved">Approved</option>
+                <option value="pending">Pending</option>
+              </select>
             </div>
           </div>
-        </div>
-      </section>
+          <div id="farmGrid" class="ga"></div>
+        </section>
 
-      <!-- DASHBOARD -->
-      <section class="pg" id="pg-dashboard">
-        <div id="dashContent"><div class="ld"><div class="spinner"></div>Loading dashboard&hellip;</div></div>
-      </section>
+        <!-- FARM DETAIL (shown inline) -->
+        <section class="page" id="page-farm-detail">
+          <button class="btn btn-ghost btn-sm mb-4" style="margin-bottom:16px" onclick="showPage('farms')">← Back to farms</button>
+          <div id="farmDetailContent"><div class="loading"><div class="spinner"></div>Loading farm...</div></div>
+        </section>
 
-      <!-- NOTIFICATIONS -->
-      <section class="pg" id="pg-notifications">
-        <div style="font-family:var(--fd);font-size:18px;font-weight:800;margin-bottom:18px">Notifications</div>
-        <div id="notifList"></div>
-      </section>
+        <!-- PRODUCTS -->
+        <section class="page" id="page-products">
+          <div id="productAddBox">
+            <div class="card mb-4">
+              <div class="card-h"><div class="card-title">List a Product</div></div>
+              <div class="card-b">
+                <div class="row">
+                  <div class="field"><label class="label">Your approved farm</label><select class="select" id="productFarm"></select></div>
+                  <div class="field"><label class="label">Product name *</label><input class="input" id="productName" placeholder="e.g. Baby spinach 500g"></div>
+                </div>
+                <div class="row">
+                  <div class="field"><label class="label">Price (R) *</label><input class="input" id="productPrice" type="number" placeholder="0.00"></div>
+                  <div class="field"><label class="label">Available quantity *</label><input class="input" id="productQty" type="number" placeholder="e.g. 100"></div>
+                </div>
+                <div class="field"><label class="label">Description</label><textarea class="textarea" id="productDesc" style="min-height:70px" placeholder="Describe the product — freshness, harvest date, organic status..."></textarea></div>
+                <button class="btn btn-primary" onclick="createProduct()">Add product</button>
+              </div>
+            </div>
+          </div>
+          <div style="font-family:var(--display);font-size:17px;font-weight:800;margin-bottom:13px">Marketplace Products</div>
+          <div id="productGrid" class="ga"></div>
+        </section>
 
-      <!-- ADMIN -->
-      <section class="pg" id="pg-admin">
-        <div class="adm-hero">
-          <div style="font-family:var(--fd);font-size:22px;font-weight:800;margin-bottom:3px">Admin Panel</div>
-          <div style="font-size:12px;color:rgba(255,255,255,.4)">Platform oversight and management</div>
-        </div>
-        <div class="adm-stats" id="admStats"></div>
-        <div class="g2" style="gap:18px">
+        <!-- ORDERS -->
+        <section class="page" id="page-orders">
           <div class="card">
-            <div class="card-h"><div class="card-t">Farm Approvals</div><span class="bdg bdg-o" id="pendCnt">0 pending</span></div>
-            <div class="card-b" id="admFarms"></div>
+            <div class="card-h"><div class="card-title">Orders</div><span class="badge badge-blue" id="orderCount">0</span></div>
+            <div class="card-b table-wrap">
+              <table><thead><tr><th>ID</th><th>Farm</th><th>Status</th><th>Total</th><th>Delivery address</th><th>Date</th><th>Action</th></tr></thead>
+              <tbody id="ordersTable"></tbody></table>
+            </div>
           </div>
-          <div class="card">
-            <div class="card-h"><div class="card-t">User Management</div></div>
-            <div class="card-b tw"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Verified</th><th>Actions</th></tr></thead><tbody id="admUsers"></tbody></table></div>
-          </div>
-        </div>
-        <div class="g2" style="gap:18px;margin-top:18px">
-          <div class="card">
-            <div class="card-h"><div class="card-t">Recent Orders</div></div>
-            <div class="card-b tw"><table><thead><tr><th>ID</th><th>Buyer</th><th>Farm</th><th>Total</th><th>Status</th><th>Date</th></tr></thead><tbody id="admOrders"></tbody></table></div>
-          </div>
-          <div class="card">
-            <div class="card-h"><div class="card-t">Activity</div></div>
-            <div class="card-b" id="admActivity" style="max-height:300px;overflow-y:auto"></div>
-          </div>
-        </div>
-      </section>
+        </section>
 
-    </div>
-  </div>
-</div>
-</div>
+        <!-- MESSAGES -->
+        <section class="page" id="page-messages">
+          <div class="chat">
+            <div class="chat-list">
+              <div class="chat-search"><input id="chatSearch" placeholder="Search conversations..."></div>
+              <div id="conversationList"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;min-width:0">
+              <div class="chat-hdr">
+                <div class="chat-av" id="chatHdrAv">?</div>
+                <div><div class="chat-hdr-name" id="chatHdrName">Select a conversation</div><div class="chat-hdr-status" id="chatHdrStatus">—</div></div>
+              </div>
+              <div class="msgs" id="messagesBox"><div class="empty"><h3>No conversation open</h3><p>Select a conversation from the left or contact a farmer from their farm page.</p></div></div>
+              <div class="chat-input">
+                <input class="input" id="messageInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMessage()">
+                <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+              </div>
+            </div>
+          </div>
+        </section>
 
-<!-- CART -->
-<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
-<div class="cart-panel" id="cartPanel">
-  <div class="cart-hdr"><div class="cart-title">&#128717; Your cart</div><button class="cart-x" onclick="closeCart()">&#10005;</button></div>
-  <div class="cart-items" id="cartItems"></div>
-  <div class="cart-footer" id="cartFooter"></div>
-</div>
+        <!-- ACTIVITY LOG -->
+        <section class="page" id="page-activity">
+          <div class="card">
+            <div class="card-h"><div class="card-title">Activity Log</div><button class="btn btn-secondary btn-sm" onclick="loadAll()">Refresh</button></div>
+            <div class="card-b table-wrap">
+              <table><thead><tr><th>Time</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody id="activityTable"></tbody></table>
+            </div>
+          </div>
+        </section>
 
-<!-- CHECKOUT MODAL -->
-<div class="mo hidden" id="checkoutMo" onclick="if(event.target===this)closeCheckout()">
+        <!-- ADMIN -->
+        <section class="page" id="page-admin">
+          <div class="admin-hero">
+            <div style="font-family:var(--display);font-size:22px;font-weight:800;margin-bottom:3px">Admin Panel</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.4)">Platform oversight and management</div>
+          </div>
+          <div class="adm-stats" id="adminStats"></div>
+          <div class="g2">
+            <div class="card">
+              <div class="card-h"><div class="card-title">Farm Approvals</div><span class="badge badge-gold" id="pendingCount">0 pending</span></div>
+              <div class="card-b" id="adminFarms"></div>
+            </div>
+            <div class="card">
+              <div class="card-h"><div class="card-title">User Management</div></div>
+              <div class="card-b table-wrap"><table><thead><tr><th>Name</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead><tbody id="adminUsers"></tbody></table></div>
+            </div>
+          </div>
+          <div class="g2 mt-4">
+            <div class="card">
+              <div class="card-h"><div class="card-title">All Orders</div></div>
+              <div class="card-b" id="adminOrders"></div>
+            </div>
+            <div class="card">
+              <div class="card-h"><div class="card-title">Recent Activity</div></div>
+              <div class="card-b" id="adminActivity"></div>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /content -->
+    </div><!-- /main-wrap -->
+  </div><!-- /shell -->
+</div><!-- /app -->
+
+<!-- INVEST MODAL -->
+<div class="modal-overlay hidden" id="investModal" onclick="if(event.target===this)closeModal('invest')">
   <div class="modal">
-    <div class="m-hdr"><div class="m-ttl">Checkout</div><button class="m-x" onclick="closeCheckout()">&#10005;</button></div>
-    <div class="m-body" id="checkoutBody"></div>
+    <div class="modal-hdr"><div class="modal-title" id="investModalTitle">Invest in this farm</div><button class="modal-close" onclick="closeModal('invest')">✕</button></div>
+    <div class="modal-body" id="investModalBody"></div>
   </div>
 </div>
 
-<!-- PRODUCT MODAL -->
-<div class="mo hidden" id="prodMo" onclick="if(event.target===this)closeProdModal()">
+<!-- ORDER MODAL -->
+<div class="modal-overlay hidden" id="orderModal" onclick="if(event.target===this)closeModal('order')">
   <div class="modal">
-    <div class="m-hdr"><div class="m-ttl" id="prodMoTitle">Product</div><button class="m-x" onclick="closeProdModal()">&#10005;</button></div>
-    <div class="m-body" id="prodMoBody"></div>
+    <div class="modal-hdr"><div class="modal-title" id="orderModalTitle">Place Order</div><button class="modal-close" onclick="closeModal('order')">✕</button></div>
+    <div class="modal-body" id="orderModalBody"></div>
   </div>
 </div>
 
-<!-- MORE SHEET -->
-<div class="mo hidden" id="moreMo" onclick="if(event.target===this)toggleMoreSheet()">
-  <div class="modal" style="margin-top:auto">
-    <div style="width:36px;height:4px;border-radius:99px;background:var(--bg3);margin:12px auto 16px"></div>
-    <div id="moreSheetBody" style="padding:0 18px 28px;display:flex;flex-direction:column"></div>
-  </div>
-</div>
-
-<div id="twrap"></div>
-
-<!-- MOBILE NAV -->
-<nav class="mobnav" id="mobnav">
-  <button class="mn on" id="mn-home" onclick="showPage('home');setMN('home')"><div class="mn-ic">&#127968;</div><span>Home</span></button>
-  <button class="mn" id="mn-shop" onclick="showPage('shop');setMN('shop')"><div class="mn-ic">&#128717;</div><span>Shop</span></button>
-  <button class="mn" id="mn-farms" onclick="showPage('farms');setMN('farms')"><div class="mn-ic">&#127806;</div><span>Farms</span></button>
-  <button class="mn" id="mn-orders" onclick="showPage('orders');setMN('orders')"><div class="mn-ic">&#128230;</div><div class="mn-dot" id="ordDot"></div><span>Orders</span></button>
-  <button class="mn" id="mn-messages" onclick="showPage('messages');setMN('messages')"><div class="mn-ic">&#128172;</div><div class="mn-dot" id="msgDot"></div><span>Chat</span></button>
-  <button class="mn" id="mn-more" onclick="toggleMoreSheet()"><div class="mn-ic">&#8943;</div><span>More</span></button>
-</nav>
+<div id="toastWrap"></div>
 
 <script>
-const SB_URL='https://dikmuycrbkrhptytamct.supabase.co';
-const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpa211eWNyYmtyaHB0eXRhbWN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMDc5MjAsImV4cCI6MjA5NDY4MzkyMH0.OmAiMzaAZnbearOPgDePbrTHJ22pjmFk63qGHUYvz_M';
-const db=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
+'use strict';
+// ============================================================
+// SUPABASE CONFIG
+// ============================================================
+const SUPA_URL = 'https://dikmuycrbkrhptytamct.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpa211eWNyYmtyaHB0eXRhbWN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMDc5MjAsImV4cCI6MjA5NDY4MzkyMH0.OmAiMzaAZnbearOPgDePbrTHJ22pjmFk63qGHUYvz_M';
+const db = supabase.createClient(SUPA_URL, SUPA_KEY, { auth: { persistSession: true, autoRefreshToken: true } });
 
+// ============================================================
 // STATE
-let sess=null,prof=null,activeTid=null,currentCat='',prevPage=null;
-let farms=[],products=[],orders=[],allUsers=[],convos=[],msgs=[],logs=[];
-let cart=[];
-try{cart=JSON.parse(localStorage.getItem('fp_cart')||'[]');}catch(e){cart=[];}
+// ============================================================
+let session = null, profile = null;
+let farms = [], products = [], orders = [], allProfiles = [], conversations = [], messages = [], activityLogs = [];
+let activeConversation = null;
+const money = v => 'R' + Number(v||0).toLocaleString('en-ZA', {minimumFractionDigits:0, maximumFractionDigits:0});
+const esc = v => String(v||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+const short = id => String(id||'').slice(0,8);
+const timeAgo = ts => { const s=Math.floor((Date.now()-new Date(ts))/1000); if(s<60)return'just now'; if(s<3600)return Math.floor(s/60)+'m ago'; if(s<86400)return Math.floor(s/3600)+'h ago'; return Math.floor(s/86400)+'d ago'; };
+const cropEmoji = cat => ({'vegetables':'🥦','livestock':'🐄','fruit':'🍎','grains':'🌾','poultry':'🐔','dairy':'🥛','honey':'🍯','eggs':'🥚','aquaculture':'🐟','cash crops':'🌻'})[String(cat||'').toLowerCase()] || '🌿';
+const initials = name => (name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+const val = id => document.getElementById(id)?.value?.trim() || '';
+const el = id => document.getElementById(id);
+const setHTML = (id, html) => { const e=el(id); if(e) e.innerHTML=html; };
+const setText = (id, t) => { const e=el(id); if(e) e.textContent=t; };
 
-// UTILS
-const R=v=>'R'+Number(v||0).toLocaleString('en-ZA',{minimumFractionDigits:0,maximumFractionDigits:0});
-const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const short=id=>String(id||'').slice(0,8);
-const ago=ts=>{const s=Math.floor((Date.now()-new Date(ts))/1000);return s<60?'just now':s<3600?Math.floor(s/60)+'m ago':s<86400?Math.floor(s/3600)+'h ago':Math.floor(s/86400)+'d ago';};
-const ini=n=>(n||'?').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2);
-const v=id=>document.getElementById(id)?.value?.trim()||'';
-const el=id=>document.getElementById(id);
-const sHTML=(id,h)=>{const e=el(id);if(e)e.innerHTML=h;};
-const sTxt=(id,t)=>{const e=el(id);if(e)e.textContent=t;};
-const saveCart=()=>{try{localStorage.setItem('fp_cart',JSON.stringify(cart));}catch(e){}};
-const isMob=()=>window.innerWidth<=768;
-const CE={Vegetables:'\u{1F966}',Fruit:'\u{1F34E}',Grains:'\u{1F33E}',Livestock:'\u{1F404}',Poultry:'\u{1F414}',Dairy:'\u{1F95B}',Eggs:'\u{1F95A}',Honey:'\u{1F36F}',Herbs:'\u{1F33F}',Mixed:'\u{1F331}',Other:'\u{1F4E6}',default:'\u{1F33F}'};
-const CB={Vegetables:'#e8f5e9',Fruit:'#f3e5f5',Grains:'#fff8e1',Livestock:'#e3f2fd',Poultry:'#fce4ec',Dairy:'#e0f7fa',Eggs:'#fff9c4',Honey:'#fff3e0',Herbs:'#e8f5e9',Mixed:'#e8f5e9',Other:'#f3e5f5',default:'#e8f5e9'};
-const cEmoji=c=>CE[c]||CE.default;
-const cBg=c=>CB[c]||CB.default;
+// Page titles
+const PAGE_TITLES = {dashboard:'Dashboard',farms:'Farm Marketplace',products:'Products',orders:'Orders',messages:'Messages',activity:'Activity',admin:'Admin Panel','farm-detail':'Farm Detail'};
 
+// ============================================================
 // TOAST
-function toast(msg,type='info',dur=3500){
-  const icons={success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
-  const bg={success:'var(--g)',error:'var(--red)',warning:'var(--gold)',info:'#0f0d0b'};
-  const d=document.createElement('div');
-  d.className='toast';d.style.background=bg[type]||bg.info;
-  d.innerHTML=`<span>${icons[type]||'ℹ️'}</span><span style="flex:1">${msg}</span><span onclick="this.parentElement.remove()" style="cursor:pointer;opacity:.6;margin-left:6px">✕</span>`;
-  el('twrap').appendChild(d);setTimeout(()=>d.remove(),dur);
+// ============================================================
+function toast(msg, type='info', duration=3500) {
+  const icons = {success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
+  const div = document.createElement('div');
+  div.className = 'toast toast-' + (type==='success'?'ok':type==='error'?'err':type==='warning'?'warn':'');
+  div.innerHTML = `<span>${icons[type]||'ℹ️'}</span><span style="flex:1">${msg}</span><span onclick="this.parentElement.remove()" style="cursor:pointer;opacity:.6;margin-left:6px">✕</span>`;
+  el('toastWrap').appendChild(div);
+  setTimeout(() => div.remove(), duration);
 }
 
+// ============================================================
 // AUTH
-function authTab(t){
-  el('aTab1').classList.toggle('on',t==='login');
-  el('aTab2').classList.toggle('on',t==='register');
-  el('aLogin').classList.toggle('hidden',t!=='login');
-  el('aReg').classList.toggle('hidden',t!=='register');
-  sHTML('amsg','');
+// ============================================================
+function showAuth(type) {
+  el('loginTab').classList.toggle('active', type==='login');
+  el('registerTab').classList.toggle('active', type==='register');
+  el('loginForm').classList.toggle('hidden', type!=='login');
+  el('registerForm').classList.toggle('hidden', type!=='register');
+  el('authMsg').innerHTML = '';
 }
-function authMsg(txt,ok=false){sHTML('amsg',txt?`<div class="alert ${ok?'as':'ae'}"><span>${ok?'✅':'❌'}</span><span>${txt}</span></div>`:'');}
-async function doLogin(){
-  const email=v('lEmail'),pass=v('lPass');
-  if(!email||!pass){authMsg('Please enter email and password.');return;}
-  const btn=el('lBtn');btn.disabled=true;btn.textContent='Signing in…';
-  const{error}=await db.auth.signInWithPassword({email,password:pass});
-  btn.disabled=false;btn.textContent='Sign in';
-  if(error)authMsg(error.message);
+
+function authMsg(text, ok=false) {
+  el('authMsg').innerHTML = text ? `<div class="alert ${ok?'alert-ok':'alert-err'}"><span>${ok?'✅':'❌'}</span><span>${text}</span></div>` : '';
 }
-async function doRegister(){
-  const name=v('rName'),email=v('rEmail'),pass=v('rPass'),role=v('rRole');
-  if(!name||!email||!pass){authMsg('Please fill in all fields.');return;}
-  if(pass.length<6){authMsg('Password must be at least 6 characters.');return;}
-  const btn=el('rBtn');btn.disabled=true;btn.textContent='Creating…';
-  const{data,error}=await db.auth.signUp({email,password:pass,options:{data:{full_name:name,role}}});
-  btn.disabled=false;btn.textContent='Create account';
-  if(error){authMsg(error.message);return;}
-  if(data.user){
-    await db.from('profiles').upsert({id:data.user.id,full_name:name,email,role,status:'active',verification_status:'pending'});
-    authMsg('Account created! Signing you in…',true);
+
+async function login() {
+  const email = val('loginEmail'), pass = val('loginPassword');
+  if (!email || !pass) { authMsg('Please enter your email and password.'); return; }
+  const btn = el('loginBtn'); btn.disabled=true; btn.textContent='Signing in...';
+  const { error } = await db.auth.signInWithPassword({ email, password: pass });
+  btn.disabled=false; btn.textContent='Sign in';
+  if (error) authMsg(error.message);
+}
+
+async function register() {
+  const name = val('regName'), email = val('regEmail'), pass = val('regPassword'), role = val('regRole');
+  if (!name || !email || !pass) { authMsg('Please fill in all fields.'); return; }
+  if (pass.length < 6) { authMsg('Password must be at least 6 characters.'); return; }
+  const btn = el('registerBtn'); btn.disabled=true; btn.textContent='Creating...';
+  const { data, error } = await db.auth.signUp({ email, password: pass, options: { data: { full_name: name, role } } });
+  btn.disabled=false; btn.textContent='Create account';
+  if (error) { authMsg(error.message); return; }
+  if (data.user) {
+    await db.from('profiles').upsert({ id: data.user.id, full_name: name, email, role, verification_status: 'pending', status: 'active' });
+    authMsg('Account created! Signing you in...', true);
   }
 }
-async function doLogout(){await db.auth.signOut();}
 
-// BOOT
-async function bootApp(){
-  const user=sess.user;
-  const{data}=await db.from('profiles').select('*').eq('id',user.id).single();
-  prof=data||{id:user.id,email:user.email,full_name:user.email,role:'buyer'};
-  el('authWrap').style.display='none';el('app').style.display='block';
-  sTxt('uav',ini(prof.full_name));sTxt('uname',prof.full_name||prof.email);
-  sTxt('urole',prof.role);sTxt('roleLabel',prof.role==='farmer'?'Farmer Portal':prof.role==='admin'?'Admin Panel':'Marketplace');
-  buildNav();updateCartUI();await loadAll();subscribeRT();
-  if(prof.role==='farmer')showPage('dashboard');
-  else if(prof.role==='admin')showPage('admin');
-  else showPage('home');
-  if(isMob())initMob();
-}
-function exitApp(){el('authWrap').style.display='grid';el('app').style.display='none';}
+async function logout() { await db.auth.signOut(); }
 
-// NAV
-const TITLES={home:'Marketplace',shop:'Shop Produce',farms:'Farms',sell:'Sell Produce','farm-detail':'Farm',orders:'Orders',messages:'Messages',dashboard:'My Dashboard',notifications:'Notifications',admin:'Admin Panel'};
-function buildNav(){
-  const r=prof.role;
-  const ni=(ic,lbl,pg)=>`<button class="ni" id="ni-${pg}" onclick="showPage('${pg}')"><span class="ni-ic">${ic}</span>${lbl}</button>`;
-  let h='<div class="nsec">Marketplace</div>';
-  h+=ni('🏠','Home','home');h+=ni('🛒','Shop Produce','shop');h+=ni('🌾','Browse Farms','farms');
-  if(r==='farmer'||r==='admin'){h+='<div class="nsec">Sell</div>';h+=ni('📦','List Products','sell');h+=ni('📊','My Dashboard','dashboard');}
-  h+='<div class="nsec">Activity</div>';
-  h+=ni('📋','Orders','orders');h+=ni('💬','Messages','messages');h+=ni('🔔','Notifications','notifications');
-  if(r==='admin'){h+='<div class="nsec">Admin</div>';h+=ni('🛡','Admin Panel','admin');}
-  el('snav').innerHTML=h;
+async function enterApp() {
+  const user = session.user;
+  const { data } = await db.from('profiles').select('*').eq('id', user.id).single();
+  profile = data || { id: user.id, email: user.email, full_name: user.email, role: 'buyer' };
+  el('authScreen').style.display = 'none';
+  el('app').style.display = 'block';
+  const av = initials(profile.full_name);
+  setText('userAv', av); setText('userName', profile.full_name || profile.email);
+  setText('userRoleLabel', profile.role); setText('roleLabel', profile.role.toUpperCase());
+  buildNav();
+  subscribeRealtime();
+  await loadAll();
+  showPage('dashboard');
 }
 
-function showPage(id){
-  prevPage=document.querySelector('.pg.on')?.id?.replace('pg-','');
-  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
-  el('pg-'+id)?.classList.add('on');
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
-  el('ni-'+id)?.classList.add('on');
-  sTxt('ptitle',TITLES[id]||id);
-  closeMobSearch();
-  if(id==='shop')renderShop();
-  if(id==='farms')renderFarms();
-  if(id==='orders')renderOrders();
-  if(id==='messages')renderMessages();
-  if(id==='dashboard')renderDashboard();
-  if(id==='admin')renderAdmin();
-  if(id==='notifications')renderNotifs();
-  if(id==='sell')renderSell();
+function showAuthScreen() {
+  el('authScreen').style.display = 'grid';
+  el('app').style.display = 'none';
 }
-function goBack(){if(prevPage)showPage(prevPage);else showPage('home');}
 
-// DATA
-async function loadAll(){
-  const isAdmin=prof?.role==='admin';
-  const[fR,pR,oR,uR,cR,mR,lR]=await Promise.all([
-    db.from('farms').select('*').order('created_at',{ascending:false}),
-    db.from('products').select('*').order('created_at',{ascending:false}),
-    db.from('orders').select('*').order('created_at',{ascending:false}),
-    isAdmin?db.from('profiles').select('*').order('created_at',{ascending:false}):Promise.resolve({data:[]}),
-    db.from('conversations').select('*').order('updated_at',{ascending:false}),
-    db.from('messages').select('*').order('created_at',{ascending:true}),
-    db.from('activity_logs').select('*').order('created_at',{ascending:false}).limit(60),
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', async () => {
+  const { data } = await db.auth.getSession();
+  session = data.session;
+  if (session) await enterApp();
+  db.auth.onAuthStateChange(async (_event, s) => {
+    session = s;
+    if (s) await enterApp(); else showAuthScreen();
+  });
+});
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function buildNav() {
+  const role = profile.role;
+  const ni = (icon, label, page) => `<button onclick="showPage('${page}')" id="nav-${page}">${icon} ${label}</button>`;
+  const items = [];
+  items.push('<div class="nav-section">Main</div>');
+  items.push(ni('🏡','Dashboard','dashboard'));
+  items.push(ni('🌾','Farms','farms'));
+  items.push(ni('🛒','Products','products'));
+  items.push(ni('📦','Orders','orders'));
+  items.push('<div class="nav-section">Community</div>');
+  items.push(ni('💬','Messages','messages'));
+  items.push(ni('📋','Activity','activity'));
+  if (role === 'admin') { items.push('<div class="nav-section">Admin</div>'); items.push(ni('🛡','Admin Panel','admin')); }
+  el('nav').innerHTML = items.join('');
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  el(`page-${id}`)?.classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  el(`nav-${id}`)?.classList.add('active');
+  setText('pageTitle', PAGE_TITLES[id] || id);
+  // Show/hide add forms based on role
+  const farmRegBox = el('farmRegisterBox');
+  if (farmRegBox) farmRegBox.style.display = (profile?.role==='farmer'||profile?.role==='admin') ? 'block' : 'none';
+  const prodAddBox = el('productAddBox');
+  if (prodAddBox) prodAddBox.style.display = (profile?.role==='farmer'||profile?.role==='admin') ? 'block' : 'none';
+  // Page-specific loads
+  if (id === 'activity') renderActivity();
+  if (id === 'admin') renderAdmin();
+  if (id === 'messages') { renderMessages(); }
+}
+
+// ============================================================
+// LOAD ALL DATA
+// ============================================================
+async function loadAll() {
+  if (!session) return;
+  const isAdmin = profile?.role === 'admin';
+  const isFarmer = profile?.role === 'farmer';
+  const [farmRes, productRes, orderRes, profileRes, convoRes, msgRes, logRes] = await Promise.all([
+    db.from('farms').select('*').order('created_at', { ascending: false }),
+    db.from('products').select('*').order('created_at', { ascending: false }),
+    db.from('orders').select('*').order('created_at', { ascending: false }),
+    isAdmin ? db.from('profiles').select('*').order('created_at', { ascending: false }) : Promise.resolve({ data: [] }),
+    db.from('conversations').select('*').order('updated_at', { ascending: false }),
+    db.from('messages').select('*').order('created_at', { ascending: true }),
+    db.from('activity_logs').select('*').order('created_at', { ascending: false }).limit(50),
   ]);
-  farms=fR.data||[];products=pR.data||[];orders=oR.data||[];
-  allUsers=uR.data||[];convos=cR.data||[];msgs=mR.data||[];logs=lR.data||[];
-  renderHome();updateNotifDot();updateOrderDot();
-  const ap=document.querySelector('.pg.on')?.id?.replace('pg-','');
-  if(ap==='shop')renderShop();if(ap==='farms')renderFarms();
-  if(ap==='orders')renderOrders();if(ap==='messages')renderMessages();
-  if(ap==='dashboard')renderDashboard();if(ap==='sell')renderSell();
-  if(ap==='admin')renderAdmin();if(ap==='notifications')renderNotifs();
+  if (farmRes.error) console.warn('farms:', farmRes.error.message);
+  if (productRes.error) console.warn('products:', productRes.error.message);
+  if (orderRes.error) console.warn('orders:', orderRes.error.message);
+  farms = farmRes.data || [];
+  products = productRes.data || [];
+  orders = orderRes.data || [];
+  allProfiles = profileRes.data || [];
+  conversations = convoRes.data || [];
+  messages = msgRes.data || [];
+  activityLogs = logRes.data || [];
+  render();
 }
 
-// HOME
-function renderHome(){
-  sTxt('hs1',farms.filter(f=>f.status==='approved').length);
-  sTxt('hs2',products.filter(p=>p.is_active!==false).length);
-  sTxt('hs3',orders.length);
-  const featured=products.filter(p=>p.is_active!==false).slice(0,8);
-  sHTML('homeProdGrid',featured.length?`<div class="ga">${featured.map(prodCard).join('')}</div>`:'<div class="empty"><div class="empty-ic">🛒</div><h3>No products yet</h3><p>Farmers will list fresh produce here soon.</p></div>');
+function render() {
+  renderDashboard();
+  renderFarms();
+  renderProducts();
+  renderOrders();
+  renderMessages();
+  renderActivity();
+  if (profile?.role === 'admin') renderAdmin();
 }
 
-// PRODUCT CARD
-function prodCard(p){
-  const farm=farms.find(f=>f.id===p.farm_id);
-  const emoji=cEmoji(p.category);const bg=cBg(p.category);
-  const qty=Number(p.quantity_available||0);
-  const inCart=cart.reduce((s,c)=>s+(c.product_id===p.id?c.qty:0),0);
-  const avail=qty-inCart;const out=avail<=0;const low=avail>0&&avail<=5;
-  const organic=p.is_organic==='true'||p.is_organic===true;
-  return `<div class="prod-card" onclick="openProdModal('${p.id}')">
-    <div class="prod-img" style="background:${bg}">
-      <div class="prod-img-emoji">${emoji}</div>
-      <div class="prod-badges">
-        ${organic?'<span class="bdg bdg-g" style="font-size:10px">🌱 Organic</span>':''}
-        ${farm?.verification_status==='verified'?'<span class="bdg bdg-vf" style="font-size:10px">✓ Verified</span>':''}
-      </div>
-      ${out?'<div class="prod-qty-badge"><span class="bdg bdg-r" style="font-size:10px">Out of stock</span></div>':low?`<div class="prod-qty-badge"><span class="bdg bdg-o" style="font-size:10px">Only ${avail} left</span></div>`:''}
-    </div>
-    <div class="prod-body">
-      <div class="prod-farm-row">
-        <div class="prod-farm-av">${cEmoji(farm?.category)}</div>
-        <div class="prod-farm-name">${esc(farm?.name||'Unknown farm')}</div>
-      </div>
-      <div class="prod-name">${esc(p.name)}</div>
-      ${p.description?`<div class="prod-desc">${esc(p.description)}</div>`:''}
-      <div class="prod-tags">
-        ${p.category?`<span class="bdg bdg-gr" style="font-size:10px">${emoji} ${esc(p.category)}</span>`:''}
-        ${farm?.province?`<span class="bdg bdg-gr" style="font-size:10px">📍 ${esc(farm.province)}</span>`:''}
-      </div>
-    </div>
-    <div class="prod-foot">
-      <div>
-        <div class="prod-price">${R(p.price)}<small> ${esc(p.unit||'')}</small></div>
-        <div class="prod-stock ${out?'out':low?'low':''}">${out?'Out of stock':qty+' available'}</div>
-      </div>
-      <button class="add-btn" ${out?'disabled':''} onclick="event.stopPropagation();addToCart('${p.id}')">${out?'🚫 Sold out':'🛒 Add'}</button>
-    </div>
-  </div>`;
+// ============================================================
+// HELPERS
+// ============================================================
+function buildEmptyFarms() {
+  const btn = (profile?.role==='farmer') ? '<button class="btn btn-primary" onclick="showPage(\'farms\')">Register your farm →</button>' : '';
+  return `<div class="empty"><h3>No approved farms yet</h3><p>Farms will appear here after admin approval.</p>${btn}</div>`;
 }
 
-// SHOP
-function filterCat(cat,ref){currentCat=cat;document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('on'));if(ref)ref.classList.add('on');renderShop();}
-function renderShop(){
-  const pf=v('provFilt'),sf=v('sortFilt');
-  let list=products.filter(p=>p.is_active!==false);
-  if(currentCat)list=list.filter(p=>p.category===currentCat);
-  if(pf){const fids=new Set(farms.filter(f=>f.province===pf).map(f=>f.id));list=list.filter(p=>fids.has(p.farm_id));}
-  if(sf==='price_asc')list.sort((a,b)=>a.price-b.price);
-  else if(sf==='price_desc')list.sort((a,b)=>b.price-a.price);
-  else if(sf==='name')list.sort((a,b)=>a.name.localeCompare(b.name));
-  else list.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
-  sTxt('shopCount',list.length+' product'+(list.length!==1?'s':''));
-  sHTML('shopGrid',list.length?list.map(prodCard).join(''):'<div class="empty" style="grid-column:1/-1"><div class="empty-ic">🛒</div><h3>No products found</h3><p>Try a different category or province.</p></div>');
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard() {
+  const h = new Date().getHours();
+  const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  const name = (profile?.full_name || 'there').split(' ')[0];
+  setText('dashWelcome', `${greet}, ${name}! 👋`);
+  const myOrders = orders.filter(o => o.buyer_id === profile?.id);
+  const myFarms = farms.filter(f => f.farmer_id === profile?.id);
+  const revenue = orders.filter(o => o.status === 'Delivered').reduce((a, o) => a + Number(o.total_amount || 0), 0);
+  const isAdmin = profile?.role === 'admin';
+  setText('mUsers', isAdmin ? allProfiles.length : myOrders.length);
+  setText('mFarms', farms.filter(f => f.status === 'approved').length);
+  setText('mOrders', isAdmin ? orders.length : myOrders.length);
+  setText('mRevenue', money(revenue));
+  // Update stat labels for non-admin
+  if (!isAdmin) {
+    const e1 = document.querySelector('#page-dashboard .stat-card:first-child .stat-l');
+    const e2 = document.querySelector('#page-dashboard .stat-card:first-child .stat-s');
+    if (e1) e1.textContent = profile?.role === 'farmer' ? 'My Farms' : 'My Orders';
+    if (e2) e2.textContent = profile?.role === 'farmer' ? myFarms.length + ' listed' : myOrders.length + ' placed';
+  }
+  // Dashboard farm grid - show 6 approved farms
+  const approvedFarms = farms.filter(f => f.status === 'approved').slice(0, 6);
+  setHTML('dashFarmGrid', approvedFarms.length
+    ? `<div class="ga">${approvedFarms.map(farmCardHTML).join('')}</div>`
+    : buildEmptyFarms());
+  // Update notif dot
+  const unread = activityLogs.filter(l => l.actor_id !== profile?.id).length;
+  el('notifDot').style.display = unread > 0 ? 'block' : 'none';
 }
 
-// PRODUCT MODAL
-function openProdModal(pid){
-  const p=products.find(x=>x.id===pid);if(!p)return;
-  const farm=farms.find(f=>f.id===p.farm_id);
-  const emoji=cEmoji(p.category);const bg=cBg(p.category);
-  const qty=Number(p.quantity_available||0);
-  const inCart=cart.reduce((s,c)=>s+(c.product_id===pid?c.qty:0),0);
-  const avail=qty-inCart;
-  sHTML('prodMoBody',`
-    <div style="height:200px;background:${bg};border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-size:72px;margin-bottom:16px">${emoji}</div>
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
-      <div style="font-family:var(--fd);font-size:20px;font-weight:800">${esc(p.name)}</div>
-      <div style="font-family:var(--fd);font-size:20px;font-weight:800;color:var(--g);white-space:nowrap">${R(p.price)} <small style="font-size:12px;font-weight:500;color:var(--muted)">${esc(p.unit||'')}</small></div>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-      <span class="bdg bdg-gr">🌾 ${esc(farm?.name||'Unknown farm')}</span>
-      ${farm?.province?`<span class="bdg bdg-gr">📍 ${esc(farm.province)}</span>`:''}
-      ${p.is_organic==='true'||p.is_organic===true?'<span class="bdg bdg-g">🌱 Organic</span>':''}
-    </div>
-    ${p.description?`<p style="font-size:13px;color:var(--ink2);line-height:1.65;margin-bottom:14px">${esc(p.description)}</p>`:''}
-    ${p.harvest_date?`<div style="font-size:12px;color:var(--muted);margin-bottom:14px">🗓 Harvest date: ${new Date(p.harvest_date).toLocaleDateString('en-ZA')}</div>`:''}
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--bg);border-radius:var(--r);margin-bottom:14px">
-      <div style="font-size:13px;color:var(--muted)">${avail>0?avail+' available':'Out of stock'}</div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <button class="qbtn" onclick="changeModalQty(-1)">−</button>
-        <span id="modalQty" style="font-size:14px;font-weight:700;min-width:24px;text-align:center">1</span>
-        <button class="qbtn" onclick="changeModalQty(1,${avail})">+</button>
-      </div>
-    </div>
-    <div style="display:flex;gap:10px">
-      ${farm?`<button class="btn bol" style="flex:1" onclick="closeProdModal();contactFarmer('${farm.id}')">💬 Message farmer</button>`:''}
-      <button class="btn bp" style="flex:1" ${avail<=0?'disabled':''} onclick="addToCartQty('${pid}')">🛒 Add to cart</button>
-    </div>
-  `);
-  el('prodMo').classList.remove('hidden');
-}
-function changeModalQty(d,max=999){const e=el('modalQty');if(e)e.textContent=Math.max(1,Math.min(max,Number(e.textContent)+d));}
-function addToCartQty(pid){const qty=Number(el('modalQty')?.textContent||1);for(let i=0;i<qty;i++)addToCart(pid,true);closeProdModal();openCart();}
-function closeProdModal(){el('prodMo')?.classList.add('hidden');}
-
-// FARM CARDS
-function farmCard(f){
-  const emoji=cEmoji(f.category);const bg=cBg(f.category);
-  const score=f.verification_status==='verified'?88:f.status==='approved'?72:45;
-  const sCls=score>=80?'sg':score>=60?'sa':'sp';
-  const hasvid=f.intro_video_url&&f.intro_video_url.length>5;
-  const stCls=f.status==='approved'?'bdg-g':f.status==='rejected'?'bdg-r':'bdg-o';
+// ============================================================
+// FARM CARDS & RENDERING
+// ============================================================
+function farmCardHTML(f) {
+  const emoji = cropEmoji(f.category);
+  const statusClass = f.status === 'approved' ? 'badge-green' : f.status === 'rejected' ? 'badge-red' : 'badge-gold';
+  const verifyClass = f.verification_status === 'verified' ? 'badge-verified' : 'badge-gray';
+  const bgMap = { vegetables:'#e8f5e9', livestock:'#e3f2fd', fruit:'#f3e5f5', grains:'#fff8e1', poultry:'#fce4ec', dairy:'#e0f7fa' };
+  const bg = bgMap[String(f.category||'').toLowerCase()] || '#e8f5e9';
+  const hasVideo = f.intro_video_url && f.intro_video_url.length > 5;
+  const score = f.verification_status === 'verified' ? 88 : f.status === 'approved' ? 72 : 45;
+  const scoreClass = score >= 80 ? 'score-good' : score >= 60 ? 'score-avg' : 'score-pend';
   return `<div class="farm-card" onclick="openFarmDetail('${f.id}')">
-    <div class="farm-cover" style="background:${bg}">
-      <div class="farm-cover-emoji">${emoji}</div>
-      <div class="farm-cover-ov"></div>
-      <div class="farm-cover-bdgs">
-        <span class="bdg ${stCls}" style="font-size:10px">${esc(f.status||'pending')}</span>
-        ${f.verification_status==='verified'?'<span class="bdg bdg-vf" style="font-size:10px">✓ Verified</span>':''}
-        ${hasvid?'<span class="bdg bdg-b" style="font-size:10px">📹 Video</span>':''}
+    <div class="farm-media" style="background:${bg}">
+      <div class="farm-media-bg">${emoji}</div>
+      <div class="farm-media-overlay"></div>
+      <div class="farm-media-badges">
+        <span class="badge ${statusClass}">${f.status||'pending'}</span>
+        ${f.verification_status==='verified'?'<span class="badge badge-verified">✓ Verified</span>':''}
+        ${hasVideo?'<span class="badge badge-blue">📹 Video</span>':''}
       </div>
-      <div class="farm-score ${sCls}">${score}</div>
+      <div class="farm-media-score ${scoreClass}">${score}</div>
     </div>
     <div class="farm-body">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)">${esc(f.category||'Farm')}</div>
+      </div>
       <div class="farm-name">${esc(f.name||'Unnamed Farm')}</div>
       <div class="farm-loc">📍 ${esc(f.nearest_town||'')}${f.nearest_town&&f.province?', ':''}${esc(f.province||'')}</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
-        ${f.category?`<span class="bdg bdg-gr" style="font-size:10px">${emoji} ${esc(f.category)}</span>`:''}
-        ${f.size_hectares?`<span class="bdg bdg-gr" style="font-size:10px">📐 ${f.size_hectares}ha</span>`:''}
-        ${f.experience_years?`<span class="bdg bdg-gr" style="font-size:10px">👨‍🌾 ${f.experience_years}yrs</span>`:''}
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:2px">
+        ${f.size_hectares?`<span style="font-size:11px;color:var(--muted)">📐 ${f.size_hectares}ha</span>`:''}
+        ${f.experience_years?`<span style="font-size:11px;color:var(--muted)">👨‍🌾 ${f.experience_years}yrs exp</span>`:''}
+        ${f.certifications?`<span style="font-size:11px;color:var(--brand)">🏅 ${esc(f.certifications)}</span>`:''}
       </div>
     </div>
-    <div class="farm-foot">
-      <span class="bdg ${f.verification_status==='verified'?'bdg-vf':'bdg-gr'}" style="font-size:10px">${f.verification_status==='verified'?'✓ ID Verified':'⏳ Pending'}</span>
-      <button class="btn bp bsm" onclick="event.stopPropagation();openFarmDetail('${f.id}')">View →</button>
+    <div class="farm-footer">
+      <span class="badge ${verifyClass}" style="font-size:10px">${f.verification_status==='verified'?'✓ ID Verified':'⏳ Pending verify'}</span>
+      <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openFarmDetail('${f.id}')">View farm →</button>
     </div>
   </div>`;
 }
-function renderFarms(){
-  const cf=v('farmCatFilt'),sf=v('farmStatFilt');
-  let list=[...farms];
-  if(cf)list=list.filter(f=>f.category===cf);
-  if(sf)list=list.filter(f=>f.status===sf);
-  else list=list.filter(f=>f.status!=='rejected'||prof?.role==='admin');
-  sHTML('farmGrid',list.length?list.map(farmCard).join(''):'<div class="empty" style="grid-column:1/-1"><div class="empty-ic">🌾</div><h3>No farms yet</h3><p>Farmers appear here after registration and approval.</p></div>');
-  const fReg=el('farmRegBox');
-  if(fReg)fReg.classList.toggle('hidden',prof?.role!=='farmer'&&prof?.role!=='admin');
+
+function renderFarms() {
+  const catF = val('farmCatFilter');
+  const statF = val('farmStatusFilter');
+  let list = [...farms];
+  if (catF) list = list.filter(f => String(f.category||'').toLowerCase().includes(catF.toLowerCase()));
+  if (statF) list = list.filter(f => f.status === statF);
+  setHTML('farmGrid', list.length ? list.map(farmCardHTML).join('') : `<div class="empty"><h3>No farms found</h3><p>Try adjusting your filters.</p></div>`);
+  // Populate product farm select
+  const myFarms = farms.filter(f => f.status === 'approved' && (profile?.role === 'admin' || f.farmer_id === profile?.id));
+  setHTML('productFarm', myFarms.map(f => `<option value="${f.id}">${esc(f.name)}</option>`).join('') || '<option value="">No approved farms</option>');
 }
 
-// FARM DETAIL
-function tchk(label,done,note){return `<div class="tchk" style="background:${done?'var(--gp)':'var(--bg2)'}"><div class="tchk-ic" style="background:${done?'var(--g)':'var(--bg3)'}">${done?'✓':'—'}</div><div><div class="tchk-t" style="color:${done?'var(--gd)':'var(--muted)'}">${label}</div><div class="tchk-s">${note}</div></div></div>`;}
-function embedVid(url){
-  if(!url)return'';
-  const yt=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
-  const vm=url.match(/vimeo\.com\/(\d+)/);
-  if(yt)return`<div class="vid-wrap"><iframe src="https://www.youtube.com/embed/${yt[1]}" allowfullscreen loading="lazy"></iframe></div>`;
-  if(vm)return`<div class="vid-wrap"><iframe src="https://player.vimeo.com/video/${vm[1]}" allowfullscreen loading="lazy"></iframe></div>`;
-  return`<a href="${esc(url)}" target="_blank" rel="noopener" style="color:var(--g);font-weight:600;font-size:13px">▶ Watch video</a>`;
-}
-async function viewDoc(path){
-  const{data,error}=await db.storage.from('farm-documents').createSignedUrl(path,60);
-  if(error){toast('Could not load document','error');return;}
-  window.open(data.signedUrl,'_blank');
-}
-function openFarmDetail(fid){
-  const f=farms.find(x=>x.id===fid);if(!f)return;
+// ============================================================
+// FARM DETAIL PAGE
+// ============================================================
+function openFarmDetail(farmId) {
+  const f = farms.find(x => x.id === farmId);
+  if (!f) return;
   showPage('farm-detail');
-  const emoji=cEmoji(f.category);const bg=cBg(f.category);
-  const score=f.verification_status==='verified'?88:f.status==='approved'?72:45;
-  const hasvid=f.intro_video_url&&f.intro_video_url.length>5;
-  const fps=products.filter(p=>p.farm_id===fid&&p.is_active!==false);
-  const canContact=prof?.id&&f.farmer_id!==prof?.id;
-  sHTML('farmDetailContent',`
-    <div class="fd-hero">
-      <div class="fd-top">
-        <div class="fd-name">${esc(f.name)}</div>
-        <div class="fd-loc">📍 ${esc(f.nearest_town||'')}${f.nearest_town&&f.province?', ':''}${esc(f.province||'')}</div>
-        <div class="fd-badges">
-          ${f.status==='approved'?'<span class="fdb fdb-g">✅ Approved</span>':'<span class="fdb fdb-o">⏳ Pending</span>'}
-          ${f.verification_status==='verified'?'<span class="fdb fdb-g">✓ ID Verified</span>':'<span class="fdb fdb-w">⏳ ID Pending</span>'}
-          ${hasvid?'<span class="fdb fdb-g">📹 Video</span>':'<span class="fdb fdb-w">No video yet</span>'}
-          ${f.certifications?`<span class="fdb fdb-o">🏅 ${esc(f.certifications)}</span>`:''}
+  const emoji = cropEmoji(f.category);
+  const score = f.verification_status === 'verified' ? 88 : f.status === 'approved' ? 72 : 45;
+  const hasVideo = f.intro_video_url && f.intro_video_url.length > 5;
+  const videoEmbed = hasVideo ? embedVideoURL(f.intro_video_url) : '';
+  const farmProducts = products.filter(p => p.farm_id === farmId);
+  const canContact = profile?.id && f.farmer_id !== profile?.id;
+  setHTML('farmDetailContent', `
+    <div class="fp-hero">
+      <div class="fp-hero-top">
+        <div class="fp-name">${esc(f.name)}</div>
+        <div class="fp-loc">📍 ${esc(f.nearest_town||'')}${f.nearest_town&&f.province?', ':''}${esc(f.province||'')}</div>
+        <div class="fp-badges">
+          ${f.status==='approved'?'<span class="fp-verify-badge fvb-green">✅ Approved farm</span>':'<span class="fp-verify-badge fvb-gold">⏳ Pending approval</span>'}
+          ${f.verification_status==='verified'?'<span class="fp-verify-badge fvb-green">✓ ID Verified</span>':'<span class="fp-verify-badge fvb-white">⏳ ID pending</span>'}
+          ${hasVideo?'<span class="fp-verify-badge fvb-green">📹 Video verified</span>':'<span class="fp-verify-badge fvb-white">📹 No video yet</span>'}
+          ${f.certifications?`<span class="fp-verify-badge fvb-gold">🏅 ${esc(f.certifications)}</span>`:''}
         </div>
       </div>
-      <div class="fd-stats">
-        <div class="fds"><div class="fdsv">${score}</div><div class="fdsl">Trust score</div></div>
-        <div class="fds"><div class="fdsv">${fps.length}</div><div class="fdsl">Products</div></div>
-        <div class="fds"><div class="fdsv">${f.size_hectares||'—'}</div><div class="fdsl">Hectares</div></div>
-        <div class="fds"><div class="fdsv">${f.experience_years||'—'}</div><div class="fdsl">Yrs exp</div></div>
+      <div class="fp-stats">
+        <div class="fp-stat"><div class="fp-stat-v">${score}</div><div class="fp-stat-l">Trust score</div></div>
+        <div class="fp-stat"><div class="fp-stat-v">${f.size_hectares||'—'}</div><div class="fp-stat-l">Hectares</div></div>
+        <div class="fp-stat"><div class="fp-stat-v">${f.experience_years||'—'}</div><div class="fp-stat-l">Yrs exp</div></div>
       </div>
     </div>
-    <div class="g2" style="gap:18px">
+
+    <div class="g2">
       <div>
-        <div class="card mb4">
-          <div class="card-h"><div class="card-t">📹 Farmer Introduction</div><span class="bdg ${hasvid?'bdg-g':'bdg-o'}">${hasvid?'Verified':'Pending'}</span></div>
+        ${hasVideo ? `
+        <div class="card mb-4">
+          <div class="card-h"><div class="card-title">📹 Farmer Introduction</div><span class="badge badge-green">Trust signal</span></div>
           <div class="card-b">
-            ${hasvid?embedVid(f.intro_video_url)+'<div class="alert as" style="margin:0"><span>✅</span><div>This farmer filmed an introduction on their farm.</div></div>':'<div class="empty" style="padding:20px"><div class="empty-ic">📹</div><h3>No video yet</h3><p>Farmer has not uploaded an introduction.</p></div>'}
+            <div class="alert alert-ok mb-3"><span>✅</span><div>This farmer filmed a personal introduction on their farm. This is verified by FarmPool.</div></div>
+            ${videoEmbed}
+          </div>
+        </div>` : `
+        <div class="card mb-4">
+          <div class="card-h"><div class="card-title">📹 Farmer Introduction</div><span class="badge badge-gold">Pending</span></div>
+          <div class="card-b"><div class="empty" style="padding:28px"><h3>No video yet</h3><p>This farmer has not submitted a video introduction. Consider this when investing.</p></div></div>
+        </div>`}
+
+        <div class="card mb-4">
+          <div class="card-h"><div class="card-title">Farm Details</div></div>
+          <div class="card-b">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px">Category</div><div style="font-size:14px;font-weight:600">${emoji} ${esc(f.category||'—')}</div></div>
+              <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px">Province</div><div style="font-size:14px;font-weight:600">📍 ${esc(f.province||'—')}</div></div>
+              <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px">Farm size</div><div style="font-size:14px;font-weight:600">${f.size_hectares||'—'} hectares</div></div>
+              <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px">Experience</div><div style="font-size:14px;font-weight:600">${f.experience_years||'—'} years</div></div>
+              ${f.certifications?`<div style="grid-column:1/-1"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px">Certifications</div><div style="font-size:14px;font-weight:600">🏅 ${esc(f.certifications)}</div></div>`:''}
+            </div>
           </div>
         </div>
-        ${f.about?`<div class="card mb4"><div class="card-h"><div class="card-t">About this farm</div></div><div class="card-b"><p style="font-size:13px;color:var(--ink2);line-height:1.65">${esc(f.about)}</p></div></div>`:''}
-        ${canContact?`<div class="card"><div class="card-h"><div class="card-t">💬 Contact farmer</div></div><div class="card-b"><p style="font-size:13px;color:var(--muted);margin-bottom:12px">Have questions? Message the farmer directly.</p><button class="btn bp w100" onclick="contactFarmer('${fid}')">Send message</button></div></div>`:''}
+
+        ${f.security_notes ? `
+        <div class="card mb-4">
+          <div class="card-h"><div class="card-title">🔍 Verification Notes</div></div>
+          <div class="card-b"><p style="font-size:13px;color:var(--muted);line-height:1.65">${esc(f.security_notes)}</p></div>
+        </div>` : ''}
       </div>
+
       <div>
-        <div class="card mb4">
-          <div class="card-h"><div class="card-t">Trust &amp; Verification</div></div>
+        <div class="card mb-4">
+          <div class="card-h"><div class="card-title">Trust &amp; Verification</div></div>
           <div class="card-b">
-            ${tchk('Identity verified',f.verification_status==='verified','SA ID checked by FarmPool')}
-            ${tchk('Farm approved',f.status==='approved','Inspected and approved by admin')}
-            ${tchk('Video introduction',hasvid,'On-farm video submitted')}
-            ${tchk('Certifications',!!f.certifications,f.certifications||'None listed')}
-            ${tchk('Farm details',!!(f.size_hectares||f.experience_years),'Size and experience on record')}
-            ${f.proof_of_land_url?`<button class="btn bs bsm w100 mt3" onclick="viewDoc('${f.proof_of_land_url}')">📄 View proof of land</button>`:''}
+            <div style="display:flex;flex-direction:column;gap:8px">
+              ${trustCheckItem('Identity verified', f.verification_status==='verified', 'SA ID checked by FarmPool')}
+              ${trustCheckItem('Farm approved', f.status==='approved', 'Farm inspected and approved by admin')}
+              ${trustCheckItem('Video introduction', hasVideo, 'Farmer filmed on-farm introduction')}
+              ${trustCheckItem('Certifications', !!f.certifications, f.certifications||'No certifications listed')}
+              ${trustCheckItem('Verification notes', !!f.security_notes, 'References and documents provided')}
+            </div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-h"><div class="card-t">🛒 Products (${fps.length})</div></div>
+
+        <div class="card mb-4">
+          <div class="card-h"><div class="card-title">🛒 Products Available</div><span class="badge badge-blue">${farmProducts.length}</span></div>
           <div class="card-b">
-            ${fps.length?`<div style="display:flex;flex-direction:column;gap:8px">${fps.map(p=>`
-              <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border-radius:10px">
-                <div style="font-size:24px;width:40px;height:40px;background:#fff;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0">${cEmoji(p.category)}</div>
-                <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700">${esc(p.name)}</div><div style="font-size:11px;color:var(--muted)">${p.quantity_available||0} available ${esc(p.unit||'')}</div></div>
-                <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-                  <div style="font-family:var(--fd);font-size:14px;font-weight:800;color:var(--g)">${R(p.price)}</div>
-                  <button class="add-btn bsm" onclick="addToCart('${p.id}')">+ Add</button>
-                </div>
-              </div>`).join('')}</div>`:'<div style="font-size:13px;color:var(--muted);text-align:center;padding:16px">No products listed yet.</div>'}
+            ${farmProducts.length ? farmProducts.map(p => `
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)">
+                <div><div style="font-size:13px;font-weight:600">${esc(p.name)}</div><div style="font-size:12px;color:var(--muted)">${p.quantity_available||0} available</div></div>
+                <div style="display:flex;align-items:center;gap:8px"><div style="font-size:14px;font-weight:700;color:var(--brand)">${money(p.price)}</div><button class="btn btn-primary btn-sm" onclick="openOrderModal('${p.id}')">Order</button></div>
+              </div>`).join('') : '<div style="font-size:13px;color:var(--muted);text-align:center;padding:16px">No products listed yet</div>'}
           </div>
         </div>
+
+        ${canContact ? `
+        <div class="card mb-4">
+          <div class="card-h"><div class="card-title">💬 Contact Farmer</div></div>
+          <div class="card-b">
+            <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Have questions about this farm? Send the farmer a message directly.</p>
+            <button class="btn btn-primary w-full" onclick="startConversation('${farmId}')">Send message to farmer</button>
+          </div>
+        </div>` : ''}
       </div>
     </div>
   `);
 }
 
-// CART
-function addToCart(pid,silent=false){
-  const p=products.find(x=>x.id===pid);if(!p)return;
-  const farm=farms.find(f=>f.id===p.farm_id);
-  const inCart=cart.reduce((s,c)=>s+(c.product_id===pid?c.qty:0),0);
-  const avail=Number(p.quantity_available||0)-inCart;
-  if(avail<=0){toast('Out of stock','warning');return;}
-  const ex=cart.find(c=>c.product_id===pid);
-  if(ex)ex.qty++;else cart.push({product_id:pid,qty:1,name:p.name,price:Number(p.price),unit:p.unit||'',farm_id:p.farm_id,farm_name:farm?.name||'',category:p.category});
-  saveCart();updateCartUI();
-  if(!silent)toast('Added to cart!','success');
+function trustCheckItem(label, done, note) {
+  return `<div style="display:flex;align-items:flex-start;gap:10px;padding:8px;border-radius:9px;background:${done?'var(--brand-pale)':'var(--bg2)'}">
+    <div style="width:22px;height:22px;border-radius:50%;background:${done?'var(--brand)':'var(--bg3)'};display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;color:#fff">${done?'✓':'—'}</div>
+    <div><div style="font-size:13px;font-weight:700;color:${done?'var(--brand-dark)':'var(--muted)'}">${label}</div><div style="font-size:11px;color:var(--muted);margin-top:1px">${note}</div></div>
+  </div>`;
 }
-function updateCartUI(){
-  const total=cart.reduce((s,c)=>s+c.qty,0);
-  const dot=el('cartDot');if(dot){dot.style.display=total>0?'block':'none';dot.textContent=total>9?'9+':String(total);}
-  renderCartPanel();
+
+function embedVideoURL(url) {
+  if (!url) return '';
+  let embedSrc = '';
+  const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
+  const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+  if (ytMatch) embedSrc = `https://www.youtube.com/embed/${ytMatch[1]}`;
+  else if (vimeoMatch) embedSrc = `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+  else return `<div style="background:var(--bg);border-radius:var(--r2);padding:16px;text-align:center;font-size:13px;color:var(--muted)"><a href="${esc(url)}" target="_blank" rel="noopener" style="color:var(--brand);font-weight:600">▶ Watch farmer video</a></div>`;
+  return `<div style="position:relative;width:100%;padding-top:56.25%;border-radius:var(--r2);overflow:hidden;background:#000"><iframe src="${embedSrc}" style="position:absolute;inset:0;width:100%;height:100%;border:none" allowfullscreen loading="lazy"></iframe></div>`;
 }
-function renderCartPanel(){
-  const items=el('cartItems'),foot=el('cartFooter');
-  if(!items||!foot)return;
-  if(!cart.length){
-    items.innerHTML='<div style="text-align:center;padding:48px 20px;color:var(--muted)"><div style="font-size:44px;margin-bottom:10px">🛒</div><div style="font-size:14px;font-weight:700;margin-bottom:5px">Your cart is empty</div><div style="font-size:13px">Browse fresh produce and add items.</div></div>';
-    foot.innerHTML='<button class="btn bp w100" onclick="closeCart();showPage(&apos;shop&apos;)">Browse produce</button>';
-    return;
-  }
-  const sub=cart.reduce((s,c)=>s+(c.price*c.qty),0);
-  const del=50;const total=sub+del;
-  items.innerHTML=cart.map((c,i)=>`
-    <div class="cart-item">
-      <div class="ci-em">${cEmoji(c.category)}</div>
-      <div class="ci-info">
-        <div class="ci-name">${esc(c.name)}</div>
-        <div class="ci-farm">🌾 ${esc(c.farm_name)}</div>
-        <div class="ci-qty">
-          <button class="qbtn" onclick="changeQty(${i},-1)">−</button>
-          <span class="qnum">${c.qty}</span>
-          <button class="qbtn" onclick="changeQty(${i},1)">+</button>
+
+// ============================================================
+// CREATE FARM
+// ============================================================
+async function createFarm() {
+  if (!el('farmAgree')?.checked) { toast('Please confirm the accuracy of your information.', 'warning'); return; }
+  const name = val('farmName'), province = val('farmProvince'), town = val('farmTown'), category = val('farmCategory');
+  if (!name || !province || !town || !category) { toast('Please fill in all required fields.', 'error'); return; }
+  const row = {
+    farmer_id: profile.id,
+    name, province, nearest_town: town, category,
+    intro_video_url: val('farmVideo'),
+    security_notes: val('farmSecurity'),
+    size_hectares: val('farmSize') ? Number(val('farmSize')) : null,
+    experience_years: val('farmExp') ? Number(val('farmExp')) : null,
+    certifications: val('farmCert') || null,
+    status: 'pending',
+    verification_status: 'pending'
+  };
+  const { error } = await db.from('farms').insert(row);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  await log('farm', `Farm "${name}" submitted for approval`);
+  toast('Farm submitted for review! You will be notified within 3–5 days.', 'success');
+  ['farmName','farmProvince','farmTown','farmCategory','farmVideo','farmSecurity','farmSize','farmExp','farmCert'].forEach(id => { const e=el(id); if(e) e.value=''; });
+  if (el('farmAgree')) el('farmAgree').checked = false;
+  await loadAll();
+}
+
+// ============================================================
+// PRODUCTS
+// ============================================================
+function renderProducts() {
+  const farmMap = Object.fromEntries(farms.map(f => [f.id, f]));
+  setHTML('productGrid', products.length ? products.map(p => {
+    const farm = farmMap[p.farm_id];
+    const canOrder = profile?.role === 'buyer' || profile?.role === 'admin';
+    return `<div class="card">
+      <div class="card-h">
+        <div><div class="card-title">${esc(p.name)}</div><div style="font-size:12px;color:var(--muted)">${farm?'🌾 '+esc(farm.name):'Unknown farm'}</div></div>
+        <div style="font-family:var(--display);font-size:20px;font-weight:800;color:var(--brand)">${money(p.price)}</div>
+      </div>
+      <div class="card-b">
+        ${p.description?`<p style="font-size:13px;color:var(--muted);margin-bottom:10px">${esc(p.description)}</p>`:''}
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:12px;color:var(--muted)">📦 ${p.quantity_available||0} available</span>
+          ${canOrder?`<button class="btn btn-primary btn-sm" onclick="openOrderModal('${p.id}')">Order now</button>`:'<span class="badge badge-green">Your product</span>'}
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-        <div class="ci-price">${R(c.price*c.qty)}</div>
-        <button class="ci-rm" onclick="removeCart(${i})">🗑</button>
-      </div>
-    </div>`).join('');
-  foot.innerHTML=`
-    <div class="cart-row"><span>Subtotal</span><span>${R(sub)}</span></div>
-    <div class="cart-row"><span>Delivery fee</span><span>${R(del)}</span></div>
-    <div class="cart-row total"><span>Total</span><span>${R(total)}</span></div>
-    <button class="btn bp w100 blg" style="margin-top:12px" onclick="openCheckout()">Checkout ${R(total)}</button>
-    <button class="btn bs w100 bsm" style="margin-top:8px" onclick="clearCart()">Clear cart</button>`;
+    </div>`;
+  }).join('') : `<div class="empty"><h3>No products yet</h3><p>Approved farmers can list real goods here.</p></div>`);
 }
-function changeQty(i,d){cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);saveCart();updateCartUI();}
-function removeCart(i){cart.splice(i,1);saveCart();updateCartUI();toast('Removed','info');}
-function clearCart(){cart=[];saveCart();updateCartUI();}
-function openCart(){el('cartOverlay')?.classList.add('open');el('cartPanel')?.classList.add('open');}
-function closeCart(){el('cartOverlay')?.classList.remove('open');el('cartPanel')?.classList.remove('open');}
 
-// CHECKOUT
-function openCheckout(){
-  if(!cart.length){toast('Cart is empty','warning');return;}
-  closeCart();
-  const sub=cart.reduce((s,c)=>s+(c.price*c.qty),0);
-  const del=50;const total=sub+del;
-  sHTML('checkoutBody',`
-    <div style="background:var(--bg);border-radius:var(--r);padding:12px 14px;margin-bottom:16px">
-      ${cart.map(c=>`<div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid var(--border)"><span>${esc(c.name)} x${c.qty}</span><span style="font-weight:700">${R(c.price*c.qty)}</span></div>`).join('')}
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0">Delivery fee<span>${R(del)}</span></div>
-      <div style="display:flex;justify-content:space-between;font-family:var(--fd);font-size:16px;font-weight:800;padding-top:8px;border-top:1px solid var(--border);margin-top:4px">Total<span style="color:var(--g)">${R(total)}</span></div>
+async function createProduct() {
+  const farmId = val('productFarm'), name = val('productName'), price = val('productPrice'), qty = val('productQty');
+  if (!farmId || !name || !price) { toast('Please fill in all product fields.', 'error'); return; }
+  const row = { farm_id: farmId, name, price: Number(price), quantity_available: Number(qty)||0, description: val('productDesc'), status: 'active' };
+  const { error } = await db.from('products').insert(row);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  await log('product', `Product "${name}" added`);
+  toast('Product listed!', 'success');
+  ['productName','productPrice','productQty','productDesc'].forEach(id => { const e=el(id); if(e) e.value=''; });
+  await loadAll();
+}
+
+// ============================================================
+// ORDER MODAL
+// ============================================================
+function openOrderModal(productId) {
+  const p = products.find(x => x.id === productId);
+  if (!p) return;
+  const farm = farms.find(f => f.id === p.farm_id);
+  setHTML('orderModalTitle', `Order: ${esc(p.name)}`);
+  setHTML('orderModalBody', `
+    <div style="background:var(--bg);border-radius:var(--r);padding:12px 14px;margin-bottom:14px">
+      <div style="font-size:13px;font-weight:700">${esc(p.name)}</div>
+      <div style="font-size:12px;color:var(--muted)">${farm?esc(farm.name):''} · ${p.quantity_available||0} available</div>
+      <div style="font-family:var(--display);font-size:22px;font-weight:800;color:var(--brand);margin-top:4px">${money(p.price)}</div>
     </div>
-    <div class="field"><label class="lbl">Delivery address *</label><textarea class="ta" id="ckAddr" style="min-height:72px" placeholder="Full delivery address including city and postal code"></textarea></div>
-    <div class="field"><label class="lbl">Delivery notes (optional)</label><input class="inp" id="ckNotes" placeholder="e.g. Leave at gate, call on arrival…"></div>
-    <div class="field"><label class="lbl">Payment method</label>
-      <select class="sel" id="ckPay"><option value="EFT">EFT (Bank transfer)</option><option value="Cash on delivery">Cash on delivery</option><option value="SnapScan">SnapScan</option></select>
+    <div class="field"><label class="label">Quantity</label><input class="input" id="orderQty" type="number" min="1" max="${p.quantity_available||99}" value="1" oninput="updateOrderTotal(${p.price})"></div>
+    <div class="field"><label class="label">Delivery address *</label><textarea class="textarea" id="orderAddress" style="min-height:70px" placeholder="Full delivery address including city and postal code..."></textarea></div>
+    <div style="background:var(--brand-pale);border-radius:var(--r);padding:11px 13px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:13px;color:var(--brand-dark);font-weight:600">Order total</span>
+      <span id="orderTotal" style="font-family:var(--display);font-size:18px;font-weight:800;color:var(--brand)">${money(p.price)}</span>
     </div>
-    <div id="ckErr"></div>
-    <div class="m-foot">
-      <button class="btn bs" onclick="closeCheckout()">Cancel</button>
-      <button class="btn bp" id="ckBtn" onclick="placeOrder()">Place order ${R(total)}</button>
+    <div id="orderErr"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn btn-secondary" onclick="closeModal('order')">Cancel</button>
+      <button class="btn btn-primary" onclick="placeOrder('${productId}')">Confirm order</button>
     </div>
   `);
-  el('checkoutMo').classList.remove('hidden');
-}
-function closeCheckout(){el('checkoutMo')?.classList.add('hidden');}
-async function placeOrder(){
-  const addr=v('ckAddr'),notes=v('ckNotes'),pay=v('ckPay');
-  if(!addr){sHTML('ckErr','<div class="alert ae">Please enter a delivery address.</div>');return;}
-  const btn=el('ckBtn');if(btn){btn.disabled=true;btn.textContent='Placing order…';}
-  const grouped={};
-  cart.forEach(c=>{
-    if(!grouped[c.farm_id])grouped[c.farm_id]={farm_id:c.farm_id,farm_name:c.farm_name,items:[],total:0};
-    grouped[c.farm_id].items.push(c);grouped[c.farm_id].total+=c.price*c.qty;
-  });
-  const errs=[];
-  for(const grp of Object.values(grouped)){
-    const{data:ord,error}=await db.from('orders').insert({
-      buyer_id:sess.user.id,buyer_name:prof.full_name||prof.email,
-      farm_id:grp.farm_id,farm_name:grp.farm_name,
-      status:'Pending',subtotal:grp.total,delivery_fee:50,total_amount:grp.total+50,
-      delivery_address:addr,delivery_notes:notes||null,payment_method:pay
-    }).select().single();
-    if(error){errs.push(error.message);continue;}
-    for(const item of grp.items){
-      await db.from('order_items').insert({order_id:ord.id,product_id:item.product_id,product_name:item.name,quantity:item.qty,unit_price:item.price,total:item.price*item.qty});
-      const p=products.find(x=>x.id===item.product_id);
-      if(p)await db.from('products').update({quantity_available:Math.max(0,Number(p.quantity_available||0)-item.qty)}).eq('id',item.product_id);
-    }
-    await doLog('order','Order placed with '+grp.farm_name+' — '+R(grp.total+50));
-  }
-  if(btn){btn.disabled=false;btn.textContent='Place order';}
-  if(errs.length){sHTML('ckErr','<div class="alert ae">Error: '+errs.join('. ')+'</div>');return;}
-  clearCart();closeCheckout();toast('Order placed! 🎉','success');showPage('orders');await loadAll();
+  el('orderModal').classList.remove('hidden');
 }
 
+function updateOrderTotal(unitPrice) {
+  const qty = Number(val('orderQty')) || 1;
+  setText('orderTotal', money(unitPrice * qty));
+}
+
+async function placeOrder(productId) {
+  const p = products.find(x => x.id === productId);
+  if (!p) return;
+  const address = val('orderAddress'), qty = Number(val('orderQty')) || 1;
+  if (!address) { setHTML('orderErr', '<div class="alert alert-err mt-2">Please enter a delivery address.</div>'); return; }
+  const total = p.price * qty;
+  const { data, error } = await db.from('orders').insert({ buyer_id: session.user.id, farm_id: p.farm_id, status: 'Pending', total_amount: total, delivery_address: address }).select().single();
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  await db.from('order_items').insert({ order_id: data.id, product_id: productId, quantity: qty, price: p.price });
+  await log('order', `Order placed for "${p.name}" — ${money(total)}`);
+  closeModal('order');
+  toast('Order placed successfully! 🎉', 'success');
+  showPage('orders');
+  await loadAll();
+}
+
+// ============================================================
 // ORDERS
-function updateOrderDot(){
-  const myFarmIds=new Set(farms.filter(f=>f.farmer_id===prof?.id).map(f=>f.id));
-  const pending=orders.filter(o=>o.status==='Pending'&&myFarmIds.has(o.farm_id)).length;
-  const dot=el('ordDot');if(dot)dot.style.display=pending>0?'block':'none';
-}
-function renderOrders(){
-  const role=prof?.role;const sf=v('ordStatFilt');
-  let list=role==='admin'?orders:role==='farmer'
-    ?orders.filter(o=>farms.some(f=>f.id===o.farm_id&&f.farmer_id===prof?.id))
-    :orders.filter(o=>o.buyer_id===prof?.id);
-  if(sf)list=list.filter(o=>o.status===sf);
-  list.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
-  const canUpdate=role==='farmer'||role==='admin';
-  const statusOpts=['Pending','Accepted','Processing','Packing','Ready','Delivered','Cancelled'];
-  sHTML('ordersWrap',list.length?list.map(o=>`
-    <div class="ord-card">
-      <div class="ord-hdr">
-        <div><div class="ord-id">#${short(o.id)}</div><div style="font-size:12px;color:var(--muted);margin-top:2px">${ago(o.created_at)}</div></div>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <span class="s-chip ${o.status?'s-'+o.status.replace(/ /g,''):''}">${esc(o.status||'Pending')}</span>
-          ${canUpdate?`<select class="sel bsm" onchange="updateOrdStatus('${o.id}',this.value)" style="width:150px;padding:5px 9px;font-size:12px"><option value="">Update status…</option>${statusOpts.map(s=>`<option>${s}</option>`).join('')}</select>`:''}
-        </div>
-      </div>
-      <div class="ord-body">
-        <div class="ord-meta">
-          <div class="ord-meta-item"><label>Farm</label><span>${esc(o.farm_name||'—')}</span></div>
-          <div class="ord-meta-item"><label>Payment</label><span>${esc(o.payment_method||'—')}</span></div>
-          <div class="ord-meta-item"><label>Delivery address</label><span>${esc(o.delivery_address||'—')}</span></div>
-          ${o.delivery_notes?`<div class="ord-meta-item"><label>Notes</label><span>${esc(o.delivery_notes)}</span></div>`:''}
-        </div>
-      </div>
-      <div class="ord-foot">
-        <div style="font-size:13px;color:var(--muted)">Total incl. delivery</div>
-        <div class="ord-total">${R(o.total_amount)}</div>
-      </div>
-    </div>`).join(''):'<div class="empty"><div class="empty-ic">📋</div><h3>No orders yet</h3><p>Orders appear here once placed.</p></div>');
-}
-async function updateOrdStatus(id,status){
-  if(!status)return;
-  await db.from('orders').update({status,updated_at:new Date().toISOString()}).eq('id',id);
-  await doLog('order','Order #'+short(id)+' updated to '+status);
-  toast('Status updated: '+status,'success');await loadAll();
+// ============================================================
+function renderOrders() {
+  const farmMap = Object.fromEntries(farms.map(f => [f.id, f]));
+  const myOrders = profile?.role === 'admin' ? orders : orders.filter(o => o.buyer_id === profile?.id || farms.find(f => f.id === o.farm_id)?.farmer_id === profile?.id);
+  setText('orderCount', myOrders.length);
+  const canUpdate = id => profile?.role === 'admin' || farms.find(f => f.id === orders.find(o=>o.id===id)?.farm_id)?.farmer_id === profile?.id;
+  setHTML('ordersTable', myOrders.length ? myOrders.map(o => `<tr>
+    <td style="font-family:monospace;font-size:11px;color:var(--muted)">#${short(o.id)}</td>
+    <td style="font-weight:600">${esc(farmMap[o.farm_id]?.name||'—')}</td>
+    <td><span class="badge ${String(o.status||'').toLowerCase()}">${esc(o.status||'Pending')}</span></td>
+    <td style="font-weight:700;color:var(--brand)">${money(o.total_amount)}</td>
+    <td style="max-width:160px;font-size:12px;color:var(--muted)">${esc(o.delivery_address||'—')}</td>
+    <td style="font-size:11px;color:var(--muted)">${timeAgo(o.created_at)}</td>
+    <td>${canUpdate(o.id)?`<select class="select btn-sm" onchange="updateOrder('${o.id}',this.value)" style="width:130px;padding:5px 8px"><option value="">Update status</option><option>Pending</option><option>Accepted</option><option>Processing</option><option>Delivered</option><option>Cancelled</option></select>`:''}</td>
+  </tr>`).join('') : '<tr><td colspan="7"><div class="empty" style="padding:28px"><h3>No orders yet</h3><p>Orders placed in the marketplace appear here.</p></div></td></tr>');
 }
 
-// SELL
-function renderSell(){
-  const myFarms=farms.filter(f=>f.farmer_id===prof?.id&&f.status==='approved');
-  const pFarm=el('pFarm');
-  if(pFarm)pFarm.innerHTML=myFarms.length?myFarms.map(f=>`<option value="${f.id}">${esc(f.name)}</option>`).join(''):'<option value="">No approved farms yet — register your farm first</option>';
-  const myProds=products.filter(p=>myFarms.some(f=>f.id===p.farm_id));
-  sHTML('myProdGrid',myProds.length?myProds.map(p=>{
-    const active=p.is_active!==false;
-    return `<div class="prod-card" style="cursor:default">
-      <div class="prod-img" style="background:${cBg(p.category)}"><div class="prod-img-emoji">${cEmoji(p.category)}</div></div>
-      <div class="prod-body">
-        <div class="prod-name">${esc(p.name)}</div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
-          <span class="bdg ${active?'bdg-g':'bdg-gr'}" style="font-size:10px">${active?'Active':'Inactive'}</span>
-          ${p.is_organic==='true'||p.is_organic===true?'<span class="bdg bdg-g" style="font-size:10px">🌱 Organic</span>':''}
-        </div>
-      </div>
-      <div class="prod-foot">
-        <div><div class="prod-price">${R(p.price)}<small> ${esc(p.unit||'')}</small></div><div class="prod-stock">${p.quantity_available||0} in stock</div></div>
-        <div style="display:flex;gap:6px">
-          <button class="btn bsm ${active?'bdan':'bp'}" onclick="toggleProd('${p.id}',${!active})">${active?'Deactivate':'Activate'}</button>
-          <button class="btn bsm bdan" onclick="deleteProd('${p.id}')">🗑</button>
-        </div>
-      </div>
-    </div>`;
-  }).join(''):'<div class="empty" style="grid-column:1/-1"><div class="empty-ic">📦</div><h3>No products listed</h3><p>Add your first product above.</p></div>');
-}
-async function doAddProduct(){
-  const fid=v('pFarm'),name=v('pName'),cat=v('pCat'),unit=v('pUnit'),price=v('pPrice'),qty=v('pQty');
-  if(!fid||fid===''){toast('Please register and get your farm approved first.','warning');return;}
-  if(!name||!cat||!unit||!price||!qty){toast('Please fill in all required fields.','error');return;}
-  const btn=el('addProdBtn');btn.disabled=true;btn.textContent='Adding…';
-  const{error}=await db.from('products').insert({
-    farm_id:fid,name,category:cat,unit,price:Number(price),
-    quantity_available:Number(qty),description:v('pDesc')||null,
-    harvest_date:v('pHarvest')||null,is_organic:v('pOrganic')==='true',is_active:true
-  });
-  btn.disabled=false;btn.textContent='✓ List product';
-  if(error){toast('Error: '+error.message,'error');return;}
-  await doLog('product','Product "'+name+'" listed');
-  toast('Product is now live on the marketplace!','success');
-  ['pName','pCat','pUnit','pPrice','pQty','pDesc','pHarvest'].forEach(id=>{const e=el(id);if(e)e.value='';});
-  el('pOrganic').value='false';await loadAll();
-}
-async function toggleProd(id,active){
-  await db.from('products').update({is_active:active}).eq('id',id);
-  toast(active?'Product activated':'Product deactivated','success');await loadAll();
-}
-async function deleteProd(id){
-  if(!confirm('Delete this product? This cannot be undone.'))return;
-  await db.from('products').delete().eq('id',id);
-  toast('Product deleted','warning');await loadAll();
+async function updateOrder(id, status) {
+  if (!status) return;
+  const { error } = await db.from('orders').update({ status }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  await log('order', `Order #${short(id)} updated to "${status}"`);
+  toast(`Order status updated to ${status}`, 'success');
+  await loadAll();
 }
 
-// FARM REGISTRATION
-async function doRegisterFarm(){
-  if(!el('fAgree')?.checked){toast('Please confirm your information is accurate.','warning');return;}
-  const name=v('fName'),prov=v('fProv'),town=v('fTown'),cat=v('fCat'),about=v('fAbout');
-  if(!name||!prov||!town||!cat||!about){toast('Please fill in all required fields.','error');return;}
-  const btn=el('farmRegBtn');btn.disabled=true;btn.textContent='Submitting…';
-  let proofPath=null;
-  const file=el('fProof')?.files?.[0];
-  if(file){
-    const ext=file.name.split('.').pop();
-    proofPath=sess.user.id+'/proof-'+Date.now()+'.'+ext;
-    const{error:ue}=await db.storage.from('farm-documents').upload(proofPath,file,{upsert:true});
-    if(ue){toast('File upload failed: '+ue.message,'error');btn.disabled=false;btn.textContent='Submit farm for approval';return;}
-  }
-  const{error}=await db.from('farms').insert({
-    farmer_id:sess.user.id,name,province:prov,nearest_town:town,category:cat,about,
-    intro_video_url:v('fVideo')||null,size_hectares:v('fSize')?Number(v('fSize')):null,
-    experience_years:v('fExp')?Number(v('fExp')):null,certifications:v('fCert')||null,
-    proof_of_land_url:proofPath,status:'pending',verification_status:'pending'
-  });
-  btn.disabled=false;btn.textContent='Submit farm for approval';
-  if(error){toast('Error: '+error.message,'error');return;}
-  await doLog('farm','Farm "'+name+'" submitted for approval');
-  toast('Farm submitted! You will hear back within 3-5 business days.','success');
-  ['fName','fProv','fTown','fCat','fVideo','fSize','fExp','fCert','fAbout'].forEach(id=>{const e=el(id);if(e)e.value='';});
-  el('fAgree').checked=false;await loadAll();
-}
-
-// MESSAGES
-function renderMessages(){
-  const fmap=Object.fromEntries(farms.map(f=>[f.id,f]));
-  sHTML('threadList',convos.length?convos.map(c=>{
-    const farm=fmap[c.farm_id];
-    const last=msgs.filter(m=>m.conversation_id===c.id).slice(-1)[0];
-    return `<div class="c-thread ${activeTid===c.id?'on':''}" onclick="openThread('${c.id}')">
-      <div class="c-av" style="font-size:11px">${ini(farm?.name||'?')}</div>
+// ============================================================
+// MESSAGES / CHAT
+// ============================================================
+function renderMessages() {
+  const farmMap = Object.fromEntries(farms.map(f => [f.id, f]));
+  setHTML('conversationList', conversations.length ? conversations.map(c => {
+    const farm = farmMap[c.farm_id];
+    const lastMsg = messages.filter(m => m.conversation_id === c.id).slice(-1)[0];
+    const av = initials(farm?.name || '?');
+    return `<div class="chat-item" style="display:flex;align-items:center;gap:9px" onclick="openConversation('${c.id}')">
+      <div class="chat-av" style="width:36px;height:36px;font-size:12px;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">${av}</div>
       <div style="flex:1;min-width:0">
-        <div class="c-name">${esc(farm?.name||'Conversation')}</div>
-        <div class="c-prev">${last?esc(last.body):'No messages yet'}</div>
+        <div class="chat-item-name">${esc(farm?.name||'Conversation')}</div>
+        <div class="chat-item-prev">${lastMsg?esc(lastMsg.body):'No messages yet'}</div>
       </div>
-      <div class="c-time">${c.updated_at?ago(c.updated_at):''}</div>
+      <div style="font-size:10px;color:var(--muted);flex-shrink:0">${c.updated_at?timeAgo(c.updated_at):''}</div>
     </div>`;
-  }).join(''):'<div style="padding:20px;font-size:13px;color:var(--muted);text-align:center">No conversations.<br><br>Open a farm page and message the farmer.</div>');
-  const dot=el('msgDot');
-  if(dot)dot.style.display=convos.length>0?'block':'none';
-  if(activeTid)drawMsgs();
+  }).join('') : '<div style="padding:20px;font-size:13px;color:var(--muted);text-align:center">No conversations yet.<br><br>Open a farm and contact the farmer.</div>');
+  if (activeConversation) drawMessages();
 }
-function openThread(id){
-  activeTid=id;
-  const c=convos.find(x=>x.id===id);
-  const farm=farms.find(f=>f.id===c?.farm_id);
-  sTxt('cHdrName',farm?.name||'Conversation');
-  sTxt('cHdrSub',farm?.status==='approved'?'🟢 Active farm':'⏳ Pending');
-  sTxt('cHdrAv',ini(farm?.name||'?'));
+
+function openConversation(id) {
+  activeConversation = id;
+  const c = conversations.find(x => x.id === id);
+  const farm = farms.find(f => f.id === c?.farm_id);
+  setText('chatHdrName', farm?.name || 'Conversation');
+  setText('chatHdrStatus', farm?.status === 'approved' ? '🟢 Active farm' : '⏳ Pending approval');
+  setText('chatHdrAv', initials(farm?.name||'?'));
   renderMessages();
 }
-function filterThreads(){
-  const q=v('cSrch').toLowerCase();
-  document.querySelectorAll('.c-thread').forEach(t=>{
-    const name=t.querySelector('.c-name')?.textContent.toLowerCase()||'';
-    t.style.display=name.includes(q)?'':'none';
-  });
-}
-function drawMsgs(){
-  const box=el('msgBox');if(!box)return;
-  const rows=msgs.filter(m=>m.conversation_id===activeTid);
-  if(!rows.length){box.innerHTML='<div style="text-align:center;font-size:13px;color:var(--muted);padding:20px">No messages yet. Say hello!</div>';return;}
-  box.innerHTML=rows.map(m=>{
-    const me=m.sender_id===sess?.user?.id;
-    return `<div style="display:flex;flex-direction:column;align-items:${me?'flex-end':'flex-start'}">
-      <div class="bbl ${me?'me':'them'}">${esc(m.body)}</div>
-      <div class="bbl-time" style="text-align:${me?'right':'left'}">${ago(m.created_at)}</div>
+
+function drawMessages() {
+  const box = el('messagesBox');
+  const rows = messages.filter(m => m.conversation_id === activeConversation);
+  box.innerHTML = rows.length ? rows.map(m => {
+    const isMe = m.sender_id === session?.user?.id;
+    return `<div style="display:flex;flex-direction:column;align-items:${isMe?'flex-end':'flex-start'}">
+      <div class="bubble ${isMe?'me':''}" style="max-width:70%">${esc(m.body)}</div>
+      <div class="bubble-time" style="font-size:10px;color:var(--muted);margin-top:3px;${isMe?'text-align:right':''}">${timeAgo(m.created_at)}</div>
     </div>`;
-  }).join('');
-  box.scrollTop=box.scrollHeight;
-}
-async function sendMsg(){
-  if(!activeTid){toast('Select a conversation first.','warning');return;}
-  const body=v('msgInp');if(!body)return;
-  await db.from('messages').insert({conversation_id:activeTid,sender_id:sess.user.id,body,read:false});
-  el('msgInp').value='';await loadAll();drawMsgs();
-}
-async function contactFarmer(farmId){
-  const ex=convos.find(c=>c.farm_id===farmId);
-  if(ex){showPage('messages');openThread(ex.id);return;}
-  const{data,error}=await db.from('conversations').insert({farm_id:farmId,buyer_id:sess.user.id}).select().single();
-  if(error){toast('Error: '+error.message,'error');return;}
-  await loadAll();showPage('messages');if(data)openThread(data.id);
+  }).join('') : '<div style="text-align:center;font-size:13px;color:var(--muted);padding:16px">No messages yet. Say hello!</div>';
+  box.scrollTop = box.scrollHeight;
 }
 
-// FARMER DASHBOARD
-function renderDashboard(){
-  const myFarms=farms.filter(f=>f.farmer_id===prof?.id);
-  const myFarmIds=new Set(myFarms.map(f=>f.id));
-  const myOrds=orders.filter(o=>myFarmIds.has(o.farm_id));
-  const myProds=products.filter(p=>myFarmIds.has(p.farm_id));
-  const revenue=myOrds.filter(o=>o.status==='Delivered').reduce((s,o)=>s+Number(o.total_amount||0),0);
-  const pendOrd=myOrds.filter(o=>o.status==='Pending');
-  sHTML('dashContent',`
-    <div style="background:linear-gradient(135deg,var(--gd),#1a6b4a);border-radius:var(--r3);padding:24px;margin-bottom:20px;position:relative;overflow:hidden">
-      <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.07">🌾</div>
-      <div style="font-family:var(--fd);font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">Welcome back, ${esc((prof.full_name||'Farmer').split(' ')[0])}!</div>
-      <div style="font-size:13px;color:rgba(255,255,255,.55);margin-bottom:16px">Here is your farm overview.</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn bsm" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18)" onclick="showPage('sell')">📦 List product</button>
-        <button class="btn bsm" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18)" onclick="showPage('orders')">📋 View orders</button>
-        <button class="btn bsm" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18)" onclick="showPage('messages')">💬 Messages</button>
-      </div>
-    </div>
-    <div class="g4" style="margin-bottom:20px">
-      <div class="sc sc1"><div class="sl">My Farms</div><div class="sv">${myFarms.length}</div><div class="ss">${myFarms.filter(f=>f.status==='approved').length} approved</div><div class="si">🌾</div></div>
-      <div class="sc sc2"><div class="sl">Products</div><div class="sv">${myProds.length}</div><div class="ss">${myProds.filter(p=>p.is_active!==false).length} active</div><div class="si">📦</div></div>
-      <div class="sc sc3"><div class="sl">Orders</div><div class="sv">${myOrds.length}</div><div class="ss">${pendOrd.length} pending${pendOrd.length>0?' ⚠️':''}</div><div class="si">📋</div></div>
-      <div class="sc sc4"><div class="sl">Revenue</div><div class="sv">${R(revenue)}</div><div class="ss">From delivered orders</div><div class="si">💰</div></div>
-    </div>
-    ${pendOrd.length?`<div class="alert aw mb4"><span>⚠️</span><div>You have <strong>${pendOrd.length} pending order${pendOrd.length!==1?'s':''}</strong> waiting. <span class="alink" onclick="showPage('orders')">View orders →</span></div></div>`:''}
-    ${myFarms.length?`
-      <div class="card mb4">
-        <div class="card-h"><div class="card-t">My Farms</div><button class="btn bgh bsm" onclick="showPage('farms')">See all →</button></div>
-        <div class="card-b">
-          ${myFarms.map(f=>`
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
-              <div style="display:flex;align-items:center;gap:10px">
-                <div style="width:38px;height:38px;border-radius:10px;background:${cBg(f.category)};display:flex;align-items:center;justify-content:center;font-size:18px">${cEmoji(f.category)}</div>
-                <div><div style="font-size:13px;font-weight:700">${esc(f.name)}</div><div style="font-size:12px;color:var(--muted)">📍 ${esc(f.nearest_town||'')}${f.province?', '+esc(f.province):''}</div></div>
-              </div>
-              <span class="bdg ${f.status==='approved'?'bdg-g':f.status==='rejected'?'bdg-r':'bdg-o'}">${f.status||'pending'}</span>
-            </div>`).join('')}
-        </div>
-      </div>`:`<div class="empty"><div class="empty-ic">🚜</div><h3>No farm registered yet</h3><p>Register your farm to start selling.</p><button class="btn bp" onclick="showPage('farms')">Register farm</button></div>`}
-    ${pendOrd.length?`
-      <div class="card">
-        <div class="card-h"><div class="card-t">⚠️ Orders needing action</div></div>
-        <div class="card-b">
-          ${pendOrd.map(o=>`
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px">
-              <div><div style="font-family:monospace;font-size:11px;color:var(--muted)">#${short(o.id)}</div>
-              <div style="font-size:13px;font-weight:600">${R(o.total_amount)}</div>
-              <div style="font-size:11px;color:var(--muted)">${ago(o.created_at)}</div></div>
-              <div style="display:flex;gap:6px">
-                <button class="btn bp bsm" onclick="updateOrdStatus('${o.id}','Accepted')">✓ Accept</button>
-                <button class="btn bdan bsm" onclick="updateOrdStatus('${o.id}','Cancelled')">✗ Cancel</button>
-              </div>
-            </div>`).join('')}
-        </div>
-      </div>`:''}
-  `);
+async function sendMessage() {
+  if (!activeConversation) { toast('Select a conversation first.', 'warning'); return; }
+  const body = val('messageInput');
+  if (!body) return;
+  await db.from('messages').insert({ conversation_id: activeConversation, sender_id: session.user.id, body, read: false });
+  el('messageInput').value = '';
+  await loadAll();
 }
 
-// NOTIFICATIONS
-function updateNotifDot(){
-  const dot=el('notifDot');if(dot)dot.style.display=logs.length>0?'block':'none';
-}
-function renderNotifs(){
-  const mine=prof?.role==='admin'?logs:logs.filter(l=>l.actor_id===prof?.id);
-  const ic={farm:'🌾',product:'📦',order:'🛒',message:'💬',admin:'🛡️'};
-  sHTML('notifList',mine.length?`<div style="display:flex;flex-direction:column;gap:8px">${mine.map(l=>`
-    <div class="card"><div class="card-b" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px">
-      <div style="font-size:22px;flex-shrink:0">${ic[l.type]||'📋'}</div>
-      <div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:2px">${esc(l.text||'—')}</div><div style="font-size:12px;color:var(--muted)">${ago(l.created_at)}</div></div>
-    </div></div>`).join('')}</div>`:'<div class="empty"><div class="empty-ic">🔔</div><h3>No activity yet</h3><p>Your activity will appear here.</p></div>');
+async function startConversation(farmId) {
+  const existing = conversations.find(c => c.farm_id === farmId);
+  if (existing) { showPage('messages'); openConversation(existing.id); return; }
+  const { data, error } = await db.from('conversations').insert({ farm_id: farmId, buyer_id: profile.id }).select().single();
+  if (error) { toast('Error starting conversation: ' + error.message, 'error'); return; }
+  await loadAll();
+  showPage('messages');
+  openConversation(data.id);
 }
 
+// ============================================================
+// ACTIVITY
+// ============================================================
+function renderActivity() {
+  const typeIcon = { farm:'🌾', product:'📦', order:'🛒', admin:'🛡', message:'💬', profile:'👤' };
+  setHTML('activityTable', activityLogs.length ? activityLogs.map(l => `<tr>
+    <td style="font-size:12px;color:var(--muted);white-space:nowrap">${timeAgo(l.created_at)}</td>
+    <td><span class="badge badge-gray" style="font-size:10px">${typeIcon[l.type]||'📋'} ${esc(l.type||'system')}</span></td>
+    <td style="font-size:13px">${esc(l.text||'')}</td>
+  </tr>`).join('') : '<tr><td colspan="3"><div class="empty" style="padding:20px"><h3>No activity yet</h3></div></td></tr>');
+}
+
+// ============================================================
 // ADMIN
-function renderAdmin(){
-  if(prof?.role!=='admin')return;
-  const pend=farms.filter(f=>f.status==='pending');
-  const rev=orders.filter(o=>o.status==='Delivered').reduce((s,o)=>s+Number(o.total_amount||0),0);
-  sHTML('admStats',`
-    <div class="adm-stat"><div class="adm-v">${allUsers.length}</div><div class="adm-l">Users</div></div>
-    <div class="adm-stat"><div class="adm-v">${farms.length}</div><div class="adm-l">Farms</div></div>
-    <div class="adm-stat"><div class="adm-v">${farms.filter(f=>f.status==='approved').length}</div><div class="adm-l">Approved</div></div>
-    <div class="adm-stat"><div class="adm-v">${pend.length}</div><div class="adm-l">Pending</div></div>
-    <div class="adm-stat"><div class="adm-v">${products.length}</div><div class="adm-l">Products</div></div>
-    <div class="adm-stat"><div class="adm-v">${orders.length}</div><div class="adm-l">Orders</div></div>
-    <div class="adm-stat"><div class="adm-v">${R(rev)}</div><div class="adm-l">Revenue</div></div>
+// ============================================================
+function renderAdmin() {
+  if (profile?.role !== 'admin') { setHTML('page-admin', '<div class="empty" style="padding:60px"><h3>Access denied</h3><p>Admin access required.</p></div>'); return; }
+  const pending = farms.filter(f => f.status === 'pending');
+  const totalRevenue = orders.filter(o=>o.status==='Delivered').reduce((a,o)=>a+Number(o.total_amount||0),0);
+  setHTML('adminStats', `
+    <div class="adm-stat"><div class="adm-v">${allProfiles.length}</div><div class="adm-l">Total users</div></div>
+    <div class="adm-stat"><div class="adm-v">${farms.length}</div><div class="adm-l">Farms listed</div></div>
+    <div class="adm-stat"><div class="adm-v">${farms.filter(f=>f.status==='approved').length}</div><div class="adm-l">Approved farms</div></div>
+    <div class="adm-stat"><div class="adm-v">${pending.length}</div><div class="adm-l">Pending approval</div></div>
+    <div class="adm-stat"><div class="adm-v">${orders.length}</div><div class="adm-l">Total orders</div></div>
+    <div class="adm-stat"><div class="adm-v">${money(totalRevenue)}</div><div class="adm-l">Delivered revenue</div></div>
   `);
-  sTxt('pendCnt',pend.length+' pending');
-  sHTML('admFarms',pend.length?pend.map(f=>`
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);gap:10px">
+  setText('pendingCount', `${pending.length} pending`);
+  setHTML('adminFarms', pending.length ? pending.map(f => `
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);gap:10px">
       <div>
         <div style="font-size:13px;font-weight:700">${esc(f.name)}</div>
-        <div style="font-size:12px;color:var(--muted)">${esc(f.nearest_town||'')} · ${esc(f.province||'')} · ${esc(f.category||'')}</div>
-        <div style="display:flex;gap:6px;margin-top:4px">
-          ${f.intro_video_url?'<span style="font-size:11px;color:var(--blue)">📹 Video</span>':'<span style="font-size:11px;color:var(--gold)">⚠️ No video</span>'}
-          ${f.proof_of_land_url?'<span style="font-size:11px;color:var(--g)">📄 Document</span>':'<span style="font-size:11px;color:var(--gold)">⚠️ No doc</span>'}
-        </div>
+        <div style="font-size:11px;color:var(--muted)">${esc(f.nearest_town||'')} ${esc(f.province||'')} · ${esc(f.category||'')}</div>
+        ${f.intro_video_url?'<span style="font-size:11px;color:var(--blue)">📹 Has video</span>':'<span style="font-size:11px;color:var(--muted)">⚠️ No video</span>'}
       </div>
-      <div style="display:flex;gap:5px;flex-wrap:wrap;flex-shrink:0">
-        <button class="ab ab-v" onclick="openFarmDetail('${f.id}')">View</button>
-        <button class="ab ab-ok" onclick="setFarmStatus('${f.id}','approved')">✓ Approve</button>
-        <button class="ab ab-rej" onclick="setFarmStatus('${f.id}','rejected')">✗ Reject</button>
+      <div style="display:flex;gap:5px;flex-shrink:0">
+        <button class="act-btn act-view" onclick="openFarmDetail('${f.id}')">View</button>
+        <button class="act-btn act-ok" onclick="setFarmStatus('${f.id}','approved')">Approve</button>
+        <button class="act-btn act-rej" onclick="setFarmStatus('${f.id}','rejected')">Reject</button>
       </div>
-    </div>`).join(''):'<div style="font-size:13px;color:var(--muted);text-align:center;padding:16px">No pending farms 🎉</div>');
-  sHTML('admUsers',allUsers.map(u=>`<tr>
+    </div>`).join('') : '<div style="font-size:13px;color:var(--muted);text-align:center;padding:16px">No pending farms 🎉</div>');
+  setHTML('adminUsers', allProfiles.map(u => `<tr>
     <td style="font-weight:600">${esc(u.full_name||'—')}</td>
-    <td style="font-size:12px;color:var(--muted)">${esc(u.email||'')}</td>
-    <td><span class="bdg ${u.role==='admin'?'bdg-r':u.role==='farmer'?'bdg-o':'bdg-g'}">${esc(u.role||'—')}</span></td>
-    <td><span class="bdg ${u.verification_status==='verified'?'bdg-vf':'bdg-gr'}">${esc(u.verification_status||'pending')}</span></td>
+    <td><span class="badge ${u.role==='admin'?'badge-red':u.role==='farmer'?'badge-gold':'badge-green'}">${esc(u.role||'—')}</span></td>
+    <td><span class="badge ${u.status==='suspended'?'badge-red':u.verification_status==='verified'?'badge-green':'badge-gray'}">${esc(u.verification_status||'pending')}</span></td>
     <td style="display:flex;gap:4px;flex-wrap:wrap">
-      <button class="ab ab-ok" onclick="verifyUser('${u.id}')">✓ Verify</button>
-      <button class="ab ab-rej" onclick="suspendUser('${u.id}')">Suspend</button>
-      ${u.role!=='admin'?`<button class="ab ab-v" onclick="makeAdmin('${u.id}')">Admin</button>`:''}
+      <button class="act-btn act-ok" onclick="verifyUser('${u.id}')">✓ Verify</button>
+      <button class="act-btn act-rej" onclick="suspendUser('${u.id}')">Suspend</button>
+      ${u.role!=='admin'?`<button class="act-btn act-view" onclick="makeAdmin('${u.id}')">Admin</button>`:''}
     </td>
   </tr>`).join(''));
-  sHTML('admOrders',orders.slice(0,15).map(o=>`<tr>
-    <td style="font-family:monospace;font-size:11px;color:var(--muted)">#${short(o.id)}</td>
-    <td>${esc(o.buyer_name||'—')}</td>
-    <td>${esc(o.farm_name||'—')}</td>
-    <td style="font-weight:700;color:var(--g)">${R(o.total_amount)}</td>
-    <td><span class="s-chip ${o.status?'s-'+o.status.replace(/ /g,''):''}" style="font-size:10px">${esc(o.status||'—')}</span></td>
-    <td style="font-size:11px;color:var(--muted)">${ago(o.created_at)}</td>
-  </tr>`).join(''));
-  sHTML('admActivity',logs.slice(0,15).map(l=>`
+  setHTML('adminOrders', orders.slice(0,8).map(o => `
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
+      <span>#${short(o.id)} <span class="badge ${String(o.status||'').toLowerCase()}" style="font-size:10px">${esc(o.status)}</span></span>
+      <strong style="color:var(--brand)">${money(o.total_amount)}</strong>
+    </div>`).join('') || '<div style="font-size:13px;color:var(--muted);text-align:center;padding:16px">No orders yet</div>');
+  setHTML('adminActivity', activityLogs.slice(0,10).map(l => `
     <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px">
-      <span>${esc(l.text||'—')}</span><span style="color:var(--muted);white-space:nowrap;margin-left:8px">${ago(l.created_at)}</span>
-    </div>`).join('')||'<div style="font-size:13px;color:var(--muted);padding:12px;text-align:center">No activity</div>');
-}
-async function setFarmStatus(id,status){
-  await db.from('farms').update({status}).eq('id',id);
-  await doLog('admin','Farm '+short(id)+' '+status);
-  toast('Farm '+status,status==='approved'?'success':'warning');await loadAll();
-}
-async function verifyUser(id){
-  await db.from('profiles').update({verification_status:'verified'}).eq('id',id);
-  toast('User verified','success');await loadAll();
-}
-async function suspendUser(id){
-  await db.from('profiles').update({status:'suspended'}).eq('id',id);
-  toast('User suspended','warning');await loadAll();
-}
-async function makeAdmin(id){
-  if(!confirm('Grant admin access to this user?'))return;
-  await db.from('profiles').update({role:'admin'}).eq('id',id);
-  toast('User is now admin','success');await loadAll();
+      <span style="color:var(--ink)">${esc(l.text||'—')}</span>
+      <span style="color:var(--muted);white-space:nowrap;margin-left:8px">${timeAgo(l.created_at)}</span>
+    </div>`).join('') || '<div style="font-size:13px;color:var(--muted);text-align:center;padding:16px">No activity yet</div>');
 }
 
+async function setFarmStatus(id, status) {
+  const { error } = await db.from('farms').update({ status }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  await log('admin', `Farm ${short(id)} ${status}`);
+  toast(`Farm ${status}`, status==='approved'?'success':'warning');
+  await loadAll();
+}
+
+async function verifyUser(id) {
+  const { error } = await db.from('profiles').update({ verification_status: 'verified' }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  await log('admin', `User ${short(id)} verified`);
+  toast('User verified ✓', 'success');
+  await loadAll();
+}
+
+async function suspendUser(id) {
+  const { error } = await db.from('profiles').update({ status: 'suspended' }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  await log('admin', `User ${short(id)} suspended`);
+  toast('User suspended', 'warning');
+  await loadAll();
+}
+
+async function makeAdmin(id) {
+  if (!confirm('Make this user an admin? They will have full platform access.')) return;
+  const { error } = await db.from('profiles').update({ role: 'admin' }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  await log('admin', `User ${short(id)} made admin`);
+  toast('User is now an admin', 'success');
+  await loadAll();
+}
+
+// ============================================================
+// MODALS
+// ============================================================
+function closeModal(type) {
+  el(type+'Modal')?.classList.add('hidden');
+}
+
+// ============================================================
 // REALTIME
-function subscribeRT(){
-  db.channel('fp-marketplace')
-    .on('postgres_changes',{event:'*',schema:'public',table:'messages'},()=>loadAll())
-    .on('postgres_changes',{event:'*',schema:'public',table:'orders'},()=>{loadAll();toast('Order update received','info',2000);})
-    .on('postgres_changes',{event:'*',schema:'public',table:'farms'},()=>loadAll())
-    .on('postgres_changes',{event:'*',schema:'public',table:'products'},()=>loadAll())
+// ============================================================
+function subscribeRealtime() {
+  db.channel('farmpool-rt')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, () => { loadAll(); })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => { loadAll(); toast('Order update received', 'info', 2000); })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'farms' }, () => { loadAll(); })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'conversations' }, () => { loadAll(); })
     .subscribe();
 }
 
+// ============================================================
 // SEARCH
-function onSearch(){const q=el('srch')?.value?.toLowerCase()||'';if(!q){loadAll();return;}applySearch(q);}
-function onMobSearch(){const q=el('mobSrchInp')?.value?.toLowerCase()||'';if(!q){loadAll();return;}applySearch(q);}
-function applySearch(q){
-  const fp=products.filter(p=>(p.name||'').toLowerCase().includes(q)||(p.category||'').toLowerCase().includes(q)||(p.description||'').toLowerCase().includes(q));
-  const ff=farms.filter(f=>(f.name||'').toLowerCase().includes(q)||(f.category||'').toLowerCase().includes(q)||(f.province||'').toLowerCase().includes(q));
-  sHTML('shopGrid',fp.length?fp.map(prodCard).join(''):`<div class="empty" style="grid-column:1/-1"><div class="empty-ic">🔍</div><h3>No results for "${q}"</h3></div>`);
-  sHTML('farmGrid',ff.length?ff.map(farmCard).join(''):`<div class="empty" style="grid-column:1/-1"><div class="empty-ic">🔍</div><h3>No farms match "${q}"</h3></div>`);
-  sHTML('homeProdGrid',fp.slice(0,8).length?`<div class="ga">${fp.slice(0,8).map(prodCard).join('')}</div>`:`<div class="empty"><div class="empty-ic">🔍</div><h3>No results</h3></div>`);
+// ============================================================
+function onSearch() {
+  const q = val('searchInput').toLowerCase();
+  if (!q) { renderFarms(); renderProducts(); return; }
+  const fFiltered = farms.filter(f => (f.name||'').toLowerCase().includes(q) || (f.category||'').toLowerCase().includes(q) || (f.province||'').toLowerCase().includes(q));
+  setHTML('farmGrid', fFiltered.length ? fFiltered.map(farmCardHTML).join('') : `<div class="empty"><h3>No farms match "${q}"</h3></div>`);
+  setHTML('dashFarmGrid', fFiltered.slice(0,6).length ? `<div class="ga">${fFiltered.slice(0,6).map(farmCardHTML).join('')}</div>` : `<div class="empty"><h3>No matches</h3></div>`);
 }
 
-// MOBILE
-function toggleMobSearch(){
-  const s=el('mobSrch');s.classList.toggle('open');
-  if(s.classList.contains('open'))el('mobSrchInp')?.focus();
-  else{if(el('mobSrchInp'))el('mobSrchInp').value='';loadAll();}
+// ============================================================
+// UTILS
+// ============================================================
+async function log(type, text) {
+  if (!session?.user?.id) return;
+  await db.from('activity_logs').insert({ actor_id: session.user.id, type, text });
 }
-function closeMobSearch(){const s=el('mobSrch');if(s&&s.classList.contains('open')){s.classList.remove('open');if(el('mobSrchInp'))el('mobSrchInp').value='';}}
-function setMN(id){document.querySelectorAll('.mn').forEach(b=>b.classList.remove('on'));el('mn-'+id)?.classList.add('on');}
-function toggleMoreSheet(){
-  const mo=el('moreMo');if(!mo)return;
-  const open=!mo.classList.contains('hidden');
-  if(open){mo.classList.add('hidden');return;}
-  const r=prof?.role;
-  const items=[{ic:'🔔',label:'Notifications',sub:'Activity feed',pg:'notifications'}];
-  if(r==='farmer'||r==='admin')items.unshift({ic:'📊',label:'Dashboard',sub:'Farm overview',pg:'dashboard'},{ic:'📦',label:'Sell Produce',sub:'List your products',pg:'sell'});
-  if(r==='admin')items.unshift({ic:'🛡️',label:'Admin Panel',sub:'Manage platform',pg:'admin'});
-  sHTML('moreSheetBody',`
-    <div style="display:flex;align-items:center;gap:12px;padding:4px 0 16px;border-bottom:1px solid var(--border);margin-bottom:8px">
-      <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;font-family:var(--fd)">${ini(prof?.full_name||'?')}</div>
-      <div><div style="font-size:14px;font-weight:700">${esc(prof?.full_name||'')}</div><div style="font-size:12px;color:var(--muted);text-transform:capitalize">${esc(prof?.role||'')}</div></div>
-      <button class="btn bdan bsm" style="margin-left:auto" onclick="doLogout()">Sign out</button>
-    </div>
-    ${items.map(i=>`
-      <div onclick="showPage('${i.pg}');setMN('${i.pg}');toggleMoreSheet()" style="display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent">
-        <div style="width:40px;height:40px;border-radius:12px;background:var(--gp);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${i.ic}</div>
-        <div style="flex:1"><div style="font-size:15px;font-weight:600">${i.label}</div><div style="font-size:12px;color:var(--muted)">${i.sub}</div></div>
-        <div style="color:var(--muted);font-size:18px">›</div>
-      </div>`).join('')}
-  `);
-  mo.classList.remove('hidden');
-}
-function initMob(){
-  el('mobnav')?.style.setProperty('display','flex');
-  document.querySelectorAll('.mob-srch-btn').forEach(b=>b.style.display='flex');
-}
-window.addEventListener('resize',()=>{if(isMob())initMob();});
-window.addEventListener('click',e=>{if(isMob()&&e.target.closest('.btn,.mn,.prod-card,.farm-card,.add-btn'))try{navigator.vibrate(10);}catch(e){}},{passive:true});
-
-// LOG
-async function doLog(type,text){
-  if(!sess?.user?.id)return;
-  try{await db.from('activity_logs').insert({actor_id:sess.user.id,type,text});}catch(e){}
-}
-
-// INIT
-document.addEventListener('DOMContentLoaded',async()=>{
-  const{data}=await db.auth.getSession();
-  sess=data.session;
-  if(sess)await bootApp();
-  db.auth.onAuthStateChange(async(_,s)=>{sess=s;if(s)await bootApp();else exitApp();});
-  ['lEmail','lPass'].forEach(id=>{el(id)?.addEventListener('keydown',ev=>{if(ev.key==='Enter')doLogin();});});
-});
 </script>
 </body>
 </html>
