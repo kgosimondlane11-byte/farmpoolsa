@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1a6b4a">
+<meta name="theme-color" content="#2E1A0E">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>FarmPool &mdash; Fresh from SA Farms</title>
+<title>Harvest &mdash; Fresh from SA Farms</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -17,12 +17,12 @@ img{display:block;max-width:100%}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:#e0d8ce;border-radius:99px}
 :root{
-  --g:#1a6b4a;--g2:#2a9a6a;--gd:#0d3d28;--gp:#e8f5ee;
+  --g:#2E1A0E;--g2:#2a9a6a;--gd:#1A0E08;--gp:#EAF4FB;
   --gold:#c9922a;--gop:#f5e8d0;--red:#c0392b;--rp:#fdeeed;
   --blue:#2563eb;--bp:#eff6ff;
   --ink:#1a1816;--ink2:#4a4540;--muted:#78716c;
-  --bg:#f7f5f0;--bg2:#efebe4;--bg3:#e5e0d8;
-  --card:#fff;--border:#e0d8ce;
+  --bg:#F0F8FC;--bg2:#DFF0F8;--bg3:#C8E8F8;
+  --card:#fff;--accent:#5C3A20;--accent-d:#2E1A0E;--accent-p:#EAF4FB;--border:#B0D8EE;
   --r:12px;--r2:18px;--r3:24px;--r4:32px;
   --sh:0 2px 12px rgba(0,0,0,.07);--shl:0 8px 40px rgba(0,0,0,.13);
   --sw:260px;--bnav:62px;--fd:'Syne',sans-serif;
@@ -90,7 +90,7 @@ img{display:block;max-width:100%}
 .sv{font-family:var(--fd);font-size:28px;font-weight:800;color:var(--ink);line-height:1}
 .ss{font-size:12px;color:var(--muted);margin-top:4px}.si{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:32px;opacity:.07}
 /* AUTH */
-#authWrap{min-height:100vh;display:grid;place-items:center;background:linear-gradient(160deg,#07200f 0%,#0d3d28 55%,#091a0f 100%);padding:20px;overflow-y:auto}
+#authWrap{min-height:100vh;display:grid;place-items:center;background:linear-gradient(160deg,#07200f 0%,#1A0E08 55%,#091a0f 100%);padding:20px;overflow-y:auto}
 .a-box{width:min(430px,100%)}
 .a-logo{font-family:var(--fd);font-size:42px;font-weight:800;color:#fff;text-align:center;margin-bottom:4px}
 .a-logo em{color:#7ee8b8;font-style:normal}
@@ -149,7 +149,7 @@ img{display:block;max-width:100%}
 .empty h3{font-family:var(--fd);color:var(--ink);font-size:18px;margin-bottom:5px}
 .empty p{font-size:13px;line-height:1.6;max-width:260px;margin:0 auto 18px}
 /* HERO */
-.hero{background:linear-gradient(135deg,#0d3d28 0%,#1a6b4a 60%,#2a9a6a 100%);border-radius:var(--r4);padding:32px;margin-bottom:22px;position:relative;overflow:hidden}
+.hero{background:linear-gradient(135deg,#1A0E08 0%,#2E1A0E 60%,#2a9a6a 100%);border-radius:var(--r4);padding:32px;margin-bottom:22px;position:relative;overflow:hidden}
 .hero::after{content:'';position:absolute;display:none;right:20px;bottom:-10px;font-size:120px;opacity:.08;line-height:1}
 .hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:99px;padding:4px 12px;font-size:11px;font-weight:700;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
 .hero h1{font-family:var(--fd);font-size:34px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:8px;max-width:500px}
@@ -229,7 +229,7 @@ img{display:block;max-width:100%}
 .cart-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
 .cart-row.total{font-family:var(--fd);font-size:18px;font-weight:800;padding-top:10px;margin-top:10px;border-top:1px solid var(--border)}
 /* FARM DETAIL */
-.fd-hero{background:linear-gradient(135deg,var(--gd),#1a6b4a);border-radius:var(--r3);overflow:hidden;margin-bottom:20px}
+.fd-hero{background:linear-gradient(135deg,var(--gd),#2E1A0E);border-radius:var(--r3);overflow:hidden;margin-bottom:20px}
 .fd-top{padding:24px;position:relative}
 .fd-name{font-family:var(--fd);font-size:24px;font-weight:800;color:#fff;margin-bottom:4px}
 .fd-loc{font-size:13px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:5px}
@@ -426,7 +426,7 @@ tbody tr:last-child td{border-bottom:none}
 .mn-ic{font-family:serif}
 
 /* ── PHASE 2: PAYFAST ── */
-.pf-banner{background:linear-gradient(135deg,#0d3d28,#1a6b4a);border-radius:var(--r2);padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.pf-banner{background:linear-gradient(135deg,#1A0E08,#2E1A0E);border-radius:var(--r2);padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:14px}
 .pf-logo{width:36px;height:36px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .pf-text{color:#fff;font-size:13px;line-height:1.4}
 .pf-text strong{display:block;font-size:14px;margin-bottom:2px}
@@ -504,6 +504,91 @@ tbody tr:last-child td{border-bottom:none}
 .ac-meta{font-size:11px;color:var(--muted)}
 .ac-price{font-size:13px;font-weight:800;color:var(--g);margin-left:auto;flex-shrink:0}
 .ac-section{padding:6px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:var(--bg);border-bottom:1px solid var(--border)}
+
+/* ===== SMOOTH UPGRADES ===== */
+*{-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+
+/* Page transitions */
+.pg{animation:fadeUp .25s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Skeleton loaders */
+.skel{background:linear-gradient(90deg,var(--bg2) 25%,var(--bg3) 50%,var(--bg2) 75%);
+  background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{height:220px;border-radius:14px;margin-bottom:12px}
+.skel-line{height:14px;margin-bottom:8px}
+.skel-line.short{width:60%}
+
+/* Better card hover */
+.pcard{will-change:transform;transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s ease;cursor:pointer}
+.pcard:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 12px 32px rgba(46,26,14,.15)}
+.pcard:active{transform:scale(.97);transition:transform .1s}
+
+/* Button press feel */
+.btn{transition:transform .12s ease,box-shadow .12s ease,background .18s ease;
+  -webkit-font-smoothing:antialiased}
+.btn:active{transform:scale(.95)}
+.btn.bp:hover{background:#1A0E08;box-shadow:0 4px 16px rgba(46,26,14,.35)}
+
+/* Smooth input focus */
+.inp,.sel,.ta{transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+.inp:focus,.sel:focus,.ta:focus{transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(46,26,14,.1)}
+
+/* Modal slide up */
+.mo-inner{animation:slideUp .28s cubic-bezier(.32,1.2,.64,1) both}
+@keyframes slideUp{from{opacity:0;transform:translateY(40px) scale(.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* Bottom nav smooth active */
+.mn{transition:color .15s ease,transform .15s ease}
+.mn.on{transform:translateY(-2px)}
+.mn svg,.mn span{transition:transform .15s ease}
+.mn:active{transform:scale(.88)}
+
+/* Cart button bounce */
+#cartBtn{transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
+#cartBtn:active{transform:scale(.88)}
+
+/* Smooth page nav */
+.ni{transition:background .15s ease,color .15s ease,transform .12s ease}
+.ni:active{transform:scale(.96)}
+
+/* Image lazy fade */
+.pcard img{transition:opacity .3s ease,transform .3s ease}
+.pcard img.loaded{opacity:1}
+.pcard img:not(.loaded){opacity:0}
+
+/* Pull to refresh feel - top bar */
+#topbar{transition:box-shadow .2s ease}
+
+/* Chip/badge press */
+.chip,.bdg{transition:transform .12s ease,box-shadow .12s ease}
+.chip:active{transform:scale(.93)}
+.chip.on{box-shadow:0 2px 8px rgba(46,26,14,.2)}
+
+/* Smooth scroll container */
+.pgrid,.hgrid{scroll-behavior:smooth}
+
+/* Better focus rings */
+:focus-visible{outline:2px solid #C8E8F8;outline-offset:3px;border-radius:6px}
+
+/* Toast notification */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:#2E1A0E;color:#C8E8F8;padding:10px 20px;border-radius:30px;
+  font-size:13px;font-weight:600;z-index:9999;opacity:0;pointer-events:none;
+  transition:opacity .2s ease,transform .2s cubic-bezier(.34,1.56,.64,1)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Smooth number count */
+.stat-num{transition:all .3s ease}
+
+/* Loading spinner */
+.spin{display:inline-block;width:18px;height:18px;border:2px solid rgba(200,232,248,.3);
+  border-top-color:#C8E8F8;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -542,7 +627,7 @@ tbody tr:last-child td{border-bottom:none}
         <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--muted)">Have an account? <span class="alink" onclick="authTab('login')">Sign in</span></p>
       </div>
     </div>
-    <div class="a-foot">By joining you agree to FarmPool&#39;s Terms &amp; Privacy Policy.</div>
+    <div class="a-foot">By joining you agree to Harvest&#39;s Terms &amp; Privacy Policy.</div>
   </div>
 </div>
 
@@ -663,7 +748,7 @@ tbody tr:last-child td{border-bottom:none}
           <div class="card mb4">
             <div class="card-h"><div class="card-t">Register Your Farm</div><span class="bdg bdg-o">Pending approval</span></div>
             <div class="card-b">
-              <div class="alert ai"><span>&#8505;&#65039;</span><div>Complete all fields. A FarmPool agent verifies before approval. Once approved you can list products.</div></div>
+              <div class="alert ai"><span>&#8505;&#65039;</span><div>Complete all fields. A Harvest agent verifies before approval. Once approved you can list products.</div></div>
               <div class="row2">
                 <div class="field"><label class="lbl">Farm name *</label><input class="inp" id="fName" placeholder="e.g. Sunshine Valley Farm"></div>
                 <div class="field"><label class="lbl">Province *</label>
@@ -1050,6 +1135,23 @@ async function doRegister(){
 async function doLogout(){await db.auth.signOut();}
 
 // BOOT
+
+function toast(msg,dur=2200){
+  let t=document.querySelector('.toast');
+  if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t)}
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+function lazyImgs(){
+  document.querySelectorAll('.pcard img[data-src]').forEach(img=>{
+    const io=new IntersectionObserver(([e])=>{
+      if(e.isIntersecting){img.src=img.dataset.src;img.onload=()=>img.classList.add('loaded');io.disconnect()}
+    },{threshold:.1});
+    io.observe(img);
+  });
+}
+
 async function bootApp(){
   const user=sess.user;
   const{data}=await db.from('profiles').select('*').eq('id',user.id).single();
@@ -1347,7 +1449,7 @@ function openFarmDetail(fid){
         <div class="card mb4">
           <div class="card-h"><div class="card-t">Trust &amp; Verification</div></div>
           <div class="card-b">
-            ${tchk('Identity verified',f.verification_status==='verified','SA ID checked by FarmPool')}
+            ${tchk('Identity verified',f.verification_status==='verified','SA ID checked by Harvest')}
             ${tchk('Farm approved',f.status==='approved','Inspected and approved by admin')}
             ${tchk('Video introduction',hasvid,'On-farm video submitted')}
             ${tchk('Certifications',!!f.certifications,f.certifications||'None listed')}
@@ -1693,7 +1795,7 @@ function renderDashboard(){
   const revenue=myOrds.filter(o=>o.status==='Delivered').reduce((s,o)=>s+Number(o.total_amount||0),0);
   const pendOrd=myOrds.filter(o=>o.status==='Pending');
   sHTML('dashContent',`
-    <div style="background:linear-gradient(135deg,var(--gd),#1a6b4a);border-radius:var(--r3);padding:24px;margin-bottom:20px;position:relative;overflow:hidden">
+    <div style="background:linear-gradient(135deg,var(--gd),#2E1A0E);border-radius:var(--r3);padding:24px;margin-bottom:20px;position:relative;overflow:hidden">
       <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.07">Farm</div>
       <div style="font-family:var(--fd);font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">Welcome back, ${esc((prof.full_name||'Farmer').split(' ')[0])}!</div>
       <div style="font-size:13px;color:rgba(255,255,255,.55);margin-bottom:16px">Here is your farm overview.</div>
@@ -2247,7 +2349,7 @@ const PF_SANDBOX = true; // Set to false for live payments
 const PF_URL = PF_SANDBOX
   ? 'https://sandbox.payfast.co.za/eng/process'
   : 'https://www.payfast.co.za/eng/process';
-const SITE_URL = 'https://kgosimondlane11-byte.github.io/farmpoolsa';
+const SITE_URL = 'https://kgosimondlane11-byte.github.io/harvestsa';
 
 function openCheckout(){
   if(!cart.length){toast('Cart is empty','warning');return;}
@@ -2355,7 +2457,7 @@ function submitPayFastForm(amount, orderIds){
     email_address:prof.email||'',
     m_payment_id:orderIds,
     amount:Number(amount).toFixed(2),
-    item_name:'FarmPool order',
+    item_name:'Harvest order',
     item_description:'Fresh produce from South African farms',
   };
   Object.entries(fields).forEach(([k,v2])=>{
