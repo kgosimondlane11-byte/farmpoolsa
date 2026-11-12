@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#2E1A0E">
+<meta name="theme-color" content="#1E7A4E">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Harvest &mdash; Fresh from SA Farms</title>
+<title>Harvest | harvest.com &mdash; Fresh from SA Farms</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -17,12 +17,12 @@ img{display:block;max-width:100%}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:#e0d8ce;border-radius:99px}
 :root{
-  --g:#2E1A0E;--g2:#2a9a6a;--gd:#1A0E08;--gp:#EAF4FB;
+  --g:#1E7A4E;--g2:#2a9a6a;--gd:#0F4A2E;--gp:#EAF5EE;
   --gold:#c9922a;--gop:#f5e8d0;--red:#c0392b;--rp:#fdeeed;
   --blue:#2563eb;--bp:#eff6ff;
   --ink:#1a1816;--ink2:#4a4540;--muted:#78716c;
-  --bg:#F0F8FC;--bg2:#DFF0F8;--bg3:#C8E8F8;
-  --card:#fff;--accent:#5C3A20;--accent-d:#2E1A0E;--accent-p:#EAF4FB;--border:#B0D8EE;
+  --bg:#FFFFFF;--bg2:#F6FAF7;--bg3:#EDF5EF;
+  --card:#fff;--accent:#27AE60;--accent-d:#1E7A4E;--accent-p:#EAF5EE;--border:#D4E8DA;
   --r:12px;--r2:18px;--r3:24px;--r4:32px;
   --sh:0 2px 12px rgba(0,0,0,.07);--shl:0 8px 40px rgba(0,0,0,.13);
   --sw:260px;--bnav:62px;--fd:'Syne',sans-serif;
@@ -90,7 +90,7 @@ img{display:block;max-width:100%}
 .sv{font-family:var(--fd);font-size:28px;font-weight:800;color:var(--ink);line-height:1}
 .ss{font-size:12px;color:var(--muted);margin-top:4px}.si{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:32px;opacity:.07}
 /* AUTH */
-#authWrap{min-height:100vh;display:grid;place-items:center;background:linear-gradient(160deg,#07200f 0%,#1A0E08 55%,#091a0f 100%);padding:20px;overflow-y:auto}
+#authWrap{min-height:100vh;display:grid;place-items:center;background:linear-gradient(160deg,#07200f 0%,#0F4A2E 55%,#091a0f 100%);padding:20px;overflow-y:auto}
 .a-box{width:min(430px,100%)}
 .a-logo{font-family:var(--fd);font-size:42px;font-weight:800;color:#fff;text-align:center;margin-bottom:4px}
 .a-logo em{color:#7ee8b8;font-style:normal}
@@ -149,7 +149,7 @@ img{display:block;max-width:100%}
 .empty h3{font-family:var(--fd);color:var(--ink);font-size:18px;margin-bottom:5px}
 .empty p{font-size:13px;line-height:1.6;max-width:260px;margin:0 auto 18px}
 /* HERO */
-.hero{background:linear-gradient(135deg,#1A0E08 0%,#2E1A0E 60%,#2a9a6a 100%);border-radius:var(--r4);padding:32px;margin-bottom:22px;position:relative;overflow:hidden}
+.hero{background:linear-gradient(135deg,#0F4A2E 0%,#1E7A4E 60%,#2a9a6a 100%);border-radius:var(--r4);padding:32px;margin-bottom:22px;position:relative;overflow:hidden}
 .hero::after{content:'';position:absolute;display:none;right:20px;bottom:-10px;font-size:120px;opacity:.08;line-height:1}
 .hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:99px;padding:4px 12px;font-size:11px;font-weight:700;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
 .hero h1{font-family:var(--fd);font-size:34px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:8px;max-width:500px}
@@ -229,7 +229,7 @@ img{display:block;max-width:100%}
 .cart-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
 .cart-row.total{font-family:var(--fd);font-size:18px;font-weight:800;padding-top:10px;margin-top:10px;border-top:1px solid var(--border)}
 /* FARM DETAIL */
-.fd-hero{background:linear-gradient(135deg,var(--gd),#2E1A0E);border-radius:var(--r3);overflow:hidden;margin-bottom:20px}
+.fd-hero{background:linear-gradient(135deg,var(--gd),#1E7A4E);border-radius:var(--r3);overflow:hidden;margin-bottom:20px}
 .fd-top{padding:24px;position:relative}
 .fd-name{font-family:var(--fd);font-size:24px;font-weight:800;color:#fff;margin-bottom:4px}
 .fd-loc{font-size:13px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:5px}
@@ -426,7 +426,7 @@ tbody tr:last-child td{border-bottom:none}
 .mn-ic{font-family:serif}
 
 /* ── PHASE 2: PAYFAST ── */
-.pf-banner{background:linear-gradient(135deg,#1A0E08,#2E1A0E);border-radius:var(--r2);padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.pf-banner{background:linear-gradient(135deg,#0F4A2E,#1E7A4E);border-radius:var(--r2);padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:14px}
 .pf-logo{width:36px;height:36px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .pf-text{color:#fff;font-size:13px;line-height:1.4}
 .pf-text strong{display:block;font-size:14px;margin-bottom:2px}
@@ -523,14 +523,14 @@ html{scroll-behavior:smooth}
 
 /* Better card hover */
 .pcard{will-change:transform;transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s ease;cursor:pointer}
-.pcard:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 12px 32px rgba(46,26,14,.15)}
+.pcard:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 12px 32px rgba(15,74,46,.15)}
 .pcard:active{transform:scale(.97);transition:transform .1s}
 
 /* Button press feel */
 .btn{transition:transform .12s ease,box-shadow .12s ease,background .18s ease;
   -webkit-font-smoothing:antialiased}
 .btn:active{transform:scale(.95)}
-.btn.bp:hover{background:#1A0E08;box-shadow:0 4px 16px rgba(46,26,14,.35)}
+.btn.bp:hover{background:#0F4A2E;box-shadow:0 4px 16px rgba(15,74,46,.35)}
 
 /* Smooth input focus */
 .inp,.sel,.ta{transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}
@@ -573,11 +573,11 @@ html{scroll-behavior:smooth}
 .pgrid,.hgrid{scroll-behavior:smooth}
 
 /* Better focus rings */
-:focus-visible{outline:2px solid #C8E8F8;outline-offset:3px;border-radius:6px}
+:focus-visible{outline:2px solid #EAF5EE;outline-offset:3px;border-radius:6px}
 
 /* Toast notification */
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:#2E1A0E;color:#C8E8F8;padding:10px 20px;border-radius:30px;
+  background:#1E7A4E;color:#EAF5EE;padding:10px 20px;border-radius:30px;
   font-size:13px;font-weight:600;z-index:9999;opacity:0;pointer-events:none;
   transition:opacity .2s ease,transform .2s cubic-bezier(.34,1.56,.64,1)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -587,8 +587,32 @@ html{scroll-behavior:smooth}
 
 /* Loading spinner */
 .spin{display:inline-block;width:18px;height:18px;border:2px solid rgba(200,232,248,.3);
-  border-top-color:#C8E8F8;border-radius:50%;animation:spin .7s linear infinite}
+  border-top-color:#EAF5EE;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== PREMIUM GREEN & WHITE ===== */
+body{background:#fff}
+.card,.pcard{box-shadow:0 2px 12px rgba(15,74,46,.08);border:1px solid #E8F3EC}
+.pcard:hover{box-shadow:0 12px 32px rgba(15,74,46,.18)!important}
+.btn.bp{background:linear-gradient(135deg,#1E7A4E,#27AE60);color:#fff;
+  box-shadow:0 4px 14px rgba(30,122,78,.35)}
+.btn.bp:hover{background:linear-gradient(135deg,#0F4A2E,#1E7A4E)!important}
+.inp:focus,.sel:focus,.ta:focus{border-color:#1E7A4E;box-shadow:0 0 0 3px rgba(30,122,78,.12)}
+:focus-visible{outline:2px solid #1E7A4E;outline-offset:3px}
+.bdg{background:#EAF5EE;color:#0F4A2E;border:1px solid #C0DFC8}
+/* Premium header */
+#topbar{background:#fff;border-bottom:1px solid #E8F3EC;
+  box-shadow:0 2px 8px rgba(15,74,46,.06)}
+/* Harvest.com domain stamp */
+.harvest-domain{font-size:10px;font-weight:700;color:#27AE60;
+  letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+/* Green gradient hero text */
+.hero-title{background:linear-gradient(135deg,#fff,#C8EDD8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+/* Premium card images */
+.pcard img{border-radius:10px 10px 0 0}
+/* Chip active state */
+.chip.on{background:#1E7A4E;color:#fff;border-color:#1E7A4E}
 </style>
 </head>
 <body>
@@ -1414,7 +1438,7 @@ function openFarmDetail(fid){
   const score=f.verification_status==='verified'?88:f.status==='approved'?72:45;
   const hasvid=f.intro_video_url&&f.intro_video_url.length>5;
   const fps=products.filter(p=>p.farm_id===fid&&p.is_active!==false);
-  const canContact=prof?.id&&f.farmer_id!==prof?.id;
+  const canContact=prof?.id&&f.farm_id!==prof?.id;
   sHTML('farmDetailContent',`
     <div class="fd-hero">
       <div class="fd-top">
@@ -1591,14 +1615,14 @@ async function placeOrder(){
 
 // ORDERS
 function updateOrderDot(){
-  const myFarmIds=new Set(farms.filter(f=>f.farmer_id===prof?.id).map(f=>f.id));
+  const myFarmIds=new Set(farms.filter(f=>f.farm_id===prof?.id).map(f=>f.id));
   const pending=orders.filter(o=>o.status==='Pending'&&myFarmIds.has(o.farm_id)).length;
   const dot=el('ordDot');if(dot)dot.style.display=pending>0?'block':'none';
 }
 function renderOrders(){
   const role=prof?.role;const sf=v('ordStatFilt');
   let list=role==='admin'?orders:role==='farmer'
-    ?orders.filter(o=>farms.some(f=>f.id===o.farm_id&&f.farmer_id===prof?.id))
+    ?orders.filter(o=>farms.some(f=>f.id===o.farm_id&&f.farm_id===prof?.id))
     :orders.filter(o=>o.buyer_id===prof?.id);
   if(sf)list=list.filter(o=>o.status===sf);
   list.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
@@ -1636,7 +1660,7 @@ async function updateOrdStatus(id,status){
 
 // SELL
 function renderSell(){
-  const myFarms=farms.filter(f=>f.farmer_id===prof?.id&&f.status==='approved');
+  const myFarms=farms.filter(f=>f.farm_id===prof?.id&&f.status==='approved');
   const pFarm=el('pFarm');
   if(pFarm)pFarm.innerHTML=myFarms.length?myFarms.map(f=>`<option value="${f.id}">${esc(f.name)}</option>`).join(''):'<option value="">No approved farms yet — register your farm first</option>';
   const myProds=products.filter(p=>myFarms.some(f=>f.id===p.farm_id));
@@ -1711,7 +1735,7 @@ async function doRegisterFarm(){
     if(ue){toast('File upload failed: '+ue.message,'error');btn.disabled=false;btn.textContent='Submit farm for approval';return;}
   }
   const{error}=await db.from('farms').insert({
-    farmer_id:sess.user.id,name,province:prov,nearest_town:town,category:cat,about,
+    farm_id:sess.user.id,name,province:prov,nearest_town:town,category:cat,about,
     intro_video_url:v('fVideo')||null,size_hectares:v('fSize')?Number(v('fSize')):null,
     experience_years:v('fExp')?Number(v('fExp')):null,certifications:v('fCert')||null,
     proof_of_land_url:proofPath,status:'pending',verification_status:'pending'
@@ -1788,14 +1812,14 @@ async function contactFarmer(farmId){
 
 // FARMER DASHBOARD
 function renderDashboard(){
-  const myFarms=farms.filter(f=>f.farmer_id===prof?.id);
+  const myFarms=farms.filter(f=>f.farm_id===prof?.id);
   const myFarmIds=new Set(myFarms.map(f=>f.id));
   const myOrds=orders.filter(o=>myFarmIds.has(o.farm_id));
   const myProds=products.filter(p=>myFarmIds.has(p.farm_id));
   const revenue=myOrds.filter(o=>o.status==='Delivered').reduce((s,o)=>s+Number(o.total_amount||0),0);
   const pendOrd=myOrds.filter(o=>o.status==='Pending');
   sHTML('dashContent',`
-    <div style="background:linear-gradient(135deg,var(--gd),#2E1A0E);border-radius:var(--r3);padding:24px;margin-bottom:20px;position:relative;overflow:hidden">
+    <div style="background:linear-gradient(135deg,var(--gd),#1E7A4E);border-radius:var(--r3);padding:24px;margin-bottom:20px;position:relative;overflow:hidden">
       <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.07">Farm</div>
       <div style="font-family:var(--fd);font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">Welcome back, ${esc((prof.full_name||'Farmer').split(' ')[0])}!</div>
       <div style="font-size:13px;color:rgba(255,255,255,.55);margin-bottom:16px">Here is your farm overview.</div>
@@ -2306,7 +2330,7 @@ function renderShop(){
 function renderOrders(){
   const role=prof?.role;const sf=v('ordStatFilt');
   let list=role==='admin'?orders:role==='farmer'
-    ?orders.filter(o=>farms.some(f=>f.id===o.farm_id&&f.farmer_id===prof?.id))
+    ?orders.filter(o=>farms.some(f=>f.id===o.farm_id&&f.farm_id===prof?.id))
     :orders.filter(o=>o.buyer_id===prof?.id);
   if(sf)list=list.filter(o=>o.status===sf);
   list.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
@@ -2646,7 +2670,7 @@ async function submitReturn(){
 
 function renderReturns(){
   const isFarmer=prof?.role==='farmer'||prof?.role==='admin';
-  const myFarmIds=new Set(farms.filter(f=>f.farmer_id===prof?.id).map(f=>f.id));
+  const myFarmIds=new Set(farms.filter(f=>f.farm_id===prof?.id).map(f=>f.id));
   const list=prof?.role==='admin'?returns
     :isFarmer?returns.filter(r=>myFarmIds.has(r.farm_id))
     :returns.filter(r=>r.buyer_id===prof?.id);
@@ -2697,7 +2721,7 @@ async function respondReturn(id,status){
 // PHASE 2: SELLER ANALYTICS
 // ══════════════════════════════════════════
 function renderAnalytics(){
-  const myFarms=farms.filter(f=>f.farmer_id===prof?.id||(prof?.role==='admin'));
+  const myFarms=farms.filter(f=>f.farm_id===prof?.id||(prof?.role==='admin'));
   const myFarmIds=new Set(myFarms.map(f=>f.id));
   const myOrds=orders.filter(o=>myFarmIds.has(o.farm_id));
   const myProds=products.filter(p=>myFarmIds.has(p.farm_id));
