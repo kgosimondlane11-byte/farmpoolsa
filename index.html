@@ -894,7 +894,11 @@ hr{border:0;border-top:1px solid #edf5ef;margin:16px 0}
 
       <!-- SELL -->
       <section class="pg" id="pg-sell">
-        <div class="card mb4">
+        <div id="procBanner" class="hidden" style="background:linear-gradient(135deg,#0f4a2e,#1e7a4e);color:#fff;border-radius:16px;padding:20px 24px;margin-bottom:16px">
+            <div style="font-family:var(--fd);font-size:18px;font-weight:800;margin-bottom:4px">Processor Portal</div>
+            <div style="font-size:13px;opacity:.75">List your farm-made processed goods directly on Harvest. All processed categories are available below.</div>
+          </div>
+          <div class="card mb4">
           <div class="card-h"><div class="card-t"> List a Product</div><span class="bdg bdg-g">Live immediately</span></div>
           <div class="card-b">
             <div class="row2">
@@ -1369,7 +1373,7 @@ function buildNav(){
   h+=ni('&#9641;','Farms','farms');
   if(r==='farmer'||r==='processor'||r==='admin'){
     h+='<div class="nsec">Sell</div>';
-    h+=ni('&#43;','List Products','sell');
+    h+=ni('&#43;',r==='processor'?'List Goods':'List Products','sell');
     h+=ni('&#9636;','Dashboard','dashboard');
   }
   h+='<div class="nsec">Activity</div>';
@@ -1830,7 +1834,9 @@ function renderSell(){
   const myFarms=farms.filter(f=>f.farm_id===prof?.id&&f.status==='approved');
   const pFarm=el('pFarm');
   if(pFarm)pFarm.innerHTML=myFarms.length?myFarms.map(f=>`<option value="${f.id}">${esc(f.name)}</option>`).join(''):'<option value="">No approved farms yet — register your farm first</option>';
-  const myProds=products.filter(p=>myFarms.some(f=>f.id===p.farm_id));
+  const myProds=isProc
+    ? products.filter(p=>p.farm_id===sess.user.id)
+    : products.filter(p=>myFarms.some(f=>f.id===p.farm_id));
   sHTML('myProdGrid',myProds.length?myProds.map(p=>{
     const active=p.is_active!==false;
     return `<div class="prod-card" style="cursor:default">
@@ -1861,12 +1867,17 @@ function onPCatChange(){
   if(lf)lf.style.display=isP?'':'none';
 }
 async function doAddProduct(){
-  const fid=v('pFarm'),name=v('pName'),cat=v('pCat'),unit=v('pUnit'),price=v('pPrice'),qty=v('pQty');
-  if(!fid||fid===''){toast('Please register and get your farm approved first.','warning');return;}
-  if(!name||!cat||!unit||!price||!qty){toast('Please fill in all required fields.','error');return;}
+  const isProc=prof?.role==='processor';
+  const pb=el('procBanner');if(pb)pb.classList.toggle('hidden',!isProc);
+  const fid=isProc?null:v('pFarm');
+  const name=v('pName'),cat=v('pCat'),unit=v('pUnit'),price=v('pPrice'),qty=v('pQty');
+  if(!isProc&&(!fid||fid==='')){toast('Please register and get your farm approved first.');return;}
+  if(!name||!cat||!unit||!price||!qty){toast('Please fill in all required fields.');return;}
   const btn=el('addProdBtn');btn.disabled=true;btn.textContent='Adding…';
+  // For processors use their user id as farm_id so RLS passes
+  const insertFarmId=isProc?sess.user.id:fid;
   const{error}=await db.from('products').insert({
-    farm_id:fid,name,category:cat,unit,price:Number(price),
+    farm_id:insertFarmId,name,category:cat,unit,price:Number(price),
     quantity_available:Number(qty),description:v('pDesc')||null,
     harvest_date:v('pHarvest')||null,is_organic:v('pOrganic')==='true',shelf_life:v('pShelfLife')||null,storage_notes:v('pStorage')||null,labelling_confirmed:el('pLabelling')?.checked||false,is_active:true
   });
