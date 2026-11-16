@@ -666,6 +666,23 @@ hr{border:0;border-top:1px solid #edf5ef;margin:16px 0}
 /* Green scrollbar */
 ::-webkit-scrollbar-thumb{background:#c0dfc8;border-radius:99px}
 ::-webkit-scrollbar-track{background:transparent}
+
+/* BROKER CONTACTS */
+#brokerContacts tr:hover{background:#f8fbf9}
+#brokerContacts td{vertical-align:middle}
+.bc-wa{display:inline-flex;align-items:center;gap:5px;background:#25D366;color:#fff;
+  border:0;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer;
+  text-decoration:none;transition:all .15s}
+.bc-wa:hover{background:#128C7E;transform:scale(1.03)}
+.bc-del{background:var(--rp);color:var(--red);border:0;border-radius:8px;
+  padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s}
+.bc-del:hover{background:var(--red);color:#fff}
+.bc-tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.bc-farmer{background:#eaf5ee;color:#1e7a4e}
+.bc-buyer{background:#eff6ff;color:#2563eb}
+.bc-supplier{background:#fef9ec;color:#c9922a}
+.bc-transporter{background:#f3f0ff;color:#7c3aed}
+.bc-other{background:#f3f4f6;color:#6b7280}
 </style>
 </head>
 <body>
@@ -1080,6 +1097,39 @@ hr{border:0;border-top:1px solid #edf5ef;margin:16px 0}
             <div class="card-b" id="admActivity" style="max-height:300px;overflow-y:auto"></div>
           </div>
         </div>
+
+        <!-- BROKER CONTACTS -->
+        <div class="card" style="margin-top:18px">
+          <div class="card-h">
+            <div class="card-t">Broker Contacts</div>
+            <span class="bdg" style="background:#eaf5ee;color:#1e7a4e">Your Network</span>
+          </div>
+          <div class="card-b">
+            <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+              <input class="inp" id="bcName" placeholder="Full name" style="flex:1;min-width:140px">
+              <input class="inp" id="bcPhone" type="tel" placeholder="Cell number e.g. 082 123 4567" style="flex:1;min-width:160px">
+              <select class="sel" id="bcType" style="flex:1;min-width:130px">
+                <option value="farmer">Farmer</option>
+                <option value="buyer">Buyer</option>
+                <option value="supplier">Supplier</option>
+                <option value="transporter">Transporter</option>
+                <option value="other">Other</option>
+              </select>
+              <input class="inp" id="bcNote" placeholder="Notes (optional)" style="flex:2;min-width:180px">
+              <button class="btn bp" onclick="addBrokerContact()" style="white-space:nowrap">Add Contact</button>
+            </div>
+            <div id="bcSearch" style="margin-bottom:12px">
+              <input class="inp" id="bcQ" placeholder="Search contacts..." oninput="filterContacts()" style="max-width:300px">
+            </div>
+            <div class="tw">
+              <table>
+                <thead><tr><th>Name</th><th>Cell Number</th><th>Type</th><th>Notes</th><th>WhatsApp</th><th>Actions</th></tr></thead>
+                <tbody id="brokerContacts"></tbody>
+              </table>
+            </div>
+            <div id="bcEmpty" style="text-align:center;padding:24px;color:var(--muted);font-size:13px;display:none">No contacts yet. Add your first farmer or buyer above.</div>
+          </div>
+        </div>
       </section>
 
     </div>
@@ -1227,6 +1277,70 @@ function lazyImgs(){
     },{threshold:.1});
     io.observe(img);
   });
+}
+
+
+// ── BROKER CONTACTS ──
+let brokerList = JSON.parse(localStorage.getItem('harvest_contacts')||'[]');
+
+function saveBrokerContacts(){
+  localStorage.setItem('harvest_contacts', JSON.stringify(brokerList));
+}
+
+function addBrokerContact(){
+  const name  = document.getElementById('bcName').value.trim();
+  const phone = document.getElementById('bcPhone').value.trim();
+  const type  = document.getElementById('bcType').value;
+  const note  = document.getElementById('bcNote').value.trim();
+  if(!name||!phone){toast('Please enter a name and cell number');return;}
+  const contact = {id:Date.now(), name, phone, type, note, added: new Date().toLocaleDateString('en-ZA')};
+  brokerList.unshift(contact);
+  saveBrokerContacts();
+  renderBrokerContacts();
+  document.getElementById('bcName').value='';
+  document.getElementById('bcPhone').value='';
+  document.getElementById('bcNote').value='';
+  toast('Contact added');
+}
+
+function deleteBrokerContact(id){
+  brokerList = brokerList.filter(c=>c.id!==id);
+  saveBrokerContacts();
+  renderBrokerContacts();
+  toast('Contact removed');
+}
+
+function filterContacts(){
+  const q = document.getElementById('bcQ').value.toLowerCase();
+  renderBrokerContacts(q);
+}
+
+function renderBrokerContacts(q=''){
+  const tbody = document.getElementById('brokerContacts');
+  const empty = document.getElementById('bcEmpty');
+  if(!tbody) return;
+  const list = q ? brokerList.filter(c=>
+    c.name.toLowerCase().includes(q)||
+    c.phone.includes(q)||
+    c.type.includes(q)
+  ) : brokerList;
+  if(!list.length){
+    tbody.innerHTML='';
+    if(empty) empty.style.display='block';
+    return;
+  }
+  if(empty) empty.style.display='none';
+  const waNum = p => p.replace(/\D/g,'').replace(/^0/,'27');
+  tbody.innerHTML = list.map(c=>`
+    <tr>
+      <td><strong>${c.name}</strong><br><small style="color:var(--muted)">${c.added}</small></td>
+      <td style="font-family:monospace;font-size:13px">${c.phone}</td>
+      <td><span class="bc-tag bc-${c.type}">${c.type.charAt(0).toUpperCase()+c.type.slice(1)}</span></td>
+      <td style="color:var(--muted);font-size:12px">${c.note||'—'}</td>
+      <td><a class="bc-wa" href="https://wa.me/"+waNum(c.phone)+"" target="_blank">WhatsApp</a></td>
+      <td><button class="bc-del" onclick="deleteBrokerContact(${c.id})">Remove</button></td>
+    </tr>
+  `).join('');
 }
 
 async function bootApp(){
